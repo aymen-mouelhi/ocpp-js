@@ -1,7 +1,7 @@
 "use strict"
 
 var events = require("events"),
-    util = require("util"),
+    util = require("./utils.js"),
     http = require("http"),
     url = require("url"),
     soap = null; // init'ed later
