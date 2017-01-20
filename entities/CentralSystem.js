@@ -1,5 +1,5 @@
 class CentralSystem {
-  constructor() {
+  constructor(port, Transport.TRANSPORT_LAYER) {
 
   }
 
