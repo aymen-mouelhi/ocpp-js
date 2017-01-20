@@ -1,12 +1,12 @@
 "use strict"
 
 var events = require("events"),
-    util = require("./utils.js"),
+    util = require("util"),
     http = require("http"),
     url = require("url"),
     soap = null; // init'ed later
 
-var OCPP = require('./ocpp-protocol.js'),
+var OCPP = require('../config/ocpp.js'),
     Utils = require('./utils.js'),
     Plugins = require('./plugins.js');
 
