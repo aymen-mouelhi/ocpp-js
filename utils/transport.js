@@ -7,8 +7,10 @@ var events = require("events"),
     soap = null; // init'ed later
 
 var OCPP = require('../config/ocpp.js'),
-    Utils = require('./utils.js'),
-    Plugins = require('./plugins.js');
+    Utils = require('./utils.js');
+
+//var Plugins = require('./plugins.js');
+
 
 
 var WebSocketServer = require("websocket").server,
