@@ -1,5 +1,5 @@
 const OCPP = require('../config/ocpp.js');
-const Transport = require('../utils/transport.js');
+const Transport = require('../transport');
 
 class CentralSystem {
     constructor(port, transport = Transport.TRANSPORT_LAYER) {

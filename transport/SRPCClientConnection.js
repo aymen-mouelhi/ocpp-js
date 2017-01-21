@@ -1,3 +1,5 @@
+const Utils = require('../utils/utils.js');
+const OCPP = require('../config/ocpp.js');
 /*
  * - A {SRPCClientConnection} exposes a 'call' method, that implements a SRPC
  *   RPC call. The 'call' method has four parameters:

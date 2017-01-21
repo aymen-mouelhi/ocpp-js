@@ -1,3 +1,6 @@
+var events = require("events");
+const Utils = require('../utils/utils.js');
+
 /**
  *  ConnectionWrapper Interface. Inherits from wsio.Socket.
  *

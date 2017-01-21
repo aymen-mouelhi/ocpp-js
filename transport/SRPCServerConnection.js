@@ -1,3 +1,6 @@
+const Utils = require('../utils/utils.js');
+const OCPP = require('../config/ocpp.js');
+
 /*
  * - A {SRPCServerConnection} implements a SRPC server (http://wamp.ws).
  *   Only the RPC part of the SRPC specification is implemented, and PREFIX

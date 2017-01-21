@@ -1,5 +1,5 @@
 const OCPP = require('../config/ocpp.js');
-const Transport = require('../utils/transport.js');
+const Transport = require('../transport');
 
 class ChargingPoint {
     constructor(uri, identifier, protocol = "ocpp1.5", transport = Transport.TRANSPORT_LAYER, soapOptions) {

@@ -1,4 +1,6 @@
 const WebSocketClient = require("websocket").client;
+const Utils = require('../utils/utils.js');
+const OCPP = require('../config/ocpp.js');
 
 /**
  *  WebSocketClient

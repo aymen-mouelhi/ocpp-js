@@ -1,4 +1,4 @@
-const Transport = require('./transport');
+const Transport = require('../transport');
 
 var Utils = {
 
