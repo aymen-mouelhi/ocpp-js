@@ -7,10 +7,7 @@ const TransportLayerClient = require('./TransportLayerClient');
 const HTTPServerWrapper = require('./HTTPServerWrapper');
 const WebSocketServerWrapper = require('./WebSocketServerWrapper');
 
-var events = require("events"),
-    util = require("util"),
-    http = require("http"),
-    url = require("url");
+var url = require("url");
 
 module.exports = {
 

@@ -1,4 +1,5 @@
 var events = require("events");
+var util = require("util");
 const Utils = require('../utils/utils.js');
 
 /**
@@ -111,3 +112,6 @@ ConnectionWrapper.prototype = {
   }
 
 };
+
+
+module.exports = ConnectionWrapper;

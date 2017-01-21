@@ -19,3 +19,5 @@ class HTTPServerWrapper {
     this.httpServer.listen(port, func);
   }
 }
+
+module.exports = HTTPServerWrapper;

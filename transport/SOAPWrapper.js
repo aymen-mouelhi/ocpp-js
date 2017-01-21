@@ -343,3 +343,5 @@ SOAPWrapper.prototype = {
   }
 
 };
+
+module.exports = SOAPWrapper;

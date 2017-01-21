@@ -3,7 +3,7 @@ const OCPP = require('../config/ocpp.js');
 const Utils = require('../utils/utils.js');
 
 class WebSocketServerWrapper {
-  
+
   constructor(transportLayer) {
     this.transportLayer = transportLayer;
 
@@ -210,8 +210,8 @@ WebSocketServerWrapper.prototype = {
         }
       }
     }
-  },
-
-
+  }
 
 };
+
+module.exports = WebSocketServerWrapper;

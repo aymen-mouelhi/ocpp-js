@@ -190,3 +190,5 @@ SRPCServerConnection.prototype = {
     //Plugins.callClientConnectionEventHandlers('disconnected', cpId, this);
   }
 };
+
+module.exports = SRPCServerConnection;

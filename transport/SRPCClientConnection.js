@@ -258,3 +258,5 @@ SRPCClientConnection.prototype = {
   }
 
 };
+
+module.exports = SRPCClientConnection;
