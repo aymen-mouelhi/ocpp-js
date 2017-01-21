@@ -9,4 +9,4 @@ class ChargingPoint {
 
 }
 
-export default ChargingPoint;
+module.exports = ChargingPoint;
