@@ -328,8 +328,7 @@ WebSocketClientWrapper.prototype = {
     // BootNotification at start - disabled until we figure out whether
     // we should have an 'automatic mode'
     if(false) {
-      this.clientConnection.rpcCall("BootNotification",
-        {
+      this.clientConnection.rpcCall("BootNotification", {
           chargePointVendor: "GIR",
           chargePointModel: "ocppjs-1.0.2"
         },
@@ -1040,41 +1039,8 @@ SRPCServerConnection.prototype = {
   _onClose: function() {
     var cpId = this._connection._connection.cpId;
     Utils.log("Disconnected", cpId);
-    Plugins.callClientConnectionEventHandlers('disconnected', cpId, this);
-  },
-
-  /**
-   * old version
-   *
-   */
-  /*_managePayloadErrors: function(version, model, name, values, infos) {
-    var params = {},
-        m_params = {};
-
-    if(OCPP.methodTree[version] != undefined
-      && OCPP.methodTree[version][model] != undefined) {
-      // if exists
-      if(OCPP.methodTree[version][model][name] != undefined) {
-          m_params = OCPP.methodTree[version][model][name]
-            [infos.procName + 'Request'];
-      }
-      else {
-        this._returnError(infos.from, infos.callId, "NotImplemented");
-        return true;
-      }
-
-      // payload errors management
-
-      // clone object
-      params = Utils.clone(m_params);
-
-
-      // check if payload is correct
-      return OCPP.checkPayload(values, params, infos, this);
-    }
-  },
-*/
-
+    //Plugins.callClientConnectionEventHandlers('disconnected', cpId, this);
+  }
 };
 
 
