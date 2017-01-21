@@ -1,4 +1,9 @@
 const WebSocketServer = require("websocket").server;
+const HTTPServerWrapper = require('./HTTPServerWrapper');
+const ConnectionWrapper = require('./ConnectionWrapper');
+const SRPCClientConnection = require('./SRPCClientConnection');
+const SRPCServerConnection = require('./SRPCServerConnection');
+
 const OCPP = require('../config/ocpp.js');
 const Utils = require('../utils/utils.js');
 
@@ -111,15 +116,15 @@ class WebSocketServerWrapper {
       return;
     }
 
-    var connectionWrapper = new Transport.ConnectionWrapper(conn);
+    var connectionWrapper = new ConnectionWrapper(conn);
 
     conn.cpId = cpId;
 
     Utils.log("ChargePoint #"+ cpId + " connected (protocol: "+ req_proto +").", "cs");
 
     this.transportLayer.simulator._connections[cpId] = {
-      server: new Transport.SRPCServerConnection(connectionWrapper, "cs"),
-      client: new Transport.SRPCClientConnection(connectionWrapper, "cs")
+      server: new SRPCServerConnection(connectionWrapper, "cs"),
+      client: new SRPCClientConnection(connectionWrapper, "cs")
     };
 
     // call plugin handler
