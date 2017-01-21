@@ -2,7 +2,7 @@ const OCPP = require('../config/ocpp.js');
 const Transport = require('../utils/transport.js');
 
 class CentralSystem {
-    constructor(port, transport= Transport.TRANSPORT_LAYER) {
+    constructor(port, transport = Transport.TRANSPORT_LAYER) {
         this.port = port;
         this._wsServer = null;
         this._connections = {}
@@ -20,8 +20,7 @@ class CentralSystem {
                 Utils.log('ChargePoint #' + cbId + ' connected.', 'cs');
 
                 _this._connections[cbId] = {
-                    client: new Transport.TransportLayerClient(this,
-                        transport, 'cs', 'client', {
+                    client: new Transport.TransportLayerClient(this,transport, 'cs', 'client', {
                             fromHeader: address
                         }).layer
                 };
