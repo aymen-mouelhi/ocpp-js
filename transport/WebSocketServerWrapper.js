@@ -122,10 +122,11 @@ class WebSocketServerWrapper {
 
     Utils.log("ChargePoint #"+ cpId + " connected (protocol: "+ req_proto +").", "cs");
 
-    this.transportLayer.simulator._connections[cpId] = {
+    this.transportLayer.simulator._connections.push({
+      cpId: cpId,
       server: new SRPCServerConnection(connectionWrapper, "cs"),
       client: new SRPCClientConnection(connectionWrapper, "cs")
-    };
+    });
 
     // call plugin handler
     //Plugins.callClientConnectionEventHandlers('connected', cpId, this);

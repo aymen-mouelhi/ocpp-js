@@ -5,7 +5,7 @@ class CentralSystem {
     constructor(port, transport = Transport.TRANSPORT_LAYER) {
         this.port = port;
         this._wsServer = null;
-        this._connections = {}
+        this._connections = [];
         this.transportLayer = new Transport.TransportLayerServer(this, transport, 'cs', 'server');
 
         var _this = this;
@@ -38,6 +38,10 @@ class CentralSystem {
         this._wsServer = null;
         this._httpServer.close();
         this._httpServer = null;
+    }
+
+    getConnections(){
+      return this._connections;
     }
 
     /*
