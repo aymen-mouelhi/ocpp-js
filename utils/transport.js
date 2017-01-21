@@ -26,7 +26,7 @@ var TransportLayerServer = function(simulator, transport, model,
   else if(transport.toLowerCase() == 'soap') {
     // lazy init of soap module
     if(soap == null)
-      soap = require('./soap');
+      soap = require('./lib/soap');
 
     this.layer = new SOAPWrapper(this, model, mode);
   }

@@ -44,7 +44,6 @@ class CentralSystem {
 
     /*
      *  Calls a remote procedure
-     *
      *  @param {Number} the client ID
      *  @param {String} the procedure URI
      *  @api public
