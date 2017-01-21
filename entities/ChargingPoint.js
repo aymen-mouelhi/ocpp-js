@@ -6,13 +6,12 @@ class ChargingPoint {
         this.uri = uri;
         this.protocol = protocol;
         this.transport = transport;
-
         this.chargePointId = identifier;
         this.clientConnection = null;
 
         //Plugins.setAPIFields(transport, 'cp', OCPP.SUB_PROTOCOL, this.chargePointId);
 
-        this.transportLayer = new Transport.TransportLayerClient(this,transport, 'cp', 'client', soapOptions);
+        this.transportLayer = new Transport.TransportLayerClient(this ,transport, 'cp', 'client', soapOptions);
 
         if (this.transport == 'soap') {
             this.transportLayer.layer.soapServ.log = logSoap;
