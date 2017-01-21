@@ -11,13 +11,10 @@ var OCPP = require('../config/ocpp.js'),
 
 //var Plugins = require('./plugins.js');
 
-
-
 var WebSocketServer = require("websocket").server,
     WebSocketClient = require("websocket").client;
 
-var TransportLayerServer = function(simulator, transport, model,
-  mode) {
+var TransportLayerServer = function(simulator, transport, model, mode) {
   this.transport = transport;
   this.simulator = simulator;
   this.layer = null;
@@ -35,8 +32,7 @@ var TransportLayerServer = function(simulator, transport, model,
 }
 
 
-var TransportLayerClient = function(simulator, transport, model,
-  mode, soapOptions) {
+var TransportLayerClient = function(simulator, transport, model, mode, soapOptions) {
   this.transport = transport;
   this.simulator = simulator;
   this.layer = null;
@@ -110,21 +106,18 @@ WebSocketServerWrapper.prototype = {
       for(var c in conns) {
         // little hack, handler is not defined in Connection constructeur if
         // keepalive = false
-        conns[c]._keepaliveTimerHandler
-          = conns[c].handleKeepaliveTimer.bind(conns[c]);
+        conns[c]._keepaliveTimerHandler = conns[c].handleKeepaliveTimer.bind(conns[c]);
 
         // call a ping
         conns[c].setKeepaliveTimer();
       }
-    }
-    // Disable ping
-    else {
+    } else {
+      // Disable ping
       this.transportLayer.Simulators.centralSystem._wsServer.config.keepalive
         = false;
 
       // clear all remaining pings
-      var conns
-        = this.transportLayer.Simulators.centralSystem._wsServer.connections;
+      var conns = this.transportLayer.Simulators.centralSystem._wsServer.connections;
       for(var c in conns) {
         if(conns[c]._keepaliveTimeoutID) {
           clearTimeout(conns[c]._keepaliveTimeoutID);
@@ -142,13 +135,15 @@ WebSocketServerWrapper.prototype = {
    *  @api private
    */
   _onRequest: function(connection) {
-    var url = connection.resourceURL.path,
-        cpId;
+    var url = connection.resourceURL.path;
+    var cpId;
 
-    if(OCPP.ENDPOINTURL == '/')
-      cpId = url.slice(1);
-    else
-      cpId = url.replace(OCPP.ENDPOINTURL + '/', '');
+    if(OCPP.ENDPOINTURL == '/'){
+        cpId = url.slice(1);
+    }
+    else{
+        cpId = url.replace(OCPP.ENDPOINTURL + '/', '');
+    }
 
     // if the endpoint url isn't at the beginning of url
     // (wrong url)
@@ -161,8 +156,7 @@ WebSocketServerWrapper.prototype = {
 
     // if no identity specified
     if(url == OCPP.ENDPOINTURL || url + '/' == OCPP.ENDPOINTURL) {
-      Utils.log("Attempt to url: "+ url +". Rejected: no identity specified.",
-        "cs");
+      Utils.log("Attempt to url: "+ url +". Rejected: no identity specified.", "cs");
       connection.reject(200, "No identity specified. Base URL is "+
         OCPP.ENDPOINTURL + ". You must append the identifier: "+
         OCPP.ENDPOINTURL +"/identifier.");
@@ -170,13 +164,17 @@ WebSocketServerWrapper.prototype = {
     }
 
     // get requested protocols
-    var is_proto = false, req_proto = "";
+    var is_proto = false;
+    var req_proto = "";
+
     for(var proto in connection.requestedProtocols) {
-      if(req_proto)
-        req_proto += " ";
+      if(req_proto){
+          req_proto += " ";
+      }
+
       req_proto += connection.requestedProtocols[proto];
-      if(OCPP.SUB_PROTOCOL.indexOf(connection.requestedProtocols[proto])
-        > -1) {
+
+      if(OCPP.SUB_PROTOCOL.indexOf(connection.requestedProtocols[proto]) > -1) {
         is_proto = true;
         break;
       }
@@ -199,8 +197,7 @@ WebSocketServerWrapper.prototype = {
 
     conn.cpId = cpId;
 
-    Utils.log("ChargePoint #"+ cpId +" connected (protocol: "+ req_proto
-      +").", "cs");
+    Utils.log("ChargePoint #"+ cpId + " connected (protocol: "+ req_proto +").", "cs");
 
     this.transportLayer.simulator._connections[cpId] = {
       server: new Transport.SRPCServerConnection(connectionWrapper, "cs"),
@@ -208,7 +205,9 @@ WebSocketServerWrapper.prototype = {
     };
 
     // call plugin handler
-    Plugins.callClientConnectionEventHandlers('connected', cpId, this);
+    //Plugins.callClientConnectionEventHandlers('connected', cpId, this);
+
+    Utils.log(cpId + " connected to Central System", "cs");
   }
 
 };
@@ -302,7 +301,7 @@ WebSocketClientWrapper.prototype = {
     Utils.log("Connected to Central System.", this.chargePointId)
 
     // call plugin handler
-    Plugins.callConnectionEventHandlers('connected', this.chargePointId, this);
+    // Plugins.callConnectionEventHandlers('connected', this.chargePointId, this);
 
     var connectionWrapper = new Transport.ConnectionWrapper(connection);
     connectionWrapper._protocol = this._protocol;
