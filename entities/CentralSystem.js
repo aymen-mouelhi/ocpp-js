@@ -14,8 +14,7 @@ class CentralSystem {
                 // if not bootnotification, stop
                 if (action != 'BootNotification')
                     return;
-
-                Plugins.callClientConnectionEventHandlers('connected', cbId, this);
+                //Plugins.callClientConnectionEventHandlers('connected', cbId, this);
 
                 Utils.log('ChargePoint #' + cbId + ' connected.', 'cs');
 
