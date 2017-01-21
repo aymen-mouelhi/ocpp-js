@@ -1,47 +1,33 @@
+const Utils = require('../utils/utils.js');
+const ConnectionWrapper = require('./ConnectionWrapper');
+const SRPCClientConnection = require('./SRPCClientConnection');
+const SRPCServerConnection = require('./SRPCServerConnection');
+const TransportLayerServer = require('./TransportLayerServer');
+const TransportLayerClient = require('./TransportLayerClient');
+const HTTPServerWrapper = require('./HTTPServerWrapper');
+const WebSocketServerWrapper = require('./WebSocketServerWrapper');
+
 var events = require("events"),
     util = require("util"),
     http = require("http"),
-    url = require("url"),
-    soap = null; // init'ed later
-
-const OCPP = require('../config/ocpp.js');
-const Utils = require('./utils.js');
+    url = require("url");
 
 module.exports = {
 
-  //
   TRANSPORT_LAYER: 'websocket',
   LAYERS: ['websocket', 'soap'],
-
-  //
   PRINT_XML: false,
   PRINT_HEADERS: false,
-
-  //
   NETWORK_IP: '',
-
-  //
   DEFAULT_REMOTE_ACTION_PORT: 9000,
-
-  //
   ConnectionWrapper: ConnectionWrapper,
   SRPCClientConnection: SRPCClientConnection,
   SRPCServerConnection: SRPCServerConnection,
-
-  //
   TransportLayerServer: TransportLayerServer,
   TransportLayerClient: TransportLayerClient,
   HTTPServerWrapper: HTTPServerWrapper,
   WebSocketServerWrapper: WebSocketServerWrapper,
 
-  //
-  initReferences: function(Simulators) {
-    Plugins.Simulators = Simulators;
-  },
-
-  /**
-   *  TODO
-   */
   retrieveIPAddress: function() {
     // TODO SYNC
     Utils.getNetworkIPs()(function(err, res) {
@@ -49,9 +35,6 @@ module.exports = {
     });
   },
 
-  /**
-   *
-   */
   retrievePort: function(url) {
     if (url == null)
       return null;

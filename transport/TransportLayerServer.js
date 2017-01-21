@@ -1,3 +1,7 @@
+const WebSocketServerWrapper = require('./WebSocketServerWrapper');
+const SOAPWrapper = require('./SOAPWrapper');
+var soap = null; // init'ed later
+
 var TransportLayerServer = function(simulator, transport, model, mode) {
   this.transport = transport;
   this.simulator = simulator;
