@@ -1,6 +1,7 @@
 var events = require("events");
 var util = require("util");
 const Utils = require('../utils/utils.js');
+const OCPP = require('../config/ocpp.js');
 
 /**
  *  ConnectionWrapper Interface. Inherits from wsio.Socket.
