@@ -97,15 +97,12 @@ WebSocketClientWrapper.prototype = {
 
     // if the connection fails, retry
     connectionWrapper.on("close", function() {
-      Plugins.callConnectionEventHandlers('disconnected',
-        _this.transportLayer.simulator.chargePointId,
-        _this);
+      // Plugins.callConnectionEventHandlers('disconnected',_this.transportLayer.simulator.chargePointId, _this);
 
       _this.connected = false;
-      Utils.log("Connection lost, retry in "+ OCPP.TRY_INTERVAL +" seconds.",
-        _this.transportLayer.simulator.chargePointId);
-      _this._wsClient.connect(_this.transportLayer.simulator.uri,
-        OCPP.SUB_PROTOCOL);
+
+      Utils.log("Connection lost, retry in "+ OCPP.TRY_INTERVAL +" seconds.", _this.transportLayer.simulator.chargePointId);
+      _this._wsClient.connect(_this.transportLayer.simulator.uri, OCPP.SUB_PROTOCOL);
     });
 
     var serverConnection = new SRPCServerConnection(connectionWrapper, this.transportLayer.simulator.chargePointId);
