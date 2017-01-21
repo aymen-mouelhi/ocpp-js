@@ -1,4 +1,8 @@
 const WebSocketClient = require("websocket").client;
+const ConnectionWrapper = require('./ConnectionWrapper');
+const SRPCClientConnection = require('./SRPCClientConnection');
+const SRPCServerConnection = require('./SRPCServerConnection');
+
 const Utils = require('../utils/utils.js');
 const OCPP = require('../config/ocpp.js');
 
@@ -67,8 +71,7 @@ WebSocketClientWrapper.prototype = {
       }
     });
 
-    this._wsClient.connect(this.transportLayer.simulator.uri,
-      this.transportLayer.simulator.protocol);
+    this._wsClient.connect(this.transportLayer.simulator.uri, this.transportLayer.simulator.protocol);
   },
 
   /**
@@ -89,7 +92,7 @@ WebSocketClientWrapper.prototype = {
     // call plugin handler
     // Plugins.callConnectionEventHandlers('connected', this.chargePointId, this);
 
-    var connectionWrapper = new Transport.ConnectionWrapper(connection);
+    var connectionWrapper = new ConnectionWrapper(connection);
     connectionWrapper._protocol = this._protocol;
 
     // if the connection fails, retry
@@ -105,11 +108,8 @@ WebSocketClientWrapper.prototype = {
         OCPP.SUB_PROTOCOL);
     });
 
-    var serverConnection = new Transport.SRPCServerConnection(connectionWrapper,
-        this.transportLayer.simulator.chargePointId);
-    this.transportLayer.simulator.clientConnection =
-      new Transport.SRPCClientConnection(connectionWrapper,
-        this.transportLayer.simulator.chargePointId);
+    var serverConnection = new SRPCServerConnection(connectionWrapper, this.transportLayer.simulator.chargePointId);
+    this.transportLayer.simulator.clientConnection = new SRPCClientConnection(connectionWrapper, this.transportLayer.simulator.chargePointId);
 
     // BootNotification at start - disabled until we figure out whether
     // we should have an 'automatic mode'
