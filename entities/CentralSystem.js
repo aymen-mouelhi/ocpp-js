@@ -2,7 +2,7 @@ const OCPP = require('../config/ocpp.js');
 const Transport = require('../utils/transport.js');
 
 class CentralSystem {
-    constructor(port, Transport.TRANSPORT_LAYER) {
+    constructor(port, layer= Transport.TRANSPORT_LAYER) {
         his.port = port;
         this._wsServer = null;
         this._connections = {}
@@ -72,4 +72,4 @@ class CentralSystem {
 
 }
 
-export default CentralSystem;
+module.exports = CentralSystem;
