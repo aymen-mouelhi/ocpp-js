@@ -1304,9 +1304,6 @@ SRPCClientConnection.prototype = {
 };
 
 
-/**
- *
- */
 
 var Transport = {
 
