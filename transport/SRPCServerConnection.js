@@ -106,8 +106,10 @@ SRPCServerConnection.prototype = {
         };
 
     // check payload error
+    /*
     if(!OCPP.managePayloadErrors(values, infos, this))
       return;
+    */
 
     // check payload error: old version
     //if(this._managePayloadErrors(version, model, name, values, infos))
@@ -125,19 +127,17 @@ SRPCServerConnection.prototype = {
         var values = null;
 
         // fill the arguments of the call return
-        if(OCPP.procedures[version][model][procName].handlerFunction
-          != undefined) {
+        if(OCPP.procedures[version][model][procName].handlerFunction != undefined) {
           // Internal Error if the procedre crashes
           try {
-            values = OCPP.procedures[version][model][procName].handlerFunction
-              .call(this, message);
+            values = OCPP.procedures[version][model][procName].handlerFunction.call(this, message);
           } catch (exception) {
             this._returnError(from, callId, "InternalError");
             return;
           }
+        }else{
+            values = OCPP.wsdl[version][procName +'Response'];
         }
-        else
-          values = OCPP.wsdl[version][procName +'Response'];
 
         res[2] = values;
 
@@ -146,8 +146,7 @@ SRPCServerConnection.prototype = {
           this._returnError(from, callId, "NotSupported");
           return;
         }
-      }
-      else {
+      } else {
         this._returnError(from, callId, "NotImplemented");
         return;
       }
