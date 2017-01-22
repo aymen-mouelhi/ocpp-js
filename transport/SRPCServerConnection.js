@@ -19,12 +19,16 @@ const OCPP = require('../config/ocpp.js');
 function SRPCServerConnection(connection, cpId) {
   this._connection = connection;
   this._cpId = cpId;
-
   var _this = this;
+  
+  // handle message
   this._connection.on("message", function(msg) {
     _this._onCall(msg, this._connection.protocol);
   });
-  this._connection.on("close", function() { _this._onClose(); });
+  // handle close
+  this._connection.on("close", function() {
+    _this._onClose();
+  });
 
   this._onCreate();
 };
@@ -199,7 +203,6 @@ SRPCServerConnection.prototype = {
   _onClose: function() {
     var cpId = this._connection._connection.cpId;
     Utils.log("Disconnected", cpId);
-    //Plugins.callClientConnectionEventHandlers('disconnected', cpId, this);
   }
 };
 
