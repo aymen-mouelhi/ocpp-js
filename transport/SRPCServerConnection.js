@@ -166,7 +166,7 @@ SRPCServerConnection.prototype = {
     */
 
     // if lib doesn't correctly parse the response, display an error
-    Utils.log(">>"+ from +" "+ JSON.stringify(res), this._cpId);
+    Utils.log(">>"+ from + " "+ JSON.stringify(res), this._cpId);
 
     // send response
     this._connection.send(JSON.stringify(res));
