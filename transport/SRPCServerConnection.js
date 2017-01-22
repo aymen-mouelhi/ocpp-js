@@ -90,7 +90,7 @@ SRPCServerConnection.prototype = {
     Utils.log("<<"+ from +" "+ JSON.stringify(message), this._cpId);
 
     // call plugins handlers
-    var onCallValues = Plugins.callHandlers(procName, values, this);
+    // var onCallValues = Plugins.callHandlers(procName, values, this);
 
     var name = procName.toLowerCase();
     var version = Utils.retrieveVersion(prot);
@@ -159,8 +159,7 @@ SRPCServerConnection.prototype = {
     // send response
     this._connection.send(JSON.stringify(res));
 
-    //
-    Plugins.callIdleHandlers(this);
+    // Plugins.callIdleHandlers(this);
   },
 
   /**
