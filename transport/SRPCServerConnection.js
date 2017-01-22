@@ -105,22 +105,35 @@ SRPCServerConnection.prototype = {
       };
 
     // check payload error
-
-    if(!OCPP.managePayloadErrors(values, infos, this))
+    // TODO: uncomment and move to Utils
+    /*
+    if(!Utils.managePayloadErrors(values, infos, this))
       return;
-
-
-    // check payload error: old version
-    //if(this._managePayloadErrors(version, model, name, values, infos))
-    //  return;
+    */
 
     // call return
     var res = [
       OCPP.protocolID.TYPE_ID_CALL_RESULT,
       callId,
-      onCallValues || []
+      []
     ];
 
+    // TODO: remove dummy data
+    var values = {
+        chargePointVendor: 'DBT',
+        chargePointModel: 'NQC-ACDC',
+        chargePointSerialNumber: 'gir.vat.mx.000e48',
+        chargeBoxSerialNumber: 'gir.vat.mx.000e48',
+        firmwareVersion: '1.0.49',
+        iccid: '',
+        imsi: '',
+        meterType: 'DBT NQC-ACDC',
+        meterSerialNumber: 'gir.vat.mx.000e48'
+      }
+
+      res[2] = values;
+
+      /*
     if(!onCallValues) {
       if(OCPP.procedures[version][model][procName] != undefined) {
         var values = null;
@@ -150,6 +163,7 @@ SRPCServerConnection.prototype = {
         return;
       }
     }
+    */
 
     // if lib doesn't correctly parse the response, display an error
     Utils.log(">>"+ from +" "+ JSON.stringify(res), this._cpId);
