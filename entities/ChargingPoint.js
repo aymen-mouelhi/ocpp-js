@@ -47,6 +47,20 @@ class ChargingPoint {
         }
     }
 
+    bootNotification(){
+      if (this.clientConnection) {
+          this.clientConnection.rpcCall('BootNotification', {}, OCPP.TIMEOUT, function(){
+            return {
+              currentTime: new Date().toISOString(),
+            };
+          }, {
+              to: "cs"
+          });
+      } else {
+          console.log('Error: not connected to any central system.');
+      }
+    }
+
 
 }
 
