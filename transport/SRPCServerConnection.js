@@ -92,10 +92,11 @@ SRPCServerConnection.prototype = {
     // call plugins handlers
     var onCallValues = Plugins.callHandlers(procName, values, this);
 
-    var name = procName.toLowerCase(),
-        version = Utils.retrieveVersion(prot),
-        // infos for the CheckPayload function
-        infos = {
+    var name = procName.toLowerCase();
+    var version = Utils.retrieveVersion(prot);
+
+    // infos for the CheckPayload function
+    var infos = {
           callId: callId,
           from: from,
           model: model,

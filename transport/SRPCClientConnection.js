@@ -50,8 +50,8 @@ SRPCClientConnection.prototype = {
    *  @api public
    */
   rpcCall: function(procName, args, timeout, result, options) {
-    var callId = Utils.makeId(),
-        to = options.to || "";
+    var callId = Utils.makeId();
+    var to = options.to || "";
 
     var content = null, do_stringify = true;
     if(typeof args == 'string') {
@@ -62,8 +62,7 @@ SRPCClientConnection.prototype = {
           + procName +'",'+ args +']';
 
       do_stringify = false;
-    }
-    else {
+    } else {
       content = [OCPP.protocolID.TYPE_ID_CALL, callId, procName, args];
     }
 
