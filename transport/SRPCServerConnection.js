@@ -81,8 +81,7 @@ SRPCServerConnection.prototype = {
 
     // callId is limited to 36 chars according to specifications
     if (callId.length > 36) {
-      this._returnError(from, callId, "ProtocolError",
-        "callId is too long (>36 chars)");
+      this._returnError(from, callId, "ProtocolError", "callId is too long (>36 chars)");
       return;
     }
 
@@ -97,19 +96,19 @@ SRPCServerConnection.prototype = {
 
     // infos for the CheckPayload function
     var infos = {
-          callId: callId,
-          from: from,
-          model: model,
-          version: version,
-          procName: procName,
-          suffix: "Request"
-        };
+        callId: callId,
+        from: from,
+        model: model,
+        version: version,
+        procName: procName,
+        suffix: "Request"
+      };
 
     // check payload error
-    /*
+
     if(!OCPP.managePayloadErrors(values, infos, this))
       return;
-    */
+
 
     // check payload error: old version
     //if(this._managePayloadErrors(version, model, name, values, infos))

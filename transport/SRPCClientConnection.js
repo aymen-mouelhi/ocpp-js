@@ -137,14 +137,11 @@ SRPCClientConnection.prototype = {
     var procName = this._messages[callId].content[2],
         name = procName.toLowerCase();
 
-    if(OCPP.methodTree[version] != undefined
-      && OCPP.methodTree[version][model] != undefined) {
+    if(OCPP.methodTree[version] != undefined && OCPP.methodTree[version][model] != undefined) {
       // if exists
       if(OCPP.methodTree[version][model][name] != undefined) {
-          m_params = OCPP.methodTree[version][model][name]
-            [procName + 'Response'];
-      }
-      else {
+          m_params = OCPP.methodTree[version][model][name][procName + 'Response'];
+      } else {
         //this._returnError(from, callId, "NotImplemented");
         return;
       }
@@ -169,12 +166,10 @@ SRPCClientConnection.prototype = {
       // if an error occurred
       //if(error)
       //  return;
-
     }
 
     var onSuccess = function(){};
-    if(this._messages[callId].result_obj.handlers != undefined
-      && this._messages[callId].result_obj.handlers.onSuccess != undefined)
+    if(this._messages[callId].result_obj.handlers != undefined && this._messages[callId].result_obj.handlers.onSuccess != undefined)
       onSuccess = this._messages[callId].result_obj.handlers.onSuccess;
 
     // if not handler in Pluginsm call the default onSuccess method
