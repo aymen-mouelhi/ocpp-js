@@ -106,8 +106,7 @@ SRPCClientConnection.prototype = {
       msg = JSON.parse(args[0]);
     }
     catch (e) {
-      Utils.log("Error: message from cp#"+ from +" "+ args[0]
-        +" can't be parsed", "cs");
+      Utils.log("Error: message from cp#"+ from + " " + args[0] +" can't be parsed", "cs");
       return;
     }
 
@@ -123,8 +122,9 @@ SRPCClientConnection.prototype = {
       return;
     }
 
-    if (from != "cs")
-      from = "cp#"+ from;
+    if (from != "cs"){
+        from = "cp#"+ from;
+    }
 
     Utils.log("<<"+ from  +" "+ JSON.stringify(msg), this._cpId);
 
@@ -134,9 +134,10 @@ SRPCClientConnection.prototype = {
     }
 
     // retrieve procedure name
-    var procName = this._messages[callId].content[2],
-        name = procName.toLowerCase();
+    var procName = this._messages[callId].content[2];
+    var name = procName.toLowerCase();
 
+    /*
     if(OCPP.methodTree[version] != undefined && OCPP.methodTree[version][model] != undefined) {
       // if exists
       if(OCPP.methodTree[version][model][name] != undefined) {
@@ -160,15 +161,20 @@ SRPCClientConnection.prototype = {
 
       // check if payload is correct
       //var error = OCPP.checkPayload(args, params, infos, this);
-
-      OCPP.managePayloadErrors(args, infos, this);
+      // TODO: Move to Utils + Uncomment
+      // Utils.managePayloadErrors(args, infos, this);
 
       // if an error occurred
       //if(error)
       //  return;
     }
+    */
 
-    var onSuccess = function(){};
+    var onSuccess = function(args){
+       console.log('Result from server call ' + name);
+       console.log('heartbeatInterval: ' + JSON.stringify(args));
+    };
+    /*
     if(this._messages[callId].result_obj.handlers != undefined && this._messages[callId].result_obj.handlers.onSuccess != undefined)
       onSuccess = this._messages[callId].result_obj.handlers.onSuccess;
 
@@ -177,6 +183,9 @@ SRPCClientConnection.prototype = {
       onSuccess.call(this, argsOriginal);
 
     Plugins.callIdleHandlers(this);
+    */
+
+    onSuccess.call(this, argsOriginal);
 
     // clear timeout and delete the stored message
     clearTimeout(this._messages[callId].timeoutId);

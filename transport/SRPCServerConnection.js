@@ -20,7 +20,7 @@ function SRPCServerConnection(connection, cpId) {
   this._connection = connection;
   this._cpId = cpId;
   var _this = this;
-  
+
   // handle message
   this._connection.on("message", function(msg) {
     _this._onCall(msg, this._connection.protocol);
@@ -122,6 +122,8 @@ SRPCServerConnection.prototype = {
       []
     ];
 
+
+    // TODO: Use handlers to get real values for called procedre
     // TODO: remove dummy data
     var values = {
         chargePointVendor: 'DBT',
