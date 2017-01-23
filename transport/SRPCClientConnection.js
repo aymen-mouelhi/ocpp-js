@@ -159,6 +159,7 @@ SRPCClientConnection.prototype = {
         suffix: "Response"
       };
 
+
       // check if payload is correct
       //var error = OCPP.checkPayload(args, params, infos, this);
       // TODO: Move to Utils + Uncomment
@@ -170,21 +171,16 @@ SRPCClientConnection.prototype = {
     }
     */
 
+    var error;
+    // if an error occurred
+    if(error)
+      return;
+
     // TODO: Create handlers for each procedure
     var onSuccess = function(args){
        console.log('Result from server call ' + name);
        console.log('heartbeatInterval: ' + JSON.stringify(args));
     };
-    /*
-    if(this._messages[callId].result_obj.handlers != undefined && this._messages[callId].result_obj.handlers.onSuccess != undefined)
-      onSuccess = this._messages[callId].result_obj.handlers.onSuccess;
-
-    // if not handler in Pluginsm call the default onSuccess method
-    if(!Plugins.callResultHandlers(procName, argsOriginal, this))
-      onSuccess.call(this, argsOriginal);
-
-    Plugins.callIdleHandlers(this);
-    */
 
     onSuccess.call(this, argsOriginal);
 
