@@ -130,11 +130,18 @@ SRPCServerConnection.prototype = {
     var handler = require('../handlers/' + name);
 
     if (handler.handle != undefined) {
-      values = handler.handle(params);
+      handler.handle(params).then(function(values){
+        // Continue flow
+        res[2] = values;
+        // if lib doesn't correctly parse the response, display an error
+        Utils.log(">>"+ from + " "+ JSON.stringify(res), this._cpId);
+        // send response
+        this._connection.send(JSON.stringify(res));
+      }).catch(function(error){
+        this._connection.send(JSON.stringify(error));
+      });
     }
 
-
-    res[2] = values;
 
       /*
     if(!onCallValues) {
@@ -167,14 +174,13 @@ SRPCServerConnection.prototype = {
       }
     }
     */
-
+    /*
     // if lib doesn't correctly parse the response, display an error
     Utils.log(">>"+ from + " "+ JSON.stringify(res), this._cpId);
 
     // send response
     this._connection.send(JSON.stringify(res));
-
-    // Plugins.callIdleHandlers(this);
+    */
   },
 
   /**
