@@ -76,6 +76,9 @@ class ChargingPoint {
       }
     }
 
+    meterValues(){
+      
+    }
 
 }
 

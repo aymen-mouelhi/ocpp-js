@@ -126,12 +126,15 @@ SRPCServerConnection.prototype = {
     // TODO: Use handlers to get real values for called procedre
     var values = null;
 
-    // Dummy accept
-    values = {
-      status: 'Accepted',
-      currentTime: new Date().toISOString(),
-      heartbeatInterval: 1200
+    console.log('Args: ' + JSON.stringify(args));
+    console.log(name);
+    // Get handler function for given proc name
+    var handler = require('../handlers/' + name);
+
+    if (handler.handle != undefined) {
+      values = handler.handle();
     }
+
 
     res[2] = values;
 
