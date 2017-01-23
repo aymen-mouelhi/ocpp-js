@@ -47,9 +47,9 @@ class ChargingPoint {
         }
     }
 
-    bootNotification(){
+    bootNotification(data){
       if (this.clientConnection) {
-          this.clientConnection.rpcCall('BootNotification', {}, OCPP.TIMEOUT, function(){
+          this.clientConnection.rpcCall('BootNotification', data, OCPP.TIMEOUT, function(){
             return {
               currentTime: new Date().toISOString(),
             };
