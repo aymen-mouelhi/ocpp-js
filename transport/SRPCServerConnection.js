@@ -124,20 +124,16 @@ SRPCServerConnection.prototype = {
 
 
     // TODO: Use handlers to get real values for called procedre
-    // TODO: remove dummy data
-    var values = {
-        chargePointVendor: 'DBT',
-        chargePointModel: 'NQC-ACDC',
-        chargePointSerialNumber: 'gir.vat.mx.000e48',
-        chargeBoxSerialNumber: 'gir.vat.mx.000e48',
-        firmwareVersion: '1.0.49',
-        iccid: '',
-        imsi: '',
-        meterType: 'DBT NQC-ACDC',
-        meterSerialNumber: 'gir.vat.mx.000e48'
-      }
+    var values = null;
 
-      res[2] = values;
+    // Dummy accept
+    values = {
+      status: 'Accepted',
+      currentTime: new Date().toISOString(),
+      heartbeatInterval: 1200
+    }
+    
+    res[2] = values;
 
       /*
     if(!onCallValues) {
