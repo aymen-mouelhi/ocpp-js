@@ -132,7 +132,7 @@ SRPCServerConnection.prototype = {
       currentTime: new Date().toISOString(),
       heartbeatInterval: 1200
     }
-    
+
     res[2] = values;
 
       /*

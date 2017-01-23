@@ -62,6 +62,21 @@ class ChargingPoint {
     }
 
 
+    heartbeat(){
+      if (this.clientConnection) {
+          this.clientConnection.rpcCall('heartbeat', {}, OCPP.TIMEOUT, function(){
+            return {
+              currentTime: new Date().toISOString(),
+            };
+          }, {
+              to: "cs"
+          });
+      } else {
+          console.log('Error: not connected to any central system.');
+      }
+    }
+
+
 }
 
 module.exports = ChargingPoint;
