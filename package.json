@@ -16,6 +16,7 @@
   "author": "Aymen Mouelhi <aymen.mouelhi@gmail.com> (https://github.com/aymen-mouelhi)",
   "license": "ISC",
   "dependencies": {
+    "firebase": "^3.6.6",
     "websocket": "^1.0.24"
   }
 }

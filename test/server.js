@@ -2,6 +2,7 @@ const CentralSystem = require('../entities/CentralSystem');
 
 var system = new CentralSystem(9000, 'websocket');
 
+/*
 setInterval(function(){
   var connection;
   if (system.getConnections()) {
@@ -9,3 +10,4 @@ setInterval(function(){
   }
   console.log(connection);
 }, 3000);
+*/
