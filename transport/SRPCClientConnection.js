@@ -170,6 +170,7 @@ SRPCClientConnection.prototype = {
     }
     */
 
+    // TODO: Create handlers for each procedure
     var onSuccess = function(args){
        console.log('Result from server call ' + name);
        console.log('heartbeatInterval: ' + JSON.stringify(args));
