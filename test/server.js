@@ -11,18 +11,3 @@ setInterval(function(){
   console.log(connection);
 }, 3000);
 */
-
-
-function getUsers(callback){
-  // Callback
-   MySQL.getUsers(function(users){
-     callback(users)
-  });
-
-  // Promise
-  return MySQL.getUsers().then(function(){
-    return users;
-  }).catch(function(error){
-    return error;
-  });
-}
