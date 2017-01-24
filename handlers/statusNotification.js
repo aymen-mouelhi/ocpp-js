@@ -8,7 +8,7 @@ module.exports = {
       // notification is not read yet
       data.unread = true;
 
-      Storage.save('notifications', data).then(function(){
+      Storage.saveOne('notifications', 1,  data).then(function(){
         resolve({});
       });
     });

@@ -47,7 +47,7 @@ module.exports = {
                 }
 
                 // save transaction
-                Storage.save('transactions', data).then(function() {
+                Storage.saveOne('transactions', transactionId, data).then(function() {
                     // TODO: should we store a rejected transaction?
                     resolve(response);
                 });

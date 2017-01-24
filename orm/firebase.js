@@ -37,13 +37,13 @@ class FireBase extends Storage {
     });
   }
 
-  save(collection, data){
+  saveBatch(collection, data){
     return new Promise(function(resolve, reject) {
-      return firebase.database().ref('/' + collection + '/').set(data);
+      return firebase.database().ref('/' + collection).set(data);
     });
   }
 
-  update(collection, id, data){
+  saveOne(collection, id, data){
     return new Promise(function(resolve, reject) {
       return firebase.database().ref('/' + collection + '/' + id).set(data);
     });

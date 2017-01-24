@@ -44,7 +44,7 @@ module.exports = {
                         }
                     }
                     // store transaction details
-                    Storage.save('transactions', data).then(function() {
+                    Storage.save('transactions', data.transactionId, data).then(function() {
                         resolve(response);
                     });
 
