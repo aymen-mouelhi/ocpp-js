@@ -69,6 +69,10 @@ class ChargingPoint {
       this.clientAction('StopTransaction', data);
     }
 
+    authorize(data){
+      this.clientAction('Authorize', data);
+    }
+
 }
 
 module.exports = ChargingPoint;
