@@ -4,18 +4,15 @@ const Storage = require('./index.js');
 let instance =  null;
 class FireBase {
   constructor() {
-
-
-    this.firebase = require('firebase');
-    var config = {
-        apiKey: process.env.apiKey,
-        authDomain: process.env.authDomain,
-        databaseURL: process.env.databaseURL,
-        storageBucket: process.env.storageBucket,
-        messagingSenderId: process.env.messagingSenderId
-    };
-
     if(!instance){
+      this.firebase = require('firebase');
+      var config = {
+          apiKey: process.env.apiKey,
+          authDomain: process.env.authDomain,
+          databaseURL: process.env.databaseURL,
+          storageBucket: process.env.storageBucket,
+          messagingSenderId: process.env.messagingSenderId
+      };
       console.log('Firebase is set up !');
       this.firebase.initializeApp(config);
       instance = this;
@@ -25,8 +22,9 @@ class FireBase {
   }
 
   findAll(collection){
+    var self = this;
     return new Promise(function(resolve, reject) {
-      return this.firebase.database().ref('/' + collection).once('value').then(function(snapshot){
+      return self.firebase.database().ref('/' + collection).once('value').then(function(snapshot){
         var data = snapshot.val();
         resolve(data);
       }).catch(function(error){
@@ -36,8 +34,9 @@ class FireBase {
   }
 
   findById(collection, id){
+    var self = this;
     return new Promise(function(resolve, reject) {
-      this.firebase.database().ref('/' + collection + '/' + id).once('value').then(function(snapshot){
+      self.firebase.database().ref('/' + collection + '/' + id).once('value').then(function(snapshot){
         var data = snapshot.val();
         resolve(data);
       }).catch(function(error){
@@ -47,14 +46,23 @@ class FireBase {
   }
 
   saveBatch(collection, data){
+    var self = this;
     return new Promise(function(resolve, reject) {
-      return this.firebase.database().ref('/' + collection).set(data);
+      self.firebase.database().ref('/' + collection).set(data).then(function(){
+        resolve({});
+      }).catch(function(error){
+        console.log('Error while saving: ' + error);
+        reject(error);
+      });
     });
   }
 
   saveOne(collection, id, data){
+    var self = this;
     return new Promise(function(resolve, reject) {
-      return this.firebase.database().ref('/' + collection + '/' + id).set(data);
+      self.firebase.database().ref('/' + collection + '/' + id).set(data).then(function(){
+        resolve({});
+      });
     });
   }
 

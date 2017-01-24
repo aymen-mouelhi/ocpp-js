@@ -5,7 +5,6 @@ var Storage = new ORM(process.env.storage);
 module.exports = {
   handle: function(data){
     return new Promise(function(resolve, reject) {
-
       // TODO: check that station doesn't exist
       Storage.saveOne('stations', 1, data).then(function(){
         // Return Reponse
