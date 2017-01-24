@@ -2,8 +2,8 @@ const ChargingPoint = require('../entities/ChargingPoint');
 
 var point = new ChargingPoint('ws://localhost:9000', "3lsonASjk1", protocol = "ocpp1.5", 'websocket');
 
-var boot = setInterval(function(){
-  point.bootNotification({
+var boot = setInterval(function() {
+    point.bootNotification({
         chargePointVendor: 'DBT',
         chargePointModel: 'NQC-ACDC',
         chargePointSerialNumber: 'gir.vat.mx.000e48',
@@ -13,6 +13,33 @@ var boot = setInterval(function(){
         imsi: '',
         meterType: 'DBT NQC-ACDC',
         meterSerialNumber: 'gir.vat.mx.000e48'
-      });
-  clearInterval(boot);
+    });
+
+    point.meterValues({
+        transactionId: 0,
+        values: [{
+            "timestamp": "2013-03-07T16:52:16Z",
+            "values": [{
+                "value": "0",
+                "unit": "Wh",
+                "measurand": "Energy.Active.Import.Register"
+            }, {
+                "value": "0",
+                "unit": "varh",
+                "measurand": "Energy.Reactive.Import.Register"
+            }]
+        }, {
+            "timestamp": "2013-03-07T19:52:16Z",
+            "values": [{
+                "value": "20",
+                "unit": "Wh",
+                "measurand": "Energy.Active.Import.Register"
+            }, {
+                "value": "20",
+                "unit": "varh",
+                "measurand": "Energy.Reactive.Import.Register"
+            }]
+        }]
+    });
+    clearInterval(boot);
 }, 3000);

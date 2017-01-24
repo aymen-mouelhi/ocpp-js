@@ -47,6 +47,10 @@ class ChargingPoint {
         }
     }
 
+    getId(){
+      return this.chargePointId;
+    }
+
     bootNotification(data){
       if (this.clientConnection) {
           this.clientConnection.rpcCall('BootNotification', data, OCPP.TIMEOUT, function(){
@@ -76,8 +80,20 @@ class ChargingPoint {
       }
     }
 
-    meterValues(){
-      
+    meterValues(data){
+      data.connectorId = this.getId();
+
+      if (this.clientConnection) {
+          this.clientConnection.rpcCall('MeterValues', {}, OCPP.TIMEOUT, function(){
+            return {
+              currentTime: new Date().toISOString(),
+            };
+          }, {
+              to: "cs"
+          });
+      } else {
+          console.log('Error: not connected to any central system.');
+      }
     }
 
 }
