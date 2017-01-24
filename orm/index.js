@@ -3,13 +3,22 @@ class Storage {
     try{
         this.method = require('./' + method);
     }catch(error){
+      console.log('error while setting method ' + error);
       this.method = null;
     }
   }
 
-  save(collection, data){
+  saveOne(collection, id, data){
     if(this.method){
-      this.method.save(collection, data);
+      this.method.saveOne(collection, id, data);
+    }else{
+      console.log(this.method + ' is not implemented !');
+    }
+  }
+
+  saveBatch(collection, data){
+    if(this.method){
+      this.method.saveBatch(collection, data);
     }else{
       console.log(this.method + ' is not implemented !');
     }
@@ -17,7 +26,7 @@ class Storage {
 
   findAll(collection){
     if(this.method){
-      this.method.store(collection, data);
+      this.method.findAll(collection, data);
     }else{
       console.log(this.method + ' is not implemented !');
     }
@@ -25,7 +34,7 @@ class Storage {
 
   findById(collection, id){
     if(this.method){
-      this.method.store(collection, data);
+      this.method.findById(collection, data);
     }else{
       console.log(this.method + ' is not implemented !');
     }

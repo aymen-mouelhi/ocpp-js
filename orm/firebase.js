@@ -13,13 +13,15 @@ class FireBase extends Storage {
         messagingSenderId: process.env.messagingSenderId
     };
 
+    console.log('Firebase is set up !');
+
     // TODO: handle firebase Authentication
     firebase.initializeApp(config);
   }
 
   findAll(collection){
     return new Promise(function(resolve, reject) {
-      firebase.database().ref('/' + collection).once('value').then(function(snapshot){
+      return firebase.database().ref('/' + collection).once('value').then(function(snapshot){
         var data = snapshot.val();
         resolve(data);
       }).catch(function(error){
@@ -29,11 +31,13 @@ class FireBase extends Storage {
   }
 
   findById(collection, id){
-    firebase.database().ref('/' + collection + '/' + id).once('value').then(function(snapshot){
-      var data = snapshot.val();
-      resolve(data);
-    }).catch(function(error){
-      reject(error);
+    return new Promise(function(resolve, reject) {
+      firebase.database().ref('/' + collection + '/' + id).once('value').then(function(snapshot){
+        var data = snapshot.val();
+        resolve(data);
+      }).catch(function(error){
+        reject(error);
+      });
     });
   }
 
