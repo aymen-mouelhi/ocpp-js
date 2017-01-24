@@ -1,5 +1,5 @@
 const Utils = require('../utils/utils.js');
-const OCPP = require('../config/ocpp.js');
+const Config = require('../config/config.js');
 
 /*
  * - A {SRPCServerConnection} implements a SRPC server (http://wamp.ws).
@@ -80,7 +80,7 @@ SRPCServerConnection.prototype = {
         values = message[3];
 
     // deny if it's not a call
-    if(typeId != OCPP.protocolID.TYPE_ID_CALL)
+    if(typeId != Config.protocolID.TYPE_ID_CALL)
       return;
 
     // callId is limited to 36 chars according to specifications
@@ -117,7 +117,7 @@ SRPCServerConnection.prototype = {
 
     // call return
     var res = [
-      OCPP.protocolID.TYPE_ID_CALL_RESULT,
+      Config.protocolID.TYPE_ID_CALL_RESULT,
       callId,
       []
     ];
@@ -149,10 +149,10 @@ SRPCServerConnection.prototype = {
    */
   _returnError: function(from, callId, errorName, errorDesc) {
     var res = [
-      OCPP.protocolID.TYPE_ID_CALL_ERROR,
+      Config.protocolID.TYPE_ID_CALL_ERROR,
       callId,
       errorName,
-      errorDesc || OCPP.ERRORS_DESC[errorName] || '',
+      errorDesc || Config.ERRORS_DESC[errorName] || '',
       {}
     ];
 

@@ -1,7 +1,7 @@
 var events = require("events");
 var util = require("util");
 const Utils = require('../utils/utils.js');
-const OCPP = require('../config/ocpp.js');
+const Config = require('../config/config.js');
 
 /**
  *  ConnectionWrapper Interface. Inherits from wsio.Socket.
@@ -17,7 +17,7 @@ var ConnectionWrapper = function(connection) {
   this._connection = connection;
 
   // modify ping and pong functions for printing logs
-  if(!OCPP.WITH_HEARTBEAT) {
+  if(!Config.WITH_HEARTBEAT) {
 
     // Modification of WebSocketConnection.prototype.ping
     this._connection._ping = this._connection.ping;

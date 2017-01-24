@@ -1,4 +1,4 @@
-const OCPP = require('../config/ocpp.js');
+const Config = require('../config/config.js');
 const Transport = require('../transport');
 
 class CentralSystem{
@@ -63,7 +63,7 @@ class CentralSystem{
 
         var resultFunction = function() {};
 
-        connection.client.rpcCall(procName, args || {}, OCPP.TIMEOUT, resultFunction, { to: "cp#" + clientId });
+        connection.client.rpcCall(procName, args || {}, Config.TIMEOUT, resultFunction, { to: "cp#" + clientId });
     }
 
     getConnections(){

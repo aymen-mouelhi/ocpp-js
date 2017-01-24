@@ -4,7 +4,7 @@ const ConnectionWrapper = require('./ConnectionWrapper');
 const SRPCClientConnection = require('./SRPCClientConnection');
 const SRPCServerConnection = require('./SRPCServerConnection');
 
-const OCPP = require('../config/ocpp.js');
+const Config = require('../config/config.js');
 const Utils = require('../utils/utils.js');
 
 class WebSocketServerWrapper {
@@ -39,8 +39,8 @@ class WebSocketServerWrapper {
       dropConnectionOnKeepaliveTimeout: false,
 
       // enable ping from server
-      keepalive: OCPP.KEEP_ALIVE_INTERVAL != 0,
-      keepaliveInterval: OCPP.KEEP_ALIVE_INTERVAL * 1000
+      keepalive: Config.KEEP_ALIVE_INTERVAL != 0,
+      keepaliveInterval: Config.KEEP_ALIVE_INTERVAL * 1000
     });
 
     this._wsServer.on("request", function(connection) {
@@ -61,16 +61,16 @@ class WebSocketServerWrapper {
     var url = connection.resourceURL.path;
     var cpId;
 
-    if(OCPP.ENDPOINTURL == '/'){
+    if(Config.ENDPOINTURL == '/'){
         cpId = url.slice(1);
     }
     else{
-        cpId = url.replace(OCPP.ENDPOINTURL + '/', '');
+        cpId = url.replace(Config.ENDPOINTURL + '/', '');
     }
 
     // if the endpoint url isn't at the beginning of url
     // (wrong url)
-    if(url.indexOf(OCPP.ENDPOINTURL) != 0) {
+    if(url.indexOf(Config.ENDPOINTURL) != 0) {
       // return 404
       Utils.log("Attempt to url: "+ url +". Rejected: not found.", "cs");
       connection.reject(404);
@@ -78,11 +78,11 @@ class WebSocketServerWrapper {
     }
 
     // if no identity specified
-    if(url == OCPP.ENDPOINTURL || url + '/' == OCPP.ENDPOINTURL) {
+    if(url == Config.ENDPOINTURL || url + '/' == Config.ENDPOINTURL) {
       Utils.log("Attempt to url: "+ url +". Rejected: no identity specified.", "cs");
       connection.reject(200, "No identity specified. Base URL is "+
-        OCPP.ENDPOINTURL + ". You must append the identifier: "+
-        OCPP.ENDPOINTURL +"/identifier.");
+        Config.ENDPOINTURL + ". You must append the identifier: "+
+        Config.ENDPOINTURL +"/identifier.");
       return;
     }
 
@@ -97,7 +97,7 @@ class WebSocketServerWrapper {
 
       req_proto += connection.requestedProtocols[proto];
 
-      if(OCPP.SUB_PROTOCOL.indexOf(connection.requestedProtocols[proto]) > -1) {
+      if(Config.SUB_PROTOCOL.indexOf(connection.requestedProtocols[proto]) > -1) {
         is_proto = true;
         break;
       }
@@ -145,7 +145,7 @@ class WebSocketServerWrapper {
       Utils.log('WebSocket ping from CS to CP enabled by user.');
       this._wsServer.config.keepalive = true;
       this._wsServer.config.keepaliveInterval =
-        OCPP.KEEP_ALIVE_INTERVAL = interval * 1000;
+        Config.KEEP_ALIVE_INTERVAL = interval * 1000;
 
       var conns = this._wsServer.connections;
       for(var c in conns) {
@@ -192,7 +192,7 @@ WebSocketServerWrapper.prototype = {
       Utils.log('WebSocket ping from CS to CP enabled by user.');
       this._wsServer.config.keepalive = true;
       this._wsServer.config.keepaliveInterval =
-        OCPP.KEEP_ALIVE_INTERVAL = interval * 1000;
+        Config.KEEP_ALIVE_INTERVAL = interval * 1000;
 
       var conns = this._wsServer.connections;
       for(var c in conns) {

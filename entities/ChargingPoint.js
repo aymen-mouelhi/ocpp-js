@@ -1,9 +1,9 @@
-const OCPP = require('../config/ocpp.js');
+const Config = require('../config/config.js');
 const Transport = require('../transport');
 const Utils = require('../utils/utils.js');
 
 class ChargingPoint {
-    constructor(uri, identifier, protocol = "ocpp1.5", transport = Transport.TRANSPORT_LAYER, soapOptions) {
+    constructor(uri, identifier, protocol = "Config1.5", transport = Transport.TRANSPORT_LAYER, soapOptions) {
         this.uri = uri;
         this.protocol = protocol;
         this.transport = transport;
@@ -29,7 +29,7 @@ class ChargingPoint {
     clientAction(procUri, args) {
         var resultFunction = function(){};
         if (this.clientConnection) {
-            this.clientConnection.rpcCall(procUri, args, OCPP.TIMEOUT, resultFunction, {
+            this.clientConnection.rpcCall(procUri, args, Config.TIMEOUT, resultFunction, {
                 to: "cs"
             });
         } else {

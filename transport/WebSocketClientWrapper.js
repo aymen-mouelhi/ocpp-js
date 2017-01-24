@@ -4,7 +4,7 @@ const SRPCClientConnection = require('./SRPCClientConnection');
 const SRPCServerConnection = require('./SRPCServerConnection');
 
 const Utils = require('../utils/utils.js');
-const OCPP = require('../config/ocpp.js');
+const Config = require('../config/config.js');
 
 
 var WebSocketClientWrapper = function(transportLayer) {
@@ -62,12 +62,12 @@ WebSocketClientWrapper.prototype = {
       }
       else {
         Utils.log("Connect Error: "+ error.toString() +
-          ". Retry in "+ OCPP.TRY_INTERVAL +" seconds ...",
+          ". Retry in "+ Config.TRY_INTERVAL +" seconds ...",
           _this.chargePointId);
         setTimeout(function(args) {
           args[0]._wsClient.connect(args[0].transportLayer.simulator.uri,
-            OCPP.SUB_PROTOCOL);
-        }, OCPP.TRY_INTERVAL * 1000, [_this]);
+            Config.SUB_PROTOCOL);
+        }, Config.TRY_INTERVAL * 1000, [_this]);
       }
     });
 
@@ -101,8 +101,8 @@ WebSocketClientWrapper.prototype = {
 
       _this.connected = false;
 
-      Utils.log("Connection lost, retry in "+ OCPP.TRY_INTERVAL +" seconds.", _this.transportLayer.simulator.chargePointId);
-      _this._wsClient.connect(_this.transportLayer.simulator.uri, OCPP.SUB_PROTOCOL);
+      Utils.log("Connection lost, retry in "+ Config.TRY_INTERVAL +" seconds.", _this.transportLayer.simulator.chargePointId);
+      _this._wsClient.connect(_this.transportLayer.simulator.uri, Config.SUB_PROTOCOL);
     });
 
     var serverConnection = new SRPCServerConnection(connectionWrapper, this.transportLayer.simulator.chargePointId);
@@ -113,16 +113,16 @@ WebSocketClientWrapper.prototype = {
     if(false) {
       this.clientConnection.rpcCall("BootNotification", {
           chargePointVendor: "GIR",
-          chargePointModel: "ocppjs-1.0.2"
+          chargePointModel: "Configjs-1.0.2"
         },
         TIMEOUT,
-        OCPP.procedures.BootNotification.resultFunction,
+        Config.procedures.BootNotification.resultFunction,
         {
           to: "cs",
         });
     }
 
-    this.setWebSocketPingInterval(OCPP.KEEP_ALIVE_INTERVAL);
+    this.setWebSocketPingInterval(Config.KEEP_ALIVE_INTERVAL);
   },
 
   /**

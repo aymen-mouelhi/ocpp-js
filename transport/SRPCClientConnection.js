@@ -1,5 +1,5 @@
 const Utils = require('../utils/utils.js');
-const OCPP = require('../config/ocpp.js');
+const Config = require('../config/config.js');
 /*
  * - A {SRPCClientConnection} exposes a 'call' method, that implements a SRPC
  *   RPC call. The 'call' method has four parameters:
@@ -58,12 +58,12 @@ SRPCClientConnection.prototype = {
       if (procName == '')
         content = args;
       else
-        content = '['+ OCPP.protocolID.TYPE_ID_CALL +',"'+ callId +'","'
+        content = '['+ Config.protocolID.TYPE_ID_CALL +',"'+ callId +'","'
           + procName +'",'+ args +']';
 
       do_stringify = false;
     } else {
-      content = [OCPP.protocolID.TYPE_ID_CALL, callId, procName, args];
+      content = [Config.protocolID.TYPE_ID_CALL, callId, procName, args];
     }
 
     // create message to store
@@ -98,7 +98,7 @@ SRPCClientConnection.prototype = {
   _onMessage: function(args) {
     var from = args[1],
         msg = null,
-        version = Utils.retrieveVersion(OCPP.SUB_PROTOCOL),
+        version = Utils.retrieveVersion(Config.SUB_PROTOCOL),
         model = from == "cs" ? "cs" : "cp",
         m_params = {};
 
@@ -117,7 +117,7 @@ SRPCClientConnection.prototype = {
         _this = this;
 
     // if it's not a call result
-    if(typeId != OCPP.protocolID.TYPE_ID_CALL_RESULT) {
+    if(typeId != Config.protocolID.TYPE_ID_CALL_RESULT) {
       this._onError(from, msg);
       return;
     }
@@ -138,10 +138,10 @@ SRPCClientConnection.prototype = {
     var name = procName.toLowerCase();
 
     /*
-    if(OCPP.methodTree[version] != undefined && OCPP.methodTree[version][model] != undefined) {
+    if(Config.methodTree[version] != undefined && Config.methodTree[version][model] != undefined) {
       // if exists
-      if(OCPP.methodTree[version][model][name] != undefined) {
-          m_params = OCPP.methodTree[version][model][name][procName + 'Response'];
+      if(Config.methodTree[version][model][name] != undefined) {
+          m_params = Config.methodTree[version][model][name][procName + 'Response'];
       } else {
         //this._returnError(from, callId, "NotImplemented");
         return;
@@ -161,7 +161,7 @@ SRPCClientConnection.prototype = {
 
 
       // check if payload is correct
-      //var error = OCPP.checkPayload(args, params, infos, this);
+      //var error = Config.checkPayload(args, params, infos, this);
       // TODO: Move to Utils + Uncomment
       // Utils.managePayloadErrors(args, infos, this);
 
@@ -222,7 +222,7 @@ SRPCClientConnection.prototype = {
         errorName = msg[2],
         errorDesc = msg[3];
 
-    if(typeId != OCPP.protocolID.TYPE_ID_CALL_ERROR)
+    if(typeId != Config.protocolID.TYPE_ID_CALL_ERROR)
       return;
 
     if (from != "cs")

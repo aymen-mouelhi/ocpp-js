@@ -1,5 +1,5 @@
 
-var OCPP = {
+var CONFIG = {
   SUB_PROTOCOL: ["ocpp1.2", "ocpp1.5"],
   VERSIONS: ["1.2", "1.5"],
   SYSTEMS: ["cs", "cp"],
@@ -34,4 +34,4 @@ var OCPP = {
   }
 }
 
-module.exports = OCPP;
+module.exports = CONFIG;
