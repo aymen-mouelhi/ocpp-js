@@ -59,9 +59,14 @@ class ChargingPoint {
       this.clientAction('StatusNotification', data);
     }
 
-    StartTransaction(data){
+    startTransaction(data){
       data.connectorId= this.getId();
       this.clientAction('StartTransaction', data);
+    }
+
+    stopTransaction(data){
+      data.connectorId= this.getId();
+      this.clientAction('StopTransaction', data);
     }
 
 }

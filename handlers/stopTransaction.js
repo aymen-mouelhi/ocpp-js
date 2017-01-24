@@ -6,16 +6,12 @@ const Utils = require('../utils/utils.js')
 module.exports = {
   handle: function(data){
     return new Promise(function(resolve, reject) {
-
-      var transactionId = Utils.generateTransactionId();
-
       return firebase.database().ref('/transactions/' + data.connectorId).set(data).then(function(){
         // TODO: check if we can have a transaction for given idTag
         resolve({
-          transactionId: 0,
           idTagInfo: {
-            status: 'Accepted',
-            expiryDate: moment().add(7, 'days').format(),
+            status: 'Expired',
+            expiryDate:new Date().toISOString(),
             parentIdTag: 'PARENT'
           }
         });
