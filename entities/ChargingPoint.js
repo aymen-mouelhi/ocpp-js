@@ -59,6 +59,11 @@ class ChargingPoint {
       this.clientAction('StatusNotification', data);
     }
 
+    StartTransaction(data){
+      data.connectorId= this.getId();
+      this.clientAction('StartTransaction', data);
+    }
+
 }
 
 module.exports = ChargingPoint;

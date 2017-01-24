@@ -285,6 +285,11 @@ var Utils = {
         content = Transport.PRINT_XML ? rawContent : JSON.stringify(content);
         Utils.log(prefix + 'cp#' + from + ' ' + action + ' ' + content,
             "cs");
+    },
+
+
+    generateTransactionId: function(){
+      return Math.floor(Math.random() * 10);
     }
 
 };
