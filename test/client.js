@@ -52,5 +52,18 @@ var boot = setInterval(function() {
         vendorId: "",
         vendorErrorCode:""
       });
+
+      point.startTransaction({
+        idTag: 'B4F62CEF',
+        timestamp: '2013-02-01T15:09:18Z',
+        meterStart: 0
+      });
+
+      point.stopTransaction({
+        transactionId: 0,
+        idTag: "B4F62CEF",
+        timestamp: "2013-02-01T15:09:18Z",
+        meterStop: 20,
+      });
     clearInterval(boot);
 }, 3000);
