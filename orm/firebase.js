@@ -1,4 +1,5 @@
 const firebase = require('firebase');
+const Promise = require('promise');
 const Storage = require('./index.js');
 
 class FireBase extends Storage {
@@ -16,16 +17,31 @@ class FireBase extends Storage {
     firebase.initializeApp(config);
   }
 
-  save(collection, data){
-    firebase
-  }
-
   find(collection){
-
+    return new Promise(function(resolve, reject) {
+      firebase.database().ref('/' + collection).once('value').then(function(snapshot){
+        var data = snapshot.val();
+        resolve(data);
+      }).catch(function(error){
+        reject(error);
+      });
+    });
   }
 
   findById(collection, id){
 
+  }
+
+  save(collection, data){
+    return new Promise(function(resolve, reject) {
+      return firebase.database().ref('/' + collection + '/').set(data);
+    });
+  }
+
+  update(collection, id, data){
+    return new Promise(function(resolve, reject) {
+      return firebase.database().ref('/' + collection + '/' + id).set(data);
+    });
   }
 
 }
