@@ -1,12 +1,15 @@
 const firebase = require('../config/firebase');
 const Promise = require('promise');
+const ORM = require('../orm');
+
+var storage = new ORM(process.env.storage);
 
 module.exports = {
   handle: function(data){
     return new Promise(function(resolve, reject) {
 
       // TODO: check that station doesn't exist
-      return firebase.database().ref('/stations/' + data.iccid).set(data).then(function(){
+      Storage.save('stations', data).then(function(){
         // Return Reponse
         // status can be Rejected or Accepted
         resolve({

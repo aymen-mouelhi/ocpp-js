@@ -2,6 +2,9 @@ const firebase = require('../config/firebase');
 const Promise = require('promise');
 const moment = require('moment');
 const Utils = require('../utils/utils.js')
+const ORM = require('../orm');
+
+var storage = new ORM(process.env.storage);
 
 module.exports = {
     handle: function(data) {

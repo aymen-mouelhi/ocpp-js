@@ -17,7 +17,7 @@ class FireBase extends Storage {
     firebase.initializeApp(config);
   }
 
-  find(collection){
+  findAll(collection){
     return new Promise(function(resolve, reject) {
       firebase.database().ref('/' + collection).once('value').then(function(snapshot){
         var data = snapshot.val();
@@ -29,7 +29,12 @@ class FireBase extends Storage {
   }
 
   findById(collection, id){
-
+    firebase.database().ref('/' + collection + '/' + id).once('value').then(function(snapshot){
+      var data = snapshot.val();
+      resolve(data);
+    }).catch(function(error){
+      reject(error);
+    });
   }
 
   save(collection, data){
@@ -46,4 +51,4 @@ class FireBase extends Storage {
 
 }
 
-module.exports = firebase;
+module.exports = FireBase;
