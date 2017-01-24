@@ -4,7 +4,9 @@ const Promise = require('promise');
 module.exports = {
   handle: function(data){
     return new Promise(function(resolve, reject) {
-      // TODO: check that station deosn't exist
+      // notification is not read yet
+      data.unread = true;
+      
       return firebase.database().ref('/notifications/' + data.connectorId).set(data).then(function(){
         // Return Reponse
         // status can be Rejected or Accepted

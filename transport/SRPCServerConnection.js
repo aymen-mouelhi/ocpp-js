@@ -141,46 +141,6 @@ SRPCServerConnection.prototype = {
         this._connection.send(JSON.stringify(error));
       });
     }
-
-
-      /*
-    if(!onCallValues) {
-      if(OCPP.procedures[version][model][procName] != undefined) {
-        var values = null;
-
-        // fill the arguments of the call return
-        if(OCPP.procedures[version][model][procName].handlerFunction != undefined) {
-          // Internal Error if the procedre crashes
-          try {
-            values = OCPP.procedures[version][model][procName].handlerFunction.call(this, message);
-          } catch (exception) {
-            this._returnError(from, callId, "InternalError");
-            return;
-          }
-        }else{
-            values = OCPP.wsdl[version][procName +'Response'];
-        }
-
-        res[2] = values;
-
-        // check if proc is supported
-        if(res[2] == "NotSupported") {
-          this._returnError(from, callId, "NotSupported");
-          return;
-        }
-      } else {
-        this._returnError(from, callId, "NotImplemented");
-        return;
-      }
-    }
-    */
-    /*
-    // if lib doesn't correctly parse the response, display an error
-    Utils.log(">>"+ from + " "+ JSON.stringify(res), this._cpId);
-
-    // send response
-    this._connection.send(JSON.stringify(res));
-    */
   },
 
   /**
