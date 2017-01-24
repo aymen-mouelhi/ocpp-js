@@ -14,22 +14,22 @@ class Storage {
     }
   }
 
-  saveOne(collection, id, data){
+  saveWithId(collection, id, data){
     var self = this;
     return new Promise(function(resolve, reject) {
       if(self.storage){
-        self.storage.saveOne(collection, id, data);
+        self.storage.saveWithId(collection, id, data);
       }else{
         console.log(self.method + ' is not implemented !');
       }
     });
   }
 
-  saveBatch(collection, data){
+  save(collection, data){
     var self = this;
     return new Promise(function(resolve, reject) {
       if(self.storage){
-        self.storage.saveBatch(collection, data);
+        self.storage.save(collection, data);
       }else{
         console.log(self.method + ' is not implemented !');
       }

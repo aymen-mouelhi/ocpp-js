@@ -44,7 +44,7 @@ class FireBase {
     });
   }
 
-  saveBatch(collection, data){
+  save(collection, data){
     var self = this;
     return new Promise(function(resolve, reject) {
       self.firebase.database().ref('/' + collection).push(data).then(function(){
@@ -56,7 +56,7 @@ class FireBase {
     });
   }
 
-  saveOne(collection, id, data){
+  saveWithId(collection, id, data){
     var self = this;
     return new Promise(function(resolve, reject) {
       self.firebase.database().ref('/' + collection + '/' + id).set(data).then(function(){

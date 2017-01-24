@@ -6,7 +6,7 @@ module.exports = {
   handle: function(data){
     return new Promise(function(resolve, reject) {
       // TODO: check that station doesn't exist
-      Storage.saveOne('stations', 1, data).then(function(){
+      Storage.save('stations', data).then(function(){
         // Return Reponse
         // status can be Rejected or Accepted
         resolve({
