@@ -115,6 +115,25 @@ class CentralSystem{
       this.remoteAction(stationId, 'UpdateFirmware', data);
     }
 
+    reserveNow(stationId, data){
+      this.remoteAction(stationId, 'ReserveNow', data);
+    }
+
+    cancelReservation(stationId, data){
+      this.remoteAction(stationId, 'CancelReservation', data);
+    }
+
+    sendLocalList(stationId, data){
+      this.remoteAction(stationId, 'SendLocalList', data);
+    }
+
+    getLocalListVersion(stationId){
+      this.remoteAction(stationId, 'GetLocalListVersion', {});
+    }
+
+    dataTransfer(stationId, data){
+      this.remoteAction(stationId, 'DataTransfer', data);
+    }
 
 
 
