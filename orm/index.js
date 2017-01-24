@@ -1,43 +1,57 @@
+const Promise = require('promise');
+
+let instance = null;
+
 class Storage {
   constructor(method) {
     try{
-        this.method = require('./' + method);
+        method = method || 'firebase';
+        const Method = require('./' + method);
+        this.storage = new Method();
     }catch(error){
       console.log('error while setting method ' + error);
-      this.method = null;
+      this.storage = null;
     }
   }
 
   saveOne(collection, id, data){
-    if(this.method){
-      this.method.saveOne(collection, id, data);
-    }else{
-      console.log(this.method + ' is not implemented !');
-    }
+    return new Promise(function(resolve, reject) {
+      if(this.storage){
+        this.storage.saveOne(collection, id, data);
+      }else{
+        console.log(this.storage + ' is not implemented !');
+      }
+    });
   }
 
   saveBatch(collection, data){
-    if(this.method){
-      this.method.saveBatch(collection, data);
-    }else{
-      console.log(this.method + ' is not implemented !');
-    }
+    return new Promise(function(resolve, reject) {
+      if(this.storage){
+        this.storage.saveBatch(collection, data);
+      }else{
+        console.log(this.storage + ' is not implemented !');
+      }
+    });
   }
 
   findAll(collection){
-    if(this.method){
-      this.method.findAll(collection, data);
-    }else{
-      console.log(this.method + ' is not implemented !');
-    }
+    return new Promise(function(resolve, reject) {
+      if(this.storage){
+        this.storage.findAll(collection);
+      }else{
+        console.log(this.storage + ' is not implemented !');
+      }
+    });
   }
 
   findById(collection, id){
-    if(this.method){
-      this.method.findById(collection, data);
-    }else{
-      console.log(this.method + ' is not implemented !');
-    }
+    return new Promise(function(resolve, reject) {
+      if(this.storage){
+        this.storage.findById(collection, id);
+      }else{
+        console.log(this.storage + ' is not implemented !');
+      }
+    });
   }
 }
 

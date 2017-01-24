@@ -1,10 +1,12 @@
-const firebase = require('firebase');
 const Promise = require('promise');
 const Storage = require('./index.js');
 
-class FireBase extends Storage {
+let instance =  null;
+class FireBase {
   constructor() {
-    this.super();
+
+
+    this.firebase = require('firebase');
     var config = {
         apiKey: process.env.apiKey,
         authDomain: process.env.authDomain,
@@ -13,15 +15,18 @@ class FireBase extends Storage {
         messagingSenderId: process.env.messagingSenderId
     };
 
-    console.log('Firebase is set up !');
+    if(!instance){
+      console.log('Firebase is set up !');
+      this.firebase.initializeApp(config);
+      instance = this;
+    }
 
-    // TODO: handle firebase Authentication
-    firebase.initializeApp(config);
+    return instance;
   }
 
   findAll(collection){
     return new Promise(function(resolve, reject) {
-      return firebase.database().ref('/' + collection).once('value').then(function(snapshot){
+      return this.firebase.database().ref('/' + collection).once('value').then(function(snapshot){
         var data = snapshot.val();
         resolve(data);
       }).catch(function(error){
@@ -32,7 +37,7 @@ class FireBase extends Storage {
 
   findById(collection, id){
     return new Promise(function(resolve, reject) {
-      firebase.database().ref('/' + collection + '/' + id).once('value').then(function(snapshot){
+      this.firebase.database().ref('/' + collection + '/' + id).once('value').then(function(snapshot){
         var data = snapshot.val();
         resolve(data);
       }).catch(function(error){
@@ -43,13 +48,13 @@ class FireBase extends Storage {
 
   saveBatch(collection, data){
     return new Promise(function(resolve, reject) {
-      return firebase.database().ref('/' + collection).set(data);
+      return this.firebase.database().ref('/' + collection).set(data);
     });
   }
 
   saveOne(collection, id, data){
     return new Promise(function(resolve, reject) {
-      return firebase.database().ref('/' + collection + '/' + id).set(data);
+      return this.firebase.database().ref('/' + collection + '/' + id).set(data);
     });
   }
 
