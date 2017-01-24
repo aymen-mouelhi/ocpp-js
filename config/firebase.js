@@ -9,8 +9,10 @@ var config = {
 };
 
 if (!firebase.apps) {
-    // TODO: handle firebase Authentication
-    firebase.initializeApp(config);
+
 }
+
+// TODO: handle firebase Authentication
+firebase.initializeApp(config);
 
 module.exports = firebase;
