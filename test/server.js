@@ -16,8 +16,14 @@ var remote = setInterval(function(){
       server.changeAvailability(id, {
         connectorId: id,
         type: 'Inoperative'
-      })
+      });
 
+      // TODO: method chaining
+      /*
+      server.reset(id, {
+        type: 'Hard'
+      }).unlockConnector(id);
+      */
   }else{
     console.log('No stations connected yet !');
   }
