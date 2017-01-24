@@ -3,6 +3,7 @@ const ChargingPoint = require('../entities/ChargingPoint');
 var point = new ChargingPoint('ws://localhost:9000', "3lsonASjk1", protocol = "ocpp1.5", 'websocket');
 
 var boot = setInterval(function() {
+  /*
     // Station is ready
     point.bootNotification({
         chargePointVendor: 'DBT',
@@ -112,5 +113,6 @@ var boot = setInterval(function() {
           }
         ]
       });
+      */
     clearInterval(boot);
 }, 3000);

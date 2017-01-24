@@ -1,13 +1,25 @@
 const CentralSystem = require('../entities/CentralSystem');
 
-var system = new CentralSystem(9000, 'websocket');
+var server = new CentralSystem(9000, 'websocket');
 
-/*
-setInterval(function(){
+var remote = setInterval(function(){
   var connection;
-  if (system.getConnections()) {
-      connection = system.getConnections()[0]
+
+  if (server.getConnections()) {
+      connection = server.getConnections()[0];
+
+      var id = connection.cpId;
+
+      // Execute some remote actions
+      server.clearCache(id);
+
+      server.changeAvailability(id, {
+        connectorId: id,
+        type: 'Inoperative'
+      })
+
+  }else{
+    console.log('No stations connected yet !');
   }
-  console.log(connection);
-}, 3000);
-*/
+  clearInterval(remote);
+}, 10000);

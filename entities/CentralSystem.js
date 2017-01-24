@@ -47,17 +47,23 @@ class CentralSystem{
      *  @api public
      */
     remoteAction(clientId, procName, args) {
-        if (this._connections[clientId] == undefined) {
-            Utils.log("Error: charge point #" + clientId + " does not exist");
+        var connection = null;
+
+        for(var i=0; i<this._connections.length; i++){
+          var c = this._connections[i];
+          if(c.cpId === clientId){
+              connection = c;
+          }
+        }
+
+        if (!connection) {
+            console.log("Error: charge point #" + clientId + " does not exist");
             return;
         }
 
         var resultFunction = function() {};
 
-        this._connections[clientId].client.rpcCall(procName, args || {},
-            OCPP.TIMEOUT, resultFunction, {
-                to: "cp#" + clientId
-            });
+        connection.client.rpcCall(procName, args || {}, OCPP.TIMEOUT, resultFunction, { to: "cp#" + clientId });
     }
 
     getConnections(){
@@ -68,6 +74,44 @@ class CentralSystem{
     restartChargingPoint(pointId){
 
     }
+
+    clearCache(stationId){
+      this.remoteAction(stationId, 'ClearCache', {});
+    }
+
+    changeAvailability(stationId, data){
+      this.remoteAction(stationId, 'ChangeAvailability', data);
+    }
+
+    changeConguration(stationId){
+      this.remoteAction(stationId, 'ChangeConguration', data);
+    }
+
+    getConguration(stationId){
+      this.remoteAction(stationId, 'GetConguration', data);
+    }
+
+    getDiagnostics(stationId){
+      this.remoteAction(stationId, 'GetDiagnostics', data);
+    }
+
+    remoteStopTransaction(stationId){
+      this.remoteAction(stationId, 'RemoteStopTransaction', data);
+    }
+
+    reset(stationId){
+      this.remoteAction(stationId, 'Reset', data);
+    }
+
+    unlockConnector(stationId){
+      this.remoteAction(stationId, 'UnlockConnector', data);
+    }
+
+    updateFirmware(stationId){
+      this.remoteAction(stationId, 'UpdateFirmware', data);
+    }
+
+
 
 
 }
