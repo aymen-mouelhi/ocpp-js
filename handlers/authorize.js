@@ -1,11 +1,16 @@
 const firebase = require('../config/firebase');
 const Promise = require('promise');
+const ORM = require('../orm');
+
+var storage = new ORM(process.env.storage);
 
 module.exports = {
     handle: function(data) {
         return new Promise(function(resolve, reject) {
 
             // TODO: is user authorized?
+            storage.get('users').then(function(){});
+
             firebase.database().ref('/users').once('value').then(function(snapshot) {
                 var users = snapshot.val();
 
