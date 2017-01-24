@@ -77,6 +77,10 @@ class ChargingPoint {
       this.clientAction('DiagnosticsStatusNotification', data);
     }
 
+    firmwareStatusNotification(data){
+      this.clientAction('FirmwareStatusNotification', data);
+    }
+
 }
 
 module.exports = ChargingPoint;

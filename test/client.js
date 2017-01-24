@@ -57,6 +57,10 @@ var boot = setInterval(function() {
         status: 'Uploaded'
       });
 
+      point.firmwareStatusNotification({
+        status: 'DownloadFailed'
+      });
+
       point.startTransaction({
         idTag: 'B4F62CEF',
         timestamp: '2013-02-01T15:09:18Z',
