@@ -10,8 +10,6 @@ class ChargingPoint {
         this.chargePointId = identifier;
         this.clientConnection = null;
 
-        //Plugins.setAPIFields(transport, 'cp', OCPP.SUB_PROTOCOL, this.chargePointId);
-
         this.transportLayer = new Transport.TransportLayerClient(this, transport, 'cp', 'client', soapOptions);
 
         if (this.transport == 'soap') {
@@ -22,7 +20,6 @@ class ChargingPoint {
         }
     }
 
-
     /**
      *  Calls a client procedure
      *
@@ -31,13 +28,6 @@ class ChargingPoint {
      */
     clientAction(procUri, args) {
         var resultFunction = function(){};
-        var version = Utils.retrieveVersion(this.transportLayer.simulator.protocol);
-        // TODO: define handler functions
-
-        if (OCPP.procedures[version]['cs'][procUri] != undefined && OCPP.procedures[version]['cs'][procUri].resultFunction != undefined) {
-            resultFunction = OCPP.procedures[version]['cs'][procUri].resultFunction;
-        }
-
         if (this.clientConnection) {
             this.clientConnection.rpcCall(procUri, args, OCPP.TIMEOUT, resultFunction, {
                 to: "cs"
@@ -52,48 +42,17 @@ class ChargingPoint {
     }
 
     bootNotification(data){
-      if (this.clientConnection) {
-          this.clientConnection.rpcCall('BootNotification', data, OCPP.TIMEOUT, function(){
-            return {
-              currentTime: new Date().toISOString(),
-            };
-          }, {
-              to: "cs"
-          });
-      } else {
-          console.log('Error: not connected to any central system.');
-      }
+      this.clientAction('BootNotification', data);
     }
 
 
     heartbeat(){
-      if (this.clientConnection) {
-          this.clientConnection.rpcCall('heartbeat', {}, OCPP.TIMEOUT, function(){
-            return {
-              currentTime: new Date().toISOString(),
-            };
-          }, {
-              to: "cs"
-          });
-      } else {
-          console.log('Error: not connected to any central system.');
-      }
+      this.clientAction('Heartbeat', {});
     }
 
     meterValues(data){
       data.connectorId = this.getId();
-
-      if (this.clientConnection) {
-          this.clientConnection.rpcCall('MeterValues', {}, OCPP.TIMEOUT, function(){
-            return {
-              currentTime: new Date().toISOString(),
-            };
-          }, {
-              to: "cs"
-          });
-      } else {
-          console.log('Error: not connected to any central system.');
-      }
+      this.clientAction('MeterValues', data);
     }
 
 }

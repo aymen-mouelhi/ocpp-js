@@ -44,6 +44,11 @@ class CentralSystem {
       return this._connections;
     }
 
+    // TODO: restart charging point not supported in OCPP 1.5
+    restartChargingPoint(pointid){
+
+    }
+
     /*
      *  Calls a remote procedure
      *  @param {Number} the client ID
@@ -51,20 +56,12 @@ class CentralSystem {
      *  @api public
      */
     remoteAction(clientId, procName, args) {
-        var prot = Utils.retrieveVersion(OCPP.SUB_PROTOCOL);
-
         if (this._connections[clientId] == undefined) {
             Utils.log("Error: charge point #" + clientId + " does not exist");
             return;
         }
 
         var resultFunction = function() {};
-
-        if (procName != '') {
-            if (OCPP.procedures[prot]['cp'][procName] != undefined && OCPP.procedures[prot]['cp'][procName].resultFunction != undefined) {
-                resultFunction = OCPP.procedures[prot]['cp'][procName].resultFunction;
-            }
-        }
 
         this._connections[clientId].client.rpcCall(procName, args || {},
             OCPP.TIMEOUT, resultFunction, {
