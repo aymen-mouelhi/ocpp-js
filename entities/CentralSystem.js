@@ -45,7 +45,7 @@ class CentralSystem {
     }
 
     // TODO: restart charging point not supported in OCPP 1.5
-    restartChargingPoint(pointid){
+    restartChargingPoint(pointId){
 
     }
 
