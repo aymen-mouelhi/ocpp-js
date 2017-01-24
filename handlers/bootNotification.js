@@ -15,6 +15,8 @@ firebase.initializeApp(config);
 module.exports = {
   handle: function(data){
     return new Promise(function(resolve, reject) {
+
+      // TODO: check that station deosn't exist
       return firebase.database().ref('/stations/' + data.iccid).set(data).then(function(){
         // Return Reponse
         // status can be Rejected or Accepted

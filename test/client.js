@@ -4,8 +4,15 @@ var point = new ChargingPoint('ws://localhost:9000', "3lsonASjk1", protocol = "o
 
 var boot = setInterval(function(){
   point.bootNotification({
-      chargePointVendor: "GIR",
-      chargePointModel: "ocppjs-1.0.2"
-    });
+        chargePointVendor: 'DBT',
+        chargePointModel: 'NQC-ACDC',
+        chargePointSerialNumber: 'gir.vat.mx.000e48',
+        chargeBoxSerialNumber: 'gir.vat.mx.000e48',
+        firmwareVersion: '1.0.49',
+        iccid: '1',
+        imsi: '',
+        meterType: 'DBT NQC-ACDC',
+        meterSerialNumber: 'gir.vat.mx.000e48'
+      });
   clearInterval(boot);
 }, 3000);
