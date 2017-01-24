@@ -6,10 +6,9 @@ module.exports = {
     return new Promise(function(resolve, reject) {
       // notification is not read yet
       data.unread = true;
-      
+
       return firebase.database().ref('/notifications/' + data.connectorId).set(data).then(function(){
         // Return Reponse
-        // status can be Rejected or Accepted
         resolve({});
       });
     });
