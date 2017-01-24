@@ -40,15 +40,6 @@ class CentralSystem {
         this._httpServer = null;
     }
 
-    getConnections(){
-      return this._connections;
-    }
-
-    // TODO: restart charging point not supported in OCPP 1.5
-    restartChargingPoint(pointId){
-
-    }
-
     /*
      *  Calls a remote procedure
      *  @param {Number} the client ID
@@ -68,6 +59,16 @@ class CentralSystem {
                 to: "cp#" + clientId
             });
     }
+
+    getConnections(){
+      return this._connections;
+    }
+
+    // TODO: restart charging point not supported in OCPP 1.5
+    restartChargingPoint(pointId){
+
+    }
+
 
 }
 

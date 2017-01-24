@@ -45,7 +45,6 @@ class ChargingPoint {
       this.clientAction('BootNotification', data);
     }
 
-
     heartbeat(){
       this.clientAction('Heartbeat', {});
     }
@@ -53,6 +52,11 @@ class ChargingPoint {
     meterValues(data){
       data.connectorId = this.getId();
       this.clientAction('MeterValues', data);
+    }
+
+    sendStatusNotification(data){
+      data.connectorId= this.getId();
+      this.clientAction('StatusNotification', data);
     }
 
 }

@@ -43,5 +43,14 @@ var boot = setInterval(function() {
             }]
         }]
     });
+
+    point.sendStatusNotification({
+        status: 'Available',
+        errorCode: 'NoError',
+        info: "",
+        timestamp: "2013-02-01T15:09:18Z",
+        vendorId: "",
+        vendorErrorCode:""
+      });
     clearInterval(boot);
 }, 3000);
