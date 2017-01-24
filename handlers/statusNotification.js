@@ -1,5 +1,7 @@
 const firebase = require('../config/firebase');
 const Promise = require('promise');
+const ORM = require('../orm');
+var Storage = new ORM(process.env.storage);
 
 module.exports = {
   handle: function(data){
@@ -7,8 +9,7 @@ module.exports = {
       // notification is not read yet
       data.unread = true;
 
-      return firebase.database().ref('/notifications/' + data.connectorId).set(data).then(function(){
-        // Return Reponse
+      Storage.save('notifications', data).then(function(){
         resolve({});
       });
     });

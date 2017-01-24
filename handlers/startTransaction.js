@@ -3,8 +3,7 @@ const Promise = require('promise');
 const moment = require('moment');
 const Utils = require('../utils/utils.js')
 const ORM = require('../orm');
-
-var storage = new ORM(process.env.storage);
+var Storage = new ORM(process.env.storage);
 
 module.exports = {
     handle: function(data) {
@@ -49,7 +48,7 @@ module.exports = {
                 }
 
                 // save transaction
-                Storage.save('transaction', data).then(function() {
+                Storage.save('transactions', data).then(function() {
                     // TODO: should we store a rejected transaction?
                     resolve(response);
                 });

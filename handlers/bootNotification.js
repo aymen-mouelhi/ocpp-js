@@ -1,8 +1,7 @@
 const firebase = require('../config/firebase');
 const Promise = require('promise');
 const ORM = require('../orm');
-
-var storage = new ORM(process.env.storage);
+var Storage = new ORM(process.env.storage);
 
 module.exports = {
   handle: function(data){
