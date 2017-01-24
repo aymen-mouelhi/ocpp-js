@@ -61,9 +61,48 @@ var boot = setInterval(function() {
 
       point.stopTransaction({
         transactionId: 0,
-        idTag: "B4F62CEF",
+        idTag: 'B4F62CEF',
         timestamp: "2013-02-01T15:09:18Z",
         meterStop: 20,
+        transactionData: [
+          {
+            "values":[
+              {
+                "timestamp": "2013-03-07T16:52:16Z",
+                "values": [
+                  {
+                    "value": "0",
+                    "unit": "Wh",
+                    "measurand": "Energy.Active.Import.Register"
+                  },
+                  {
+                    "value": "0",
+                    "unit": "varh",
+                    "measurand": "Energy.Reactive.Import.Register"
+                  }
+                ]
+              }
+            ]
+          },{
+            "values":[
+              {
+                "timestamp": "2013-03-07T16:52:16Z",
+                "values": [
+                  {
+                    "value": "0",
+                    "unit": "Wh",
+                    "measurand": "Energy.Active.Import.Register"
+                  },
+                  {
+                    "value": "0",
+                    "unit": "varh",
+                    "measurand": "Energy.Reactive.Import.Register"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       });
     clearInterval(boot);
 }, 3000);
