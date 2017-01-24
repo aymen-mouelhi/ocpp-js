@@ -72,7 +72,11 @@ class CentralSystem{
 
     // TODO: restart charging point not supported in OCPP 1.5
     restartChargingPoint(pointId){
+      this.reset(pointId, {
+        type: 'Hard'
+      });
 
+      this.unlockConnector(pointId)
     }
 
     clearCache(stationId){
@@ -107,8 +111,10 @@ class CentralSystem{
       this.remoteAction(stationId, 'Reset', data);
     }
 
-    unlockConnector(stationId, data){
-      this.remoteAction(stationId, 'UnlockConnector', data);
+    unlockConnector(stationId){
+      this.remoteAction(stationId, 'UnlockConnector', {
+        connectorId: stationId
+      });
     }
 
     updateFirmware(stationId, data){
