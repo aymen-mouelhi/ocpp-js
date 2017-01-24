@@ -8,10 +8,6 @@ var config = {
     messagingSenderId: process.env.messagingSenderId
 };
 
-if (!firebase.apps) {
-
-}
-
 // TODO: handle firebase Authentication
 firebase.initializeApp(config);
 

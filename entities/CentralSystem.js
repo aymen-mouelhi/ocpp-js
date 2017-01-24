@@ -1,7 +1,7 @@
 const OCPP = require('../config/ocpp.js');
 const Transport = require('../transport');
 
-class CentralSystem {
+class CentralSystem{
     constructor(port, transport = Transport.TRANSPORT_LAYER) {
         this.port = port;
         this._wsServer = null;

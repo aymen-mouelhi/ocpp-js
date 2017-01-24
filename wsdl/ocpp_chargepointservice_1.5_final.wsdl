@@ -28,7 +28,7 @@ See: http://ev-services.net/ocpp/
       </wsp:All>
     </wsp:ExactlyOne>
   </wsp:Policy>
-  
+
   <wsdl:types>
     <s:schema elementFormDefault="qualified" targetNamespace="urn://Ocpp/Cp/2012/06/">
 
@@ -136,7 +136,7 @@ See: http://ev-services.net/ocpp/
           <s:enumeration value="Operative" />
         </s:restriction>
       </s:simpleType>
-      
+
       <s:complexType name="ChangeAvailabilityRequest">
         <s:annotation>
           <s:documentation>Defines the ChangeAvailability.req PDU</s:documentation>
@@ -204,7 +204,7 @@ See: http://ev-services.net/ocpp/
           <s:enumeration value="Rejected" />
         </s:restriction>
       </s:simpleType>
-      
+
       <s:complexType name="ClearCacheResponse">
         <s:annotation>
           <s:documentation>Defines the ClearCache.conf PDU</s:documentation>
@@ -246,7 +246,7 @@ See: http://ev-services.net/ocpp/
           <s:enumeration value="NotSupported" />
         </s:restriction>
       </s:simpleType>
-      
+
       <s:complexType name="ChangeConfigurationResponse">
         <s:annotation>
           <s:documentation>Defines the ChangeConfiguration.conf PDU</s:documentation>
@@ -275,7 +275,7 @@ See: http://ev-services.net/ocpp/
           <s:enumeration value="Rejected" />
         </s:restriction>
       </s:simpleType>
-      
+
       <s:complexType name="RemoteStartTransactionResponse">
         <s:annotation>
           <s:documentation>Defines the RemoteStartTransaction.conf PDU</s:documentation>
@@ -428,7 +428,7 @@ See: http://ev-services.net/ocpp/
           <s:enumeration value="Unavailable"/>
         </s:restriction>
       </s:simpleType>
-      
+
       <s:complexType name="ReserveNowResponse">
         <s:annotation>
           <s:documentation>Defines the ReserveNow.conf PDU</s:documentation>
@@ -444,7 +444,7 @@ See: http://ev-services.net/ocpp/
           <s:element name="idTagInfo" type="tns:IdTagInfo" minOccurs="0" maxOccurs="1"/>
         </s:sequence>
       </s:complexType>
-      
+
       <s:simpleType name="UpdateType">
         <s:restriction base="s:string">
           <s:enumeration value="Differential"/>
@@ -483,7 +483,7 @@ See: http://ev-services.net/ocpp/
           <s:element name="hash" type="s:string" minOccurs="0" maxOccurs="1" />
         </s:sequence>
       </s:complexType>
-      
+
       <s:element name="chargeBoxIdentity" type="s:string" />
       <s:element name="unlockConnectorRequest" type="tns:UnlockConnectorRequest" />
       <s:element name="unlockConnectorResponse" type="tns:UnlockConnectorResponse" />
@@ -597,7 +597,7 @@ See: http://ev-services.net/ocpp/
   <wsdl:message name="CancelReservationInput">
     <wsdl:part name="parameters" element="tns:cancelReservationRequest" />
   </wsdl:message>
-  
+
   <wsdl:message name="CancelReservationOutput">
     <wsdl:part name="parameters" element="tns:cancelReservationResponse" />
   </wsdl:message>
@@ -641,7 +641,7 @@ See: http://ev-services.net/ocpp/
   <wsdl:message name="SendLocalListOutput">
     <wsdl:part name="parameters" element="tns:sendLocalListResponse" />
   </wsdl:message>
-   
+
   <wsdl:portType name="ChargePointService">
 
     <wsdl:operation name="UnlockConnector">
@@ -713,12 +713,12 @@ See: http://ev-services.net/ocpp/
       <wsdl:input message="tns:ReserveNowInput" wsaw:Action="/ReserveNow" />
       <wsdl:output message="tns:ReserveNowOutput" wsaw:Action="/ReserveNowResponse" />
     </wsdl:operation>
-    
+
     <wsdl:operation name="SendLocalList">
       <wsdl:input message="tns:SendLocalListInput" wsaw:Action="/SendLocalList" />
       <wsdl:output message="tns:SendLocalListOutput" wsaw:Action="/SendLocalListResponse" />
     </wsdl:operation>
-       
+
   </wsdl:portType>
 
   <wsdl:binding name="ChargePointServiceSoap" type="tns:ChargePointService">
@@ -747,7 +747,7 @@ See: http://ev-services.net/ocpp/
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    
+
     <wsdl:operation name="ChangeAvailability">
       <soap12:operation soapAction="/ChangeAvailability" style="document" />
       <wsdl:input>
@@ -791,7 +791,7 @@ See: http://ev-services.net/ocpp/
         <soap12:body use="literal" />
       </wsdl:output>
     </wsdl:operation>
-    
+
     <wsdl:operation name="ChangeConfiguration">
       <soap12:operation soapAction="/ChangeConfiguration" style="document" />
       <wsdl:input>
@@ -892,7 +892,7 @@ See: http://ev-services.net/ocpp/
     </wsdl:operation>
 
   </wsdl:binding>
-  
+
 
   <!-- The OCPP ChargePoint service -->
   <wsdl:service name="ChargePointService">
