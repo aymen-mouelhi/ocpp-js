@@ -13,7 +13,6 @@ class FireBase {
           storageBucket: process.env.storageBucket,
           messagingSenderId: process.env.messagingSenderId
       };
-      console.log('Firebase is set up !');
       this.firebase.initializeApp(config);
       instance = this;
     }
