@@ -9,11 +9,11 @@ module.exports = {
       return firebase.database().ref('/stations/' + data.iccid).set(data).then(function(){
         // Return Reponse
         // status can be Rejected or Accepted
-        return {
+        resolve({
             status: 'Accepted',
             currentTime: new Date().toISOString(),
             heartbeatInterval: 1200
-          }
+          }) 
       });
     });
   }
