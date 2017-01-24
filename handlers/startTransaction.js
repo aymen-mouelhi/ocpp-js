@@ -11,9 +11,9 @@ module.exports = {
             var start = true;
             var response = {};
 
-            return firebase.database().ref('/transactions').once('value').then(function(snapshot) {
+            firebase.database().ref('/transactions').once('value').then(function(snapshot) {
               var transactions = snapshot.val();
-              
+
                 for (transaction in transactions) {
                     if (transaction.idTag === data.idTag) {
                         if (transaction.status === 'Accepted') {
@@ -44,7 +44,7 @@ module.exports = {
                     }
                 }
 
-                return firebase.database().ref('/transactions/' + data.connectorId).set(data).then(function() {
+                firebase.database().ref('/transactions/' + data.connectorId).set(data).then(function() {
                     // TODO: should we store a rejected transaction?
                     resolve(response);
                 });
