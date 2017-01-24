@@ -70,8 +70,8 @@ class CentralSystem{
       return this._connections;
     }
 
-    // TODO: restart charging point not supported in OCPP 1.5
     restartChargingPoint(pointId){
+      // TODO: method chaining => remoteAction should return a promise
       this.reset(pointId, {
         type: 'Hard'
       });
@@ -140,8 +140,6 @@ class CentralSystem{
     dataTransfer(stationId, data){
       this.remoteAction(stationId, 'DataTransfer', data);
     }
-
-
 
 }
 
