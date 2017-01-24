@@ -14,16 +14,17 @@ module.exports = {
             var start = true;
             var response = {};
 
-            firebase.database().ref('/transactions').once('value').then(function(snapshot) {
-              var transactions = snapshot.val();
+            Storage.findAll('transactions').then(function(transactions) {
 
-                for (transaction in transactions) {
-                    if (transaction.idTag === data.idTag) {
-                        if (transaction.status === 'Accepted') {
-                            // Still Charging
-                            start = false;
-                        }
-                    }
+              var userTransaction = transactions.filter(function(transaction){
+                return transaction.idTag === data.idTag;
+              });
+
+                for (transaction in userTransaction) {
+                  if (transaction.status === 'Accepted') {
+                      // Still Charging
+                      start = false;
+                  }
                 }
 
                 // TODO: 0 should be replaced by transactionId
@@ -47,11 +48,11 @@ module.exports = {
                     }
                 }
 
-                firebase.database().ref('/transactions/' + data.connectorId).set(data).then(function() {
+                // save transaction
+                Storage.save('transaction', data).then(function() {
                     // TODO: should we store a rejected transaction?
                     resolve(response);
                 });
-
             });
         });
     }
