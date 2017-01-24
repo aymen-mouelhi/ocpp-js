@@ -15,7 +15,7 @@ class Storage {
     }
   }
 
-  find(collection){
+  findAll(collection){
     if(this.method){
       this.method.store(collection, data);
     }else{
