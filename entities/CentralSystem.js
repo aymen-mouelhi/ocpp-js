@@ -83,7 +83,7 @@ class CentralSystem{
       this.remoteAction(stationId, 'ChangeAvailability', data);
     }
 
-    changeConguration(stationId){
+    changeConguration(stationId, data){
       this.remoteAction(stationId, 'ChangeConguration', data);
     }
 
@@ -95,7 +95,11 @@ class CentralSystem{
       this.remoteAction(stationId, 'GetDiagnostics', data);
     }
 
-    remoteStopTransaction(stationId){
+    remoteStartTransaction(stationId, data){
+      this.remoteAction(stationId, 'RemoteStartTransaction', data);
+    }
+
+    remoteStopTransaction(stationId, data){
       this.remoteAction(stationId, 'RemoteStopTransaction', data);
     }
 
@@ -103,11 +107,11 @@ class CentralSystem{
       this.remoteAction(stationId, 'Reset', data);
     }
 
-    unlockConnector(stationId){
+    unlockConnector(stationId, data){
       this.remoteAction(stationId, 'UnlockConnector', data);
     }
 
-    updateFirmware(stationId){
+    updateFirmware(stationId, data){
       this.remoteAction(stationId, 'UpdateFirmware', data);
     }
 
