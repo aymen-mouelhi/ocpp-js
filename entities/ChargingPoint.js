@@ -73,6 +73,10 @@ class ChargingPoint {
       this.clientAction('Authorize', data);
     }
 
+    diagnosticsStatusNotification(data){
+      this.clientAction('DiagnosticsStatusNotification', data);
+    }
+
 }
 
 module.exports = ChargingPoint;

@@ -53,6 +53,10 @@ var boot = setInterval(function() {
         vendorErrorCode:""
       });
 
+      point.diagnosticsStatusNotification({
+        status: 'Uploaded'
+      });
+
       point.startTransaction({
         idTag: 'B4F62CEF',
         timestamp: '2013-02-01T15:09:18Z',

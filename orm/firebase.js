@@ -47,7 +47,7 @@ class FireBase {
   saveBatch(collection, data){
     var self = this;
     return new Promise(function(resolve, reject) {
-      self.firebase.database().ref('/' + collection).set(data).then(function(){
+      self.firebase.database().ref('/' + collection).push(data).then(function(){
         resolve({});
       }).catch(function(error){
         console.log('Error while saving: ' + error);
