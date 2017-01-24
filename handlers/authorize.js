@@ -1,4 +1,3 @@
-const firebase = require('../config/firebase');
 const Promise = require('promise');
 const ORM = require('../orm');
 
