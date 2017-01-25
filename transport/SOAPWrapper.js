@@ -89,13 +89,7 @@ SOAPWrapper.prototype = {
         };
       })(p);
     }
-    /*
-    if(this.from == 'cs') {
-      this.soapService.CentralSystemService.CentralSystemServiceSoap12 = services;
-    }else{
-      this.soapService.ChargePointService.ChargePointServiceSoap12 = services;
-    }
-    */
+
 
     var file = Config.WSDL_FILES[this.from +'_'+ version];
     var xml = require('fs').readFileSync(__dirname +'/../'+ file, 'utf8');
@@ -142,47 +136,6 @@ SOAPWrapper.prototype = {
         args = obj.Body[b];
         break;
       };
-      /*
-      if(Config.methodTree[version] != undefined && Config.methodTree[version][model] != undefined) {
-        // if exists
-        if(Config.methodTree[version][model][name] != undefined) {
-          m_params = Config.methodTree[version][model][name][procName + 'Request'];
-        } else {
-          //this._returnError(from, callId, "NotImplemented");
-          return;
-        }
-
-        var params = Utils.clone(m_params);
-
-        // infos for the CheckPayload function
-        var infos = {
-          //callId: callId,
-          from: from,
-          model: model,
-          version: version
-        };
-
-        return Config.checkPayload(args, params, infos, _this);
-      }
-      */
-      console.log('[SOAP] Args: ' + JSON.stringify(args))
-      /*
-      var handler = require('../handlers/' + name);
-
-      if (handler.handle != undefined) {
-        handler.handle(params).then(function(values){
-          // Continue flow
-          res[2] = values;
-          // if lib doesn't correctly parse the response, display an error
-          Utils.log(">>"+ from + " "+ JSON.stringify(res), this._cpId);
-          // send response
-          this._connection.send(JSON.stringify(res));
-        }).catch(function(error){
-          this._connection.send(JSON.stringify(error));
-        });
-      }
-      */
-
       // no method = error
       return false;
     };
