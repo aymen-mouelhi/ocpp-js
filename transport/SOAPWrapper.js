@@ -1,5 +1,8 @@
+const fs = require('fs');
 const Config = require('../config/config.js');
 const Utils = require('../utils/utils.js');
+const handlersFolder = '../handlers/';
+
 /**
  *  SOAPWrapper
  *
@@ -69,10 +72,29 @@ SOAPWrapper.prototype = {
 
   createService: function() {
     var version = Utils.retrieveVersion(Config.SUB_PROTOCOL);
-    var procedures = Config.procedures[version][this.from];
-
+    //var procedures = Config.procedures[version][this.from];
     var _this = this;
 
+    fs.readdir(handlersFolder, (err, files) => {
+      files.forEach(file => {
+        console.log(file);
+        this.services[file] = (function(p) {
+          return function(requestBody) {
+            // callHeaders might return a response object,
+            // otherwise, pick the default reponse
+              var handler = require('../handlers/' + p);
+
+              if (handler.handle != undefined) {
+                handler.handle(params).then(function(values){
+                    return values;
+                });
+              }
+          };
+        })(file);
+      });
+    });
+
+    /*
     // stock procedures responses
     for(var p in procedures) {
       this.services[p] = (function(p) {
@@ -88,6 +110,7 @@ SOAPWrapper.prototype = {
             }
         };
       })(p);
+      */
     }
 
     var file = Config.WSDL_FILES[this.from +'_'+ version];
