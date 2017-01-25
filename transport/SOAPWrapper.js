@@ -73,7 +73,7 @@ var SOAPWrapper = function(transportLayer, from, mode, soapOptions) {
 SOAPWrapper.prototype = {
 
   createService: function() {
-    var version = Utils.retrieveVersion(Config.SUB_PROTOCOL);
+    var version = this.retrieveVersion(Config.SUB_PROTOCOL);
     //var procedures = Config.procedures[version][this.from];
     var _this = this;
 
@@ -373,6 +373,22 @@ SOAPWrapper.prototype = {
 
     this.res.write(msg);
     this.res.end();
+  }
+
+
+  retrieveVersion(str) {
+      // if array, last occurence
+      if (str instanceof Array) {
+          str = str[str.length - 1];
+      }
+
+      var v = [];
+      for (var i in str) {
+          if (str[i] >= 0 && str[i] < 10) {
+              v.push(str[i]);
+          }
+      }
+      return v.join('.');
   }
 
 };
