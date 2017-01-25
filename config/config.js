@@ -17,10 +17,10 @@ var CONFIG = {
   // Websocket ping = false
   WITH_HEARTBEAT: false,
   WSDL_FILES: {
-    "cs_1.2": "../wsdl/ocpp_centralsystemservice_1.2_final.wsdl",
-    "cp_1.2": "../wsdl/ocpp_chargepointservice_1.2_final.wsdl",
-    "cs_1.5": "../wsdl/ocpp_centralsystemservice_1.5_final.wsdl",
-    "cp_1.5": "../wsdl/ocpp_chargepointservice_1.5_final.wsdl"
+    "cs_1.2": "/wsdl/ocpp_centralsystemservice_1.2_final.wsdl",
+    "cp_1.2": "/wsdl/ocpp_chargepointservice_1.2_final.wsdl",
+    "cs_1.5": "/wsdl/ocpp_centralsystemservice_1.5_final.wsdl",
+    "cp_1.5": "/wsdl/ocpp_chargepointservice_1.5_final.wsdl"
   },
 
   /**

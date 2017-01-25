@@ -1,4 +1,5 @@
 const Config = require('../config/config.js');
+const Utils = require('../utils/utils.js');
 const Transport = require('../transport');
 
 class CentralSystem{
@@ -25,7 +26,7 @@ class CentralSystem{
                 };
             };
 
-            this.transportLayer.layer.soapServ.log = logSoap;
+            this.transportLayer.layer.soapServ.log = Utils.logSoap;
         }
     }
 

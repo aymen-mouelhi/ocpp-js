@@ -1,4 +1,6 @@
 const fs = require('fs');
+const HTTPServerWrapper =  require('./HTTPServerWrapper');
+const soap = require('../lib/soap');
 const Config = require('../config/config.js');
 const Utils = require('../utils/utils.js');
 const handlersFolder = '../handlers/';
@@ -110,12 +112,12 @@ SOAPWrapper.prototype = {
             }
         };
       })(p);
-      */
     }
+    */
 
     var file = Config.WSDL_FILES[this.from +'_'+ version];
-    var xml = require('fs').readFileSync(__dirname +'/../'+ file, 'utf8'),
-        server = new HTTPServerWrapper().httpServer;
+    var xml = require('fs').readFileSync(__dirname +'/../'+ file, 'utf8');
+    var server = new HTTPServerWrapper().httpServer;
 
     server.listen(this.port);
 
