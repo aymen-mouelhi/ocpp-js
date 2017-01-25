@@ -2,6 +2,7 @@ const CentralSystem = require('../entities/CentralSystem');
 
 var server = new CentralSystem(9000, 'websocket');
 
+
 var remote = setInterval(function(){
   var connection;
 
@@ -19,11 +20,6 @@ var remote = setInterval(function(){
         });
 
         // TODO: method chaining
-        /*
-        server.reset(id, {
-          type: 'Hard'
-        }).unlockConnector(id);
-        */
       }else{
           console.log('No stations connected yet !');
       }
