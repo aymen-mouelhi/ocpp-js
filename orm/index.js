@@ -1,4 +1,5 @@
 const Promise = require('promise');
+const fs = require('fs');
 
 let instance = null;
 
@@ -10,7 +11,7 @@ class Storage {
         this.method = method || 'firebase';
         const Method = require('./' + this.method);
         this.storage = new Method();
-
+        /*
         this.methods = fs.readdir(__dirname).then(function(files) {
           var arr = [];
           files.forEach(file => {
@@ -18,18 +19,23 @@ class Storage {
                 var Method = require('./' + file);
                 arr.push({
                   title: file.replace('.js', ''),
-                  instance: = new Method()
+                  instance: new Method()
                 });
             }
           });
 
           return arr;
         });
+        */
 
     }catch(error){
       console.log('error while setting method ' + error);
       this.storage = null;
     }
+  }
+
+  getMethods(){
+    return this.methods;
   }
 
   saveWithId(collection, id, data){

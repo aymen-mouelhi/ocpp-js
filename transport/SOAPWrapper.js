@@ -31,37 +31,34 @@ var SOAPWrapper = function(transportLayer, from, mode, soapOptions) {
   this.wsdl = null;
 
   this.uri = null;
-  if(this.from == 'cp')
-    this.uri = this.transportLayer.simulator.uri;
-  else
-    this.uri = soapOptions && soapOptions.fromHeader;
+
+  if(this.from == 'cp'){
+      this.uri = this.transportLayer.simulator.uri;
+  } else{
+      this.uri = soapOptions && soapOptions.fromHeader;
+  }
 
   if(this.from == 'cs') {
     this.soapService.CentralSystemService = {
         CentralSystemServiceSoap12: {}
       };
     this.port = this.transportLayer.simulator.port;
-    this.services = this.soapService.CentralSystemService.
-      CentralSystemServiceSoap12;
+    this.services = this.soapService.CentralSystemService.CentralSystemServiceSoap12;
     this.endpoint = Config.ENDPOINTURL;
-  }
-  else {
+  } else {
     this.soapService.ChargePointService = {
         ChargePointServiceSoap12: {}
-      };
+    };
 
     // TODO better check for retrieving port and endpoint url
     this.port = soapOptions.remoteActionPort;
-    this.services = this.soapService.ChargePointService.
-      ChargePointServiceSoap12;
-    this.endpoint = this.fromHeader &&
-      this.fromHeader.split(':')[2].split('/')[1] || '/';
+    this.services = this.soapService.ChargePointService.ChargePointServiceSoap12;
+    this.endpoint = this.fromHeader && this.fromHeader.split(':')[2].split('/')[1] || '/';
   }
 
   if(mode == 'server') {
     this.createService();
-  }
-  else {
+  } else {
     this.createClient();
 
     if(this.from == 'cp') {
@@ -77,40 +74,26 @@ SOAPWrapper.prototype = {
     //var procedures = Config.procedures[version][this.from];
     var _this = this;
 
-    fs.readdir(handlersFolder, (err, files) => {
-      files.forEach(file => {
-        this.services[file] = (function(p) {
-          return function(requestBody) {
-            // callHeaders might return a response object,
-            // otherwise, pick the default reponse
-              var handler = require('../handlers/' + p);
-
-              if (handler.handle != undefined) {
-                handler.handle(params).then(function(values){
-                    return values;
-                });
-              }
-          };
-        })(file);
-      });
-    });
-
-    /*
-    // stock procedures responses
-    for(var p in procedures) {
+    var procedures = Config.procedures;
+    console.log('[SOAPWrapper] found ' + procedures.length + ' procedures !');
+    // store procedures responses
+    var services = {};
+    for(var i =0; i<procedures.length; i++) {
+      var p = procedures[i];
+      console.log('[SOAPWrapper] adding ' + p + ' to soapService !');
       this.services[p] = (function(p) {
         return function(requestBody) {
           // callHeaders might return a response object,
           // otherwise, pick the default reponse
-            var handler = require('../handlers/' + p);
-
-            if (handler.handle != undefined) {
-              handler.handle(params).then(function(values){
-                  return values;
-              });
-            }
+            return require('../handlers/' + p.toLowerCase()).handle(requestBody);
         };
       })(p);
+    }
+    /*
+    if(this.from == 'cs') {
+      this.soapService.CentralSystemService.CentralSystemServiceSoap12 = services;
+    }else{
+      this.soapService.ChargePointService.ChargePointServiceSoap12 = services;
     }
     */
 
@@ -368,6 +351,10 @@ SOAPWrapper.prototype = {
 
     this.res.write(msg);
     this.res.end();
+  },
+
+  _capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
 };

@@ -31,7 +31,28 @@ var CONFIG = {
     "TYPE_ID_CALL": 2,
     "TYPE_ID_CALL_RESULT": 3,
     "TYPE_ID_CALL_ERROR": 4
-  }
+  },
+
+  procedures: [
+    "Authorize",
+    "BootNotification",
+    "ChangeAvailability",
+    "ChangeConguration",
+    "ClearCache",
+    "DiagnosticsStatusNotification",
+    "FirmwareStatusNotification",
+    "GetConguration",
+    "GetDiagnostics",
+    "MeterValues",
+    "RemoteStartTransaction",
+    "RemoteStopTransaction",
+    "Reset",
+    "StartTransaction",
+    "StatusNotification",
+    "StopTransaction",
+    "UnlockConnector",
+    "UpdateFirmware"
+  ]
 }
 
 module.exports = CONFIG;
