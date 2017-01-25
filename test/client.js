@@ -1,6 +1,10 @@
 const ChargingPoint = require('../entities/ChargingPoint');
 
-var point = new ChargingPoint('ws://localhost:9000', "3lsonASjk1", "ocpp1.5", 'soap');
+var soapOptions = {
+    fromHeader: 'http://localhost:9001',
+    remoteActionPort: '9001'
+}
+var point = new ChargingPoint('http://localhost:9000', "3lsonASjk1", "ocpp1.5", 'soap', soapOptions);
 
 var boot = setInterval(function() {
 
@@ -51,68 +55,56 @@ var boot = setInterval(function() {
         info: "",
         timestamp: "2013-02-01T15:09:18Z",
         vendorId: "",
-        vendorErrorCode:""
-      });
+        vendorErrorCode: ""
+    });
 
-      point.diagnosticsStatusNotification({
+    point.diagnosticsStatusNotification({
         status: 'Uploaded'
-      });
+    });
 
-      point.firmwareStatusNotification({
+    point.firmwareStatusNotification({
         status: 'DownloadFailed'
-      });
+    });
 
-      point.startTransaction({
+    point.startTransaction({
         idTag: 'B4F62CEF',
         timestamp: '2013-02-01T15:09:18Z',
         meterStart: 0
-      });
+    });
 
-      point.stopTransaction({
+    point.stopTransaction({
         transactionId: 0,
         idTag: 'B4F62CEF',
         timestamp: "2013-02-01T15:09:18Z",
         meterStop: 20,
-        transactionData: [
-          {
-            "values":[
-              {
+        transactionData: [{
+            "values": [{
                 "timestamp": "2013-03-07T16:52:16Z",
-                "values": [
-                  {
+                "values": [{
                     "value": "0",
                     "unit": "Wh",
                     "measurand": "Energy.Active.Import.Register"
-                  },
-                  {
+                }, {
                     "value": "0",
                     "unit": "varh",
                     "measurand": "Energy.Reactive.Import.Register"
-                  }
-                ]
-              }
-            ]
-          },{
-            "values":[
-              {
+                }]
+            }]
+        }, {
+            "values": [{
                 "timestamp": "2013-03-07T16:52:16Z",
-                "values": [
-                  {
+                "values": [{
                     "value": "0",
                     "unit": "Wh",
                     "measurand": "Energy.Active.Import.Register"
-                  },
-                  {
+                }, {
                     "value": "0",
                     "unit": "varh",
                     "measurand": "Energy.Reactive.Import.Register"
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      });
+                }]
+            }]
+        }]
+    });
 
     clearInterval(boot);
 }, 3000);

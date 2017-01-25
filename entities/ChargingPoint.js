@@ -13,10 +13,7 @@ class ChargingPoint {
         this.transportLayer = new Transport.TransportLayerClient(this, transport, 'cp', 'client', soapOptions);
 
         if (this.transport == 'soap') {
-            this.transportLayer.layer.soapServ.log = logSoap;
-            this.transportLayer.layer.soapServ.postProcess = function() {
-                Plugins.callIdleHandlers(this);
-            };
+            this.transportLayer.layer.soapServ.log = Utils.logSoap;
         }
     }
 

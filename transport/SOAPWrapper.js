@@ -157,14 +157,12 @@ SOAPWrapper.prototype = {
       // retrieve body
       for(var b in obj.Body) { args = obj.Body[b]; break; };
 
-      if(Config.methodTree[version] != undefined
-        && Config.methodTree[version][model] != undefined) {
+      if(Config.methodTree[version] != undefined && Config.methodTree[version][model] != undefined) {
         // if exists
         if(Config.methodTree[version][model][name] != undefined) {
           m_params = Config.methodTree[version][model][name]
             [procName + 'Request'];
-        }
-        else {
+        } else {
           //this._returnError(from, callId, "NotImplemented");
           return;
         }
@@ -241,9 +239,6 @@ SOAPWrapper.prototype = {
       res.setEncoding('utf8');
       res.on('data', function(chunk) {
         var msg = '<<'+ _this.to +':\n';
-        if(Transport.PRINT_HEADERS) {
-          msg += 'HTTP headers: '+ JSON.stringify(res.headers) + '\n';
-        }
         msg += chunk;
 
         console.log(msg, _this.from == 'cp' ? _this.cbId : 'cs');
@@ -254,9 +249,6 @@ SOAPWrapper.prototype = {
     req.end();
 
     var msg = '>>'+ _this.to +':\n';
-    if(Transport.PRINT_HEADERS) {
-      msg += 'HTTP headers: '+ JSON.stringify(options.headers) + '\n';
-    }
     msg += content;
     console.log(msg, _this.from == 'cp' ? _this.cbId : 'cs');
   },
@@ -288,10 +280,6 @@ SOAPWrapper.prototype = {
       }, '', 'wsa5');
     }
 
-    if(!Transport.PRINT_XML)
-      console.log(">>"+ options.to + " /"+ procName  +" "+ JSON.stringify(args),
-        from);
-
     // delete last Action header
     if(this.client.soapHeaders[this.client.soapHeaders.length - 1]
       .indexOf(':Action') > -1)
@@ -322,9 +310,7 @@ SOAPWrapper.prototype = {
         return;
       }
 
-      var msg = Transport.PRINT_XML
-        ? _this.client.lastResponse
-        : JSON.stringify(result);
+      var msg = JSON.stringify(result);
 
       // if lib doesn't correctly parse response
       if(result.body != undefined) {
@@ -336,16 +322,10 @@ SOAPWrapper.prototype = {
         console.log("<<"+ options.to +" /"+ procName +" "+ msg, from);
 
         // call plugins result handlers
-        Plugins.callResultHandlers(procName, result, this);
-
-        // idle
-        Plugins.callIdleHandlers(this);
+        //Plugins.callResultHandlers(procName, result, this);
       }
     });
 
-    if(Transport.PRINT_XML)
-      console.log(">>"+ options.to +" "+ this.client.lastRequest,
-        from);
   },
 
   _returnError: function(from, callId, errorName, errorDesc) {
