@@ -10,8 +10,7 @@ class TransportLayerServer {
 
     if(transport.toLowerCase() == 'websocket') {
       this.layer = new WebSocketServerWrapper(this);
-    }
-    else if(transport.toLowerCase() == 'soap') {
+    } else if(transport.toLowerCase() == 'soap') {
       // lazy init of soap module
       if(soap == null)
         soap = require('../lib/soap');
