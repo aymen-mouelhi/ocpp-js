@@ -26,9 +26,6 @@ class CentralSystem{
             };
 
             this.transportLayer.layer.soapServ.log = logSoap;
-            this.transportLayer.layer.soapServ.postProcess = function() {
-                Plugins.callIdleHandlers(this);
-            };
         }
     }
 

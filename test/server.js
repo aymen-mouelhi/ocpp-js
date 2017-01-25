@@ -7,23 +7,26 @@ var remote = setInterval(function(){
 
   if (server.getConnections()) {
       connection = server.getConnections()[0];
+      if(connection){
+        var id = connection.cpId;
 
-      var id = connection.cpId;
+        // Execute some remote actions
+        server.clearCache(id);
 
-      // Execute some remote actions
-      server.clearCache(id);
+        server.changeAvailability(id, {
+          connectorId: id,
+          type: 'Inoperative'
+        });
 
-      server.changeAvailability(id, {
-        connectorId: id,
-        type: 'Inoperative'
-      });
-
-      // TODO: method chaining
-      /*
-      server.reset(id, {
-        type: 'Hard'
-      }).unlockConnector(id);
-      */
+        // TODO: method chaining
+        /*
+        server.reset(id, {
+          type: 'Hard'
+        }).unlockConnector(id);
+        */
+      }else{
+          console.log('No stations connected yet !');
+      }
   }else{
     console.log('No stations connected yet !');
   }

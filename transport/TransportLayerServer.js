@@ -14,7 +14,7 @@ class TransportLayerServer {
     else if(transport.toLowerCase() == 'soap') {
       // lazy init of soap module
       if(soap == null)
-        soap = require('./lib/soap');
+        soap = require('../lib/soap');
 
       this.layer = new SOAPWrapper(this, model, mode);
     }
