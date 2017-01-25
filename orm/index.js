@@ -2,6 +2,8 @@ const Promise = require('promise');
 
 let instance = null;
 
+//TODO: try catch for saves
+
 class Storage {
   constructor(method) {
     try{
