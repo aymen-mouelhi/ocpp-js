@@ -156,9 +156,10 @@ SOAPWrapper.prototype = {
 
       // retrieve body
       for(var b in obj.Body){
-        args = obj.Body[b]; break;
+        args = obj.Body[b];
+        break;
       };
-
+      /*
       if(Config.methodTree[version] != undefined && Config.methodTree[version][model] != undefined) {
         // if exists
         if(Config.methodTree[version][model][name] != undefined) {
@@ -180,6 +181,24 @@ SOAPWrapper.prototype = {
 
         return Config.checkPayload(args, params, infos, _this);
       }
+      */
+      console.log('[SOAP] Args: ' + JSON.stringify(args))
+      /*
+      var handler = require('../handlers/' + name);
+
+      if (handler.handle != undefined) {
+        handler.handle(params).then(function(values){
+          // Continue flow
+          res[2] = values;
+          // if lib doesn't correctly parse the response, display an error
+          Utils.log(">>"+ from + " "+ JSON.stringify(res), this._cpId);
+          // send response
+          this._connection.send(JSON.stringify(res));
+        }).catch(function(error){
+          this._connection.send(JSON.stringify(error));
+        });
+      }
+      */
 
       // no method = error
       return false;

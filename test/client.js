@@ -10,7 +10,7 @@ var boot = setInterval(function() {
 
     // Station is ready
     point.bootNotification({
-        chargePointVendor: 'DBT',
+        chargePointVendor: 'Shneider Electric',
         chargePointModel: 'NQC-ACDC',
         chargePointSerialNumber: 'gir.vat.mx.000e48',
         chargeBoxSerialNumber: 'gir.vat.mx.000e48',
