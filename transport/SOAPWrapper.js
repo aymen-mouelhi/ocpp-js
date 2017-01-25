@@ -3,7 +3,7 @@ const HTTPServerWrapper =  require('./HTTPServerWrapper');
 const soap = require('../lib/soap');
 const Config = require('../config/config.js');
 var Utils = require('../utils/utils.js');
-const handlersFolder = '../handlers/';
+var handlersFolder = __dirname +'/../handlers/';
 
 /**
  *  SOAPWrapper
@@ -129,7 +129,7 @@ SOAPWrapper.prototype = {
     }
 
     this.port = server.address().port;
-    Utils.log('SOAP Server listening on port '+ this.port, 'cs');
+    console.log('SOAP Server listening on port '+ this.port, 'cs');
 
     this.soapServ = soap.listen(server, this.endpoint, this.soapService, xml);
 
@@ -247,7 +247,7 @@ SOAPWrapper.prototype = {
         }
         msg += chunk;
 
-        Utils.log(msg, _this.from == 'cp' ? _this.cbId : 'cs');
+        console.log(msg, _this.from == 'cp' ? _this.cbId : 'cs');
       });
     });
 
@@ -259,7 +259,7 @@ SOAPWrapper.prototype = {
       msg += 'HTTP headers: '+ JSON.stringify(options.headers) + '\n';
     }
     msg += content;
-    Utils.log(msg, _this.from == 'cp' ? _this.cbId : 'cs');
+    console.log(msg, _this.from == 'cp' ? _this.cbId : 'cs');
   },
 
   /**
@@ -290,7 +290,7 @@ SOAPWrapper.prototype = {
     }
 
     if(!Transport.PRINT_XML)
-      Utils.log(">>"+ options.to + " /"+ procName  +" "+ JSON.stringify(args),
+      console.log(">>"+ options.to + " /"+ procName  +" "+ JSON.stringify(args),
         from);
 
     // delete last Action header
@@ -319,7 +319,7 @@ SOAPWrapper.prototype = {
     // Call
     this.client[procName](args, function(err, result) {
       if(result == null) {
-        Utils.log("<<"+ options.to +" Error: can't reach "+ _this.uri, from);
+        console.log("<<"+ options.to +" Error: can't reach "+ _this.uri, from);
         return;
       }
 
@@ -329,12 +329,12 @@ SOAPWrapper.prototype = {
 
       // if lib doesn't correctly parse response
       if(result.body != undefined) {
-        Utils.log("<<"+ options.to
+        console.log("<<"+ options.to
           +" Error: cannot parse response, raw content: "+
           JSON.stringify(result.body), from);
       }
       else {
-        Utils.log("<<"+ options.to +" /"+ procName +" "+ msg, from);
+        console.log("<<"+ options.to +" /"+ procName +" "+ msg, from);
 
         // call plugins result handlers
         Plugins.callResultHandlers(procName, result, this);
@@ -345,7 +345,7 @@ SOAPWrapper.prototype = {
     });
 
     if(Transport.PRINT_XML)
-      Utils.log(">>"+ options.to +" "+ this.client.lastRequest,
+      console.log(">>"+ options.to +" "+ this.client.lastRequest,
         from);
   },
 
@@ -369,7 +369,7 @@ SOAPWrapper.prototype = {
 
     var msg = this.soapServ._envelope(this.wsdl.objectToXML(obj));
 
-    Utils.log('>>'+ from +' \n'+ msg, from);
+    console.log('>>'+ from +' \n'+ msg, from);
 
     this.res.write(msg);
     this.res.end();

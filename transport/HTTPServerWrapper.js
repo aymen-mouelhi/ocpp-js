@@ -9,7 +9,7 @@ class HTTPServerWrapper {
 
   create() {
     this.httpServer = http.createServer(function(request, response) {
-      Utils.log("Received request for " + request.url, "cs");
+      console.log("Received request for " + request.url, "cs");
       response.writeHead(404);
       response.end();
     });
