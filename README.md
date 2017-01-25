@@ -18,3 +18,7 @@ Both existing versions use SOAP over HTTP as the RPC/transport protocol:
     |               | soap/http server      soap/http client |               |
     |               |<---------------------------------------|               |
     +---------------+  Operations initiated by CentralSystem +---------------+
+
+## Storage
+The project contains an interface to handle the storage in different data bases.
+For instance, Firebase can be used to store the data.
