@@ -264,13 +264,11 @@ SOAPWrapper.prototype = {
       return;
     }
 
-    var _this = this,
-        from = options.to == 'cs' ? _this.transportLayer.simulator.chargePointId
-          : 'cs';
+    var _this = this;
+    var from = options.to == 'cs' ? _this.transportLayer.simulator.chargePointId : 'cs';
 
     if(this.fromHeader == null) {
-      var host = this.uri.indexOf('localhost') > 0 ?
-          'localhost' : Transport.NETWORK_IP;
+      var host = this.uri.indexOf('localhost') > 0 ? 'localhost' : Transport.NETWORK_IP;
 
       this.fromHeader = 'http://'+ host +':'+ this.port +'/';
 
@@ -282,13 +280,11 @@ SOAPWrapper.prototype = {
     }
 
     // delete last Action header
-    if(this.client.soapHeaders[this.client.soapHeaders.length - 1]
-      .indexOf(':Action') > -1)
+    if(this.client.soapHeaders[this.client.soapHeaders.length - 1].indexOf(':Action') > -1)
       this.client.soapHeaders.pop();
 
     // delete last chargeBoxIdentity header
-    if(this.client.soapHeaders[this.client.soapHeaders.length - 1]
-      .indexOf('chargeBoxIdentity') > -1)
+    if(this.client.soapHeaders[this.client.soapHeaders.length - 1].indexOf('chargeBoxIdentity') > -1)
       this.client.soapHeaders.pop();
 
     // if remote action
