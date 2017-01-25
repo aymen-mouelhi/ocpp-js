@@ -32,7 +32,7 @@ var SOAPWrapper = function(transportLayer, from, mode, soapOptions) {
 
   this.uri = null;
 
-  if(this.from == 'cs'){
+  if(this.from == 'cp'){
       this.uri = this.transportLayer.simulator.uri;
   } else{
       this.uri = soapOptions && soapOptions.fromHeader;
@@ -85,7 +85,11 @@ SOAPWrapper.prototype = {
         return function(requestBody) {
           // callHeaders might return a response object,
           // otherwise, pick the default reponse
-            return require('../handlers/' + p.toLowerCase()).handle(requestBody);
+          var handler = require('../handlers/' + p.toLowerCase());
+
+          return handler.handle(requestBody).then(function(values){
+            return values;
+          });
         };
       })(p);
     }
@@ -105,7 +109,7 @@ SOAPWrapper.prototype = {
     }
 
     this.port = server.address().port;
-    console.log('SOAP Server listening on port '+ this.port, 'cs');
+    Utils.log('SOAP Server listening on port '+ this.port, 'cs');
 
     this.soapServ = soap.listen(server, this.endpoint, this.soapService, xml);
 
@@ -197,7 +201,7 @@ SOAPWrapper.prototype = {
         var msg = '<<'+ _this.to +':\n';
         msg += chunk;
 
-        console.log(msg, _this.from == 'cp' ? _this.cbId : 'cs');
+        Utils.log(msg, _this.from == 'cp' ? _this.cbId : 'cs');
       });
     });
 
@@ -206,7 +210,7 @@ SOAPWrapper.prototype = {
 
     var msg = '>>'+ _this.to +':\n';
     msg += content;
-    console.log(msg, _this.from == 'cp' ? _this.cbId : 'cs');
+    Utils.log(msg, _this.from == 'cp' ? _this.cbId : 'cs');
   },
 
   /**
@@ -258,7 +262,7 @@ SOAPWrapper.prototype = {
     // Call
     this.client[procName](args, function(err, result) {
       if(result == null) {
-        console.log("<<"+ options.to +" Error: can't reach "+ _this.uri, from);
+        Utils.log("<<"+ options.to +" Error: can't reach "+ _this.uri, from);
         return;
       }
 
@@ -266,12 +270,12 @@ SOAPWrapper.prototype = {
 
       // if lib doesn't correctly parse response
       if(result.body != undefined) {
-        console.log("<<"+ options.to
+        Utils.log("<<"+ options.to
           +" Error: cannot parse response, raw content: "+
           JSON.stringify(result.body), from);
       }
       else {
-        console.log("<<"+ options.to +" /"+ procName +" "+ msg, from);
+        Utils.log("<<"+ options.to +" /"+ procName +" "+ msg, from);
 
         // call plugins result handlers
         //Plugins.callResultHandlers(procName, result, this);
@@ -300,7 +304,7 @@ SOAPWrapper.prototype = {
 
     var msg = this.soapServ._envelope(this.wsdl.objectToXML(obj));
 
-    console.log('>>'+ from +' \n'+ msg, from);
+    Utils.log('>>'+ from +' \n'+ msg, from);
 
     this.res.write(msg);
     this.res.end();
