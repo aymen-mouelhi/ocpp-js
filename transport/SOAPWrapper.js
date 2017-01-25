@@ -32,7 +32,7 @@ var SOAPWrapper = function(transportLayer, from, mode, soapOptions) {
 
   this.uri = null;
 
-  if(this.from == 'cp'){
+  if(this.from == 'cs'){
       this.uri = this.transportLayer.simulator.uri;
   } else{
       this.uri = soapOptions && soapOptions.fromHeader;
