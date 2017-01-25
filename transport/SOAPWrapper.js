@@ -2,7 +2,7 @@ const fs = require('fs');
 const HTTPServerWrapper =  require('./HTTPServerWrapper');
 const soap = require('../lib/soap');
 const Config = require('../config/config.js');
-const Utils = require('../utils/utils.js');
+var Utils = require('../utils/utils.js');
 const handlersFolder = '../handlers/';
 
 /**
@@ -369,12 +369,11 @@ SOAPWrapper.prototype = {
 
     var msg = this.soapServ._envelope(this.wsdl.objectToXML(obj));
 
-    Utils.log('>>'+ from +' \n'+ msg, from);
+    //Utils.log('>>'+ from +' \n'+ msg, from);
 
     this.res.write(msg);
     this.res.end();
-  }
-
+  },
 
   retrieveVersion(str) {
       // if array, last occurence
