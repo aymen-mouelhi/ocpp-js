@@ -68,9 +68,10 @@ var SOAPWrapper = function(transportLayer, from, mode, soapOptions) {
 SOAPWrapper.prototype = {
 
   createService: function() {
-    var version = Utils.retrieveVersion(Config.SUB_PROTOCOL),
-        procedures = Config.procedures[version][this.from],
-        _this = this;
+    var version = Utils.retrieveVersion(Config.SUB_PROTOCOL);
+    var procedures = Config.procedures[version][this.from];
+
+    var _this = this;
 
     // stock procedures responses
     for(var p in procedures) {
@@ -78,8 +79,13 @@ SOAPWrapper.prototype = {
         return function(requestBody) {
           // callHeaders might return a response object,
           // otherwise, pick the default reponse
-          return Plugins.callHandlers(p, requestBody, this)
-            || Config.wsdl[version][p + 'Response'];
+            var handler = require('../handlers/' + p);
+
+            if (handler.handle != undefined) {
+              handler.handle(params).then(function(values){
+                  return values;
+              });
+            }
         };
       })(p);
     }
