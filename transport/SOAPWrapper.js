@@ -70,17 +70,16 @@ var SOAPWrapper = function(transportLayer, from, mode, soapOptions) {
 SOAPWrapper.prototype = {
 
   createService: function() {
+    console.log('[SOAPWrapper] Creating Service for ' + this.from);
     var version = Utils.retrieveVersion(Config.SUB_PROTOCOL);
     //var procedures = Config.procedures[version][this.from];
     var _this = this;
 
     var procedures = Config.procedures;
-    console.log('[SOAPWrapper] found ' + procedures.length + ' procedures !');
     // store procedures responses
     var services = {};
     for(var i =0; i<procedures.length; i++) {
       var p = procedures[i];
-      console.log('[SOAPWrapper] adding ' + p + ' to soapService !');
       this.services[p] = (function(p) {
         return function(requestBody) {
           // callHeaders might return a response object,
@@ -146,7 +145,7 @@ SOAPWrapper.prototype = {
   },
 
   createClient: function() {
-
+    console.log('[SOAPWrapper] Creating Client for ' + this.from);
     var _this = this;
     var version = Utils.retrieveVersion(Config.SUB_PROTOCOL);
     var file = __dirname +'/../'+ Config.WSDL_FILES[this.to +'_'+ version];
