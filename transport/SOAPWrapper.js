@@ -155,13 +155,14 @@ SOAPWrapper.prototype = {
           m_params = {};
 
       // retrieve body
-      for(var b in obj.Body) { args = obj.Body[b]; break; };
+      for(var b in obj.Body){
+        args = obj.Body[b]; break;
+      };
 
       if(Config.methodTree[version] != undefined && Config.methodTree[version][model] != undefined) {
         // if exists
         if(Config.methodTree[version][model][name] != undefined) {
-          m_params = Config.methodTree[version][model][name]
-            [procName + 'Request'];
+          m_params = Config.methodTree[version][model][name][procName + 'Request'];
         } else {
           //this._returnError(from, callId, "NotImplemented");
           return;
