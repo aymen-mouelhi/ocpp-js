@@ -1,3 +1,5 @@
+const Config = require('../config/config.js');
+
 /**
  *  SOAPWrapper
  *
@@ -36,7 +38,7 @@ var SOAPWrapper = function(transportLayer, from, mode, soapOptions) {
     this.port = this.transportLayer.simulator.port;
     this.services = this.soapService.CentralSystemService.
       CentralSystemServiceSoap12;
-    this.endpoint = OCPP.ENDPOINTURL;
+    this.endpoint = Config.ENDPOINTURL;
   }
   else {
     this.soapService.ChargePointService = {
@@ -66,8 +68,8 @@ var SOAPWrapper = function(transportLayer, from, mode, soapOptions) {
 SOAPWrapper.prototype = {
 
   createService: function() {
-    var version = Utils.retrieveVersion(OCPP.SUB_PROTOCOL),
-        procedures = OCPP.procedures[version][this.from],
+    var version = Utils.retrieveVersion(Config.SUB_PROTOCOL),
+        procedures = Config.procedures[version][this.from],
         _this = this;
 
     // stock procedures responses
@@ -77,12 +79,12 @@ SOAPWrapper.prototype = {
           // callHeaders might return a response object,
           // otherwise, pick the default reponse
           return Plugins.callHandlers(p, requestBody, this)
-            || OCPP.wsdl[version][p + 'Response'];
+            || Config.wsdl[version][p + 'Response'];
         };
       })(p);
     }
 
-    var file = OCPP.WSDL_FILES[this.from +'_'+ version];
+    var file = Config.WSDL_FILES[this.from +'_'+ version];
     var xml = require('fs').readFileSync(__dirname +'/../'+ file, 'utf8'),
         server = new HTTPServerWrapper().httpServer;
 
@@ -100,7 +102,7 @@ SOAPWrapper.prototype = {
 
     this.soapServ = soap.listen(server, this.endpoint, this.soapService, xml);
 
-    soap.WSDL.WITH_ATTR_AT = OCPP.WITH_ATTR_AT;
+    soap.WSDL.WITH_ATTR_AT = Config.WITH_ATTR_AT;
     soap.WSDL.PROTOCOL_VERSION = version;
 
     var _this = this;
@@ -117,7 +119,7 @@ SOAPWrapper.prototype = {
       var args = {},
           procName = obj.Header.Action.slice(1),
           name = procName.toLowerCase(),
-          version = Utils.retrieveVersion(OCPP.SUB_PROTOCOL),
+          version = Utils.retrieveVersion(Config.SUB_PROTOCOL),
           model = _this.from,
           from = _this.to,
           m_params = {};
@@ -125,11 +127,11 @@ SOAPWrapper.prototype = {
       // retrieve body
       for(var b in obj.Body) { args = obj.Body[b]; break; };
 
-      if(OCPP.methodTree[version] != undefined
-        && OCPP.methodTree[version][model] != undefined) {
+      if(Config.methodTree[version] != undefined
+        && Config.methodTree[version][model] != undefined) {
         // if exists
-        if(OCPP.methodTree[version][model][name] != undefined) {
-          m_params = OCPP.methodTree[version][model][name]
+        if(Config.methodTree[version][model][name] != undefined) {
+          m_params = Config.methodTree[version][model][name]
             [procName + 'Request'];
         }
         else {
@@ -147,7 +149,7 @@ SOAPWrapper.prototype = {
           version: version
         };
 
-        return OCPP.checkPayload(args, params, infos, _this);
+        return Config.checkPayload(args, params, infos, _this);
       }
 
       // no method = error
@@ -158,8 +160,8 @@ SOAPWrapper.prototype = {
   createClient: function() {
 
     var _this = this,
-        version = Utils.retrieveVersion(OCPP.SUB_PROTOCOL),
-        file = __dirname +'/../'+ OCPP.WSDL_FILES[this.to +'_'+ version];
+        version = Utils.retrieveVersion(Config.SUB_PROTOCOL),
+        file = __dirname +'/../'+ Config.WSDL_FILES[this.to +'_'+ version];
 
     this.transportLayer.simulator.clientConnection = this;
 

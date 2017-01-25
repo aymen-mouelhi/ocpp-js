@@ -1,6 +1,6 @@
 const CentralSystem = require('../entities/CentralSystem');
 
-var server = new CentralSystem(9000, 'websocket');
+var server = new CentralSystem(9000, 'soap');
 
 
 var remote = setInterval(function(){
