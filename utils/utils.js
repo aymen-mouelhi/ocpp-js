@@ -1,7 +1,4 @@
-const Transport = require('../transport');
-
 var Utils = {
-
     /**
      *  Log function
      *  @param {String} message to display
@@ -281,7 +278,7 @@ var Utils = {
             content = content.Body[c];
             break;
         };
-
+        const Transport = require('../transport');
         content = Transport.PRINT_XML ? rawContent : JSON.stringify(content);
         Utils.log(prefix + 'cp#' + from + ' ' + action + ' ' + content,
             "cs");
@@ -293,5 +290,6 @@ var Utils = {
     }
 
 };
+
 
 module.exports = Utils;

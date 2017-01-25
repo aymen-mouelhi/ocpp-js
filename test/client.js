@@ -1,6 +1,6 @@
 const ChargingPoint = require('../entities/ChargingPoint');
 
-var point = new ChargingPoint('ws://localhost:9000', "3lsonASjk1", "ocpp1.5", 'websocket');
+var point = new ChargingPoint('ws://localhost:9000', "3lsonASjk1", "ocpp1.5", 'soap');
 
 var boot = setInterval(function() {
 

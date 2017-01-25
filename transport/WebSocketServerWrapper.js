@@ -7,6 +7,7 @@ const SRPCServerConnection = require('./SRPCServerConnection');
 const Config = require('../config/config.js');
 const Utils = require('../utils/utils.js');
 
+
 class WebSocketServerWrapper {
 
   constructor(transportLayer) {

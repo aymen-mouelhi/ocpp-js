@@ -73,13 +73,12 @@ var SOAPWrapper = function(transportLayer, from, mode, soapOptions) {
 SOAPWrapper.prototype = {
 
   createService: function() {
-    var version = this.retrieveVersion(Config.SUB_PROTOCOL);
+    var version = Utils.retrieveVersion(Config.SUB_PROTOCOL);
     //var procedures = Config.procedures[version][this.from];
     var _this = this;
 
     fs.readdir(handlersFolder, (err, files) => {
       files.forEach(file => {
-        console.log(file);
         this.services[file] = (function(p) {
           return function(requestBody) {
             // callHeaders might return a response object,
@@ -190,9 +189,9 @@ SOAPWrapper.prototype = {
 
   createClient: function() {
 
-    var _this = this,
-        version = Utils.retrieveVersion(Config.SUB_PROTOCOL),
-        file = __dirname +'/../'+ Config.WSDL_FILES[this.to +'_'+ version];
+    var _this = this;
+    var version = Utils.retrieveVersion(Config.SUB_PROTOCOL);
+    var file = __dirname +'/../'+ Config.WSDL_FILES[this.to +'_'+ version];
 
     this.transportLayer.simulator.clientConnection = this;
 
@@ -373,21 +372,6 @@ SOAPWrapper.prototype = {
 
     this.res.write(msg);
     this.res.end();
-  },
-
-  retrieveVersion(str) {
-      // if array, last occurence
-      if (str instanceof Array) {
-          str = str[str.length - 1];
-      }
-
-      var v = [];
-      for (var i in str) {
-          if (str[i] >= 0 && str[i] < 10) {
-              v.push(str[i]);
-          }
-      }
-      return v.join('.');
   }
 
 };
