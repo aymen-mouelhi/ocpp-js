@@ -1,2 +1,3 @@
 var SOAPWrapper = require('../transport/SOAP.js');
-var wrapper = new SOAPWrapper('server', true);
+var server = new SOAPWrapper('server', true);
+var client = new SOAPWrapper('client', true);

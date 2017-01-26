@@ -107,11 +107,13 @@ class SOAPWrapper {
             this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
             this.services = CentralSystemService;
             this.path = '/Ocpp/CentralSystemService';
+            this.port = 9000;
             this.createServer();
         } else {
             this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_chargepointservice_1.5_final.wsdl', 'utf8');
             this.services = ChargePointService;
             this.path = '/Ocpp/ChargePointService';
+            this.port = 9001;
             this.createClient();
             this.createServer();
         }
@@ -126,8 +128,8 @@ class SOAPWrapper {
         });
 
         //TODO Check if port is used
-        server.listen(port, function() {
-            console.log(self._log() + ' SOAP Server is listening on port ' + port);
+        server.listen(this.port, function() {
+            console.log(self._log() + self.path.replace('/Ocpp/', '') +' Server is listening on port ' + this.port);
         });
 
         // SOAP Server listener
