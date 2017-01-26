@@ -107,13 +107,13 @@ class SOAPWrapper {
             this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
             this.services = CentralSystemService;
             this.path = '/Ocpp/CentralSystemService';
-            this.port = 9000;
+            this.port = 9220;
             this.createServer();
         } else {
             this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_chargepointservice_1.5_final.wsdl', 'utf8');
             this.services = ChargePointService;
             this.path = '/Ocpp/ChargePointService';
-            this.port = 9001;
+            this.port = 9221;
             this.createClient();
             this.createServer();
         }
@@ -121,7 +121,8 @@ class SOAPWrapper {
 
     // TODO: must add SOAP headers
     createServer() {
-      var self = this;
+        var self = this;
+        var name = self.path.replace('/Ocpp/', '').replace('Service', '');
         // http server
         var server = http.createServer(function(request, response) {
             response.end(self._log() + " 404: Not Found: " + request.url);
@@ -129,7 +130,7 @@ class SOAPWrapper {
 
         //TODO Check if port is used
         server.listen(this.port, function() {
-            console.log(self._log() + self.path.replace('/Ocpp/', '') +' Server is listening on port ' + this.port);
+            console.log(self._log() + ' ' + name + ' Server is listening on port ' + self.port);
         });
 
         // SOAP Server listener
@@ -145,37 +146,39 @@ class SOAPWrapper {
 
     // TODO: must add SOAP headers
     createClient() {
-      var self = this;
-      var xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
-      var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
+        var self = this;
+        var xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
+        var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
 
-      soap.createClient(url, { endpoint: 'http://192.168.0.38:9220/Ocpp/CentralSystemService'}, function(err, client) {
-        if(client){
-          //console.log(client.describe());
-          /*
-          client.BootNotification(args, function(err, result) {
-            if(err){
-              console.log(err);
-            }else{
-              console.log(result);
+        soap.createClient(url, {
+            endpoint: 'http://192.168.0.38:9220/Ocpp/CentralSystemService'
+        }, function(err, client) {
+            if (client) {
+                //console.log(client.describe());
+                /*
+                client.BootNotification(args, function(err, result) {
+                  if(err){
+                    console.log(err);
+                  }else{
+                    console.log(result);
+                  }
+                });
+                */
+                client.Heartbeat(function(err, result) {
+                    if (err) {
+                        console.log(self._log() + ' ERROR ' + err);
+                    } else {
+                        console.log(result);
+                    }
+                });
+            } else {
+                console.log(self._log() + 'soap client is not created ! ');
             }
-          });
-          */
-          client.Heartbeat(function(err, result) {
-            if(err){
-              console.log(self._log() + ' ERROR ' +err);
-            }else{
-              console.log(result);
-            }
-          });
-        }else{
-          console.log(self._log() + 'soap client is not created ! ');
-        }
-      });
+        });
     }
 
-    _log(){
-      return Utils.dateToString(new Date());
+    _log() {
+        return Utils.dateToString(new Date());
     }
 }
 
