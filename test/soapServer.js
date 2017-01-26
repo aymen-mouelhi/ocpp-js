@@ -37,7 +37,9 @@ var centralService = {
              },
 
              Authorize: function(args, callback){
-
+               handlers.Authorize.cbHandle(args, function(data){
+                 callback(data);
+               });
              },
              BootNotification: function(args, callback){
                handlers.BootNotification.cbHandle(args, function(data){
@@ -45,28 +47,44 @@ var centralService = {
                });
              },
              StartTransaction: function(args, callback){
-
+               handlers.StartTransaction.cbHandle(args, function(data){
+                 callback(data);
+               });
              },
              StopTransaction: function(args, callback){
-
+               handlers.StopTransaction.cbHandle(args, function(data){
+                 callback(data);
+               });
              },
-             Heartbeat: function(args, callback){
-
+             Heartbeat: function(callback){
+               handlers.Heartbeat.cbHandle(function(data){
+                 callback(data);
+               });
              },
              MeterValues: function(args, callback){
-
+               handlers.MeterValues.cbHandle(args, function(data){
+                 callback(data);
+               });
              },
              StatusNotification: function(args, callback){
-
+               handlers.StatusNotification.cbHandle(args, function(data){
+                 callback(data);
+               });
              },
              FirmwareStatusNotification: function(args, callback){
-
+               handlers.FirmwareStatusNotification.cbHandle(args, function(data){
+                 callback(data);
+               });
              },
              DiagnosticsStatusNotification: function(args, callback){
-
+               handlers.DiagnosticsStatusNotification.cbHandle(args, function(data){
+                 callback(data);
+               });
              },
              DataTransfer: function(args, callback){
-
+               handlers.DataTransfer.cbHandle(args, function(data){
+                 callback(data);
+               });
              }
          }
      }
