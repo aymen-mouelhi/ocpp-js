@@ -3,8 +3,8 @@ var http = require('http');
 var xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
 
 var myService = {
-     MyService: {
-         MyPort: {
+     CentralSystemService: {
+         CentralSystemService12: {
              MyFunction: function(args) {
                  return {
                      name: args.name
@@ -32,6 +32,12 @@ var myService = {
                  return {
                      name: headers.Token
                  };
+             },
+
+             BootNotification: function(args){
+               return {
+                 status: 'Accepted'
+               }
              }
          }
      }
@@ -42,9 +48,17 @@ var server = http.createServer(function(request,response) {
     response.end("404: Not Found: " + request.url);
 });
 
-server.listen(9000);
+server.listen(9000, function(){
+  console.log('SOAP Server is listening on port 9000');
+});
 
-soap.listen(server, '/wsdl', myService, xml);
+soap.listen(server, '/Ocpp/CentralSystemService', myService, xml);
+
+server.log = function(type, data) {
+    // type is 'received' or 'replied'
+    console.log('[SOAP Log] Type : ' + type);
+    console.log('[SOAP Log] Data : ' + JSON.stringify(data));
+  };
 
 /*
 //express server example
