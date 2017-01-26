@@ -35,10 +35,44 @@ var centralService = {
                  };
              },
 
+             Authorize: function(args, callback){
+
+             },
              BootNotification: function(args, callback){
+               /*
+               // TODO: SOAP module doesn't accept promise
                return handlers.BootNotification.handle(args).then(function(data){
+                 console.log('[SOAP Server] Data: ' + JSON.stringify(data));
                  return data;
                });
+               */
+               handlers.BootNotification.cbHandle(args, function(data){
+                 callback(data);
+               });
+             },
+             StartTransaction: function(args, callback){
+
+             },
+             StopTransaction: function(args, callback){
+
+             },
+             Heartbeat: function(args, callback){
+
+             },
+             MeterValues: function(args, callback){
+
+             },
+             StatusNotification: function(args, callback){
+
+             },
+             FirmwareStatusNotification: function(args, callback){
+
+             },
+             DiagnosticsStatusNotification: function(args, callback){
+
+             },
+             DataTransfer: function(args, callback){
+
              }
          }
      }
