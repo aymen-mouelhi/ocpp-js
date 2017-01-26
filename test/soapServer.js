@@ -36,8 +36,8 @@ var centralService = {
              },
 
              BootNotification: function(args, callback){
-               handlers.BootNotification.handle(args).then(function(data){
-                 callback(data)
+               return handlers.BootNotification.handle(args).then(function(data){
+                 return data;
                });
              }
          }

@@ -18,8 +18,11 @@ var args = {
 soap.createClient(url, { endpoint: 'http://127.0.0.1:9000/Ocpp/CentralSystemService'}, function(err, client) {
   if(client){
     client.BootNotification(args, function(err, result) {
+      if(err){
         console.log(err);
+      }else{
         console.log(result);
+      }
     });
   }else{
     console.log('soap client is not created ! ');
