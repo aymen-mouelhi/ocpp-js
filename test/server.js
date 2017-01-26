@@ -1,6 +1,6 @@
 const CentralSystem = require('../entities/CentralSystem');
 
-var server = new CentralSystem(9000, 'soap');
+var server = new CentralSystem(9220, 'soap');
 
 
 var remote = setInterval(function(){
@@ -13,6 +13,10 @@ var remote = setInterval(function(){
 
         // Execute some remote actions
         server.clearCache(id);
+
+        server.reset({
+          type: 'Soft'
+        });
 
         server.changeAvailability(id, {
           connectorId: id,
