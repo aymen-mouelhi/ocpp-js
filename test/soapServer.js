@@ -40,13 +40,6 @@ var centralService = {
 
              },
              BootNotification: function(args, callback){
-               /*
-               // TODO: SOAP module doesn't accept promise
-               return handlers.BootNotification.handle(args).then(function(data){
-                 console.log('[SOAP Server] Data: ' + JSON.stringify(data));
-                 return data;
-               });
-               */
                handlers.BootNotification.cbHandle(args, function(data){
                  callback(data);
                });
@@ -79,13 +72,16 @@ var centralService = {
      }
  };
 
+var date = new Date();
+var log = Utils.dateToString(date)
+
 // http server
 var server = http.createServer(function(request,response) {
-    response.end("404: Not Found: " + request.url);
+    response.end(log + " 404: Not Found: " + request.url);
 });
 
 server.listen(9000, function(){
-  console.log('SOAP Server is listening on port 9000');
+  console.log(log + ' SOAP Server is listening on port 9000');
 });
 
 // SOAP Server listener
@@ -93,5 +89,5 @@ var soapServer = soap.listen(server, '/Ocpp/CentralSystemService', centralServic
 
 soapServer.log = function(type, data) {
     // type is 'received' or 'replied'
-    console.log(log = Utils.dateToString(d) + ' ['+ type +'] ' + JSON.stringify(data));
+    console.log(log + ' ['+ type +'] ' + JSON.stringify(data));
   };
