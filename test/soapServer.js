@@ -1,6 +1,7 @@
 var soap = require('soap');
 var http = require('http');
 var xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
+const handlers = require('../handlers');
 
 var centralService = {
      CentralSystemService: {
@@ -35,11 +36,9 @@ var centralService = {
              },
 
              BootNotification: function(args, callback){
-               console.log('[Server Logs] recieved ' + JSON.stringify(args));
-
-               return {
-                 status: 'Accepted'
-               }
+               handlers.BootNotification.handle(args).then(function(data){
+                 callback(data)
+               });
              }
          }
      }
