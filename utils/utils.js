@@ -293,9 +293,21 @@ var Utils = {
       return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     },
 
-    capitalizeFirstLetter(string) {
+    capitalizeFirstLetter: function(string) {
       return string.charAt(0).toUpperCase() + string.slice(1);
+    },
+
+    isPortUsed: function(port, fn) {
+      var net = require('net')
+      var tester = net.createServer().once('error', function (err) {
+        if (err.code != 'EADDRINUSE') return fn(err)
+        fn(null, true);
+      }).once('listening', function() {
+        tester.once('close', function() { fn(null, false) })
+        .close();
+      }).listen(port);
     }
+
 
 };
 

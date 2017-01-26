@@ -1,8 +1,36 @@
 var soap = require('soap');
 var http = require('http');
-var xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
 const handlers = require('../handlers');
 const Utils = require('../utils/utils');
+
+var date = new Date();
+var log = Utils.dateToString(date);
+
+class SOAPWrapper {
+  constructor(from) {
+    if(from === 'system'){
+      this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
+      this.createServer();
+    }else{
+      this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_chargepointservice_1.5_final.wsdl', 'utf8');
+      this.createServer();
+      this.createClient();
+    }
+  }
+
+
+  createServer(){
+    // http server
+    var server = http.createServer(function(request,response) {
+        response.end(log + " 404: Not Found: " + request.url);
+    });
+
+    //TODO Check if port is used
+    server.listen(9000, function(){
+      console.log(log + ' SOAP Server is listening on port 9000');
+    });
+  }
+}
 
 var centralService = {
      CentralSystemService: {
@@ -90,17 +118,11 @@ var centralService = {
      }
  };
 
-var date = new Date();
-var log = Utils.dateToString(date)
 
-// http server
-var server = http.createServer(function(request,response) {
-    response.end(log + " 404: Not Found: " + request.url);
-});
 
-server.listen(9000, function(){
-  console.log(log + ' SOAP Server is listening on port 9000');
-});
+
+
+
 
 // SOAP Server listener
 var soapServer = soap.listen(server, '/Ocpp/CentralSystemService', centralService, xml);
