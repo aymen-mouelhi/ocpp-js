@@ -4,7 +4,7 @@ var xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemser
 
 var myService = {
      CentralSystemService: {
-         CentralSystemService12: {
+         CentralSystemServiceSoap12: {
              MyFunction: function(args) {
                  return {
                      name: args.name
@@ -34,7 +34,9 @@ var myService = {
                  };
              },
 
-             BootNotification: function(args){
+             BootNotification: function(args, callback){
+               console.log('[Server Logs] recieved ' + JSON.stringify(args));
+               
                return {
                  status: 'Accepted'
                }
@@ -52,9 +54,9 @@ server.listen(9000, function(){
   console.log('SOAP Server is listening on port 9000');
 });
 
-soap.listen(server, '/Ocpp/CentralSystemService', myService, xml);
+var soapServer = soap.listen(server, '/Ocpp/CentralSystemService', myService, xml);
 
-server.log = function(type, data) {
+soapServer.log = function(type, data) {
     // type is 'received' or 'replied'
     console.log('[SOAP Log] Type : ' + type);
     console.log('[SOAP Log] Data : ' + JSON.stringify(data));
