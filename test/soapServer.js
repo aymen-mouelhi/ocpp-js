@@ -2,7 +2,7 @@ var soap = require('soap');
 var http = require('http');
 var xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
 
-var myService = {
+var centralService = {
      CentralSystemService: {
          CentralSystemServiceSoap12: {
              MyFunction: function(args) {
@@ -36,7 +36,7 @@ var myService = {
 
              BootNotification: function(args, callback){
                console.log('[Server Logs] recieved ' + JSON.stringify(args));
-               
+
                return {
                  status: 'Accepted'
                }
@@ -54,22 +54,10 @@ server.listen(9000, function(){
   console.log('SOAP Server is listening on port 9000');
 });
 
-var soapServer = soap.listen(server, '/Ocpp/CentralSystemService', myService, xml);
+var soapServer = soap.listen(server, '/Ocpp/CentralSystemService', centralService, xml);
 
 soapServer.log = function(type, data) {
     // type is 'received' or 'replied'
     console.log('[SOAP Log] Type : ' + type);
     console.log('[SOAP Log] Data : ' + JSON.stringify(data));
   };
-
-/*
-//express server example
-var app = express();
-//body parser middleware are supported (optional)
-app.use(bodyParser.raw({type: function(){return true;}, limit: '5mb'}));
-app.listen(8001, function(){
-    //Note: /wsdl route will be handled by soap module
-    //and all other routes & middleware will continue to work
-    soap.listen(app, '/wsdl', service, xml);
-});
-*/
