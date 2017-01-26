@@ -56,7 +56,7 @@ var centralService = {
                  callback(data);
                });
              },
-             Heartbeat: function(callback){
+             Heartbeat: function(args, callback){
                handlers.Heartbeat.cbHandle(function(data){
                  callback(data);
                });

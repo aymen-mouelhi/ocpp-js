@@ -1,7 +1,7 @@
 const Promise = require('promise');
 
 module.exports = {
-  handle: function(){
+  handle: function(data){
     return new Promise(function(resolve, reject) {
       resolve({
           currentTime: new Date().toISOString()
@@ -9,9 +9,9 @@ module.exports = {
     });
   },
 
-  cbHandle: function(callback){
+  cbHandle: function(data, callback){
     callback({
         currentTime: new Date().toISOString()
-      });
+      })
   }
 }
