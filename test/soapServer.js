@@ -2,6 +2,7 @@ var soap = require('soap');
 var http = require('http');
 var xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
 const handlers = require('../handlers');
+const Utils = require('../utils/utils');
 
 var centralService = {
      CentralSystemService: {
@@ -78,7 +79,7 @@ var centralService = {
      }
  };
 
-//http server example
+// http server
 var server = http.createServer(function(request,response) {
     response.end("404: Not Found: " + request.url);
 });
@@ -87,10 +88,10 @@ server.listen(9000, function(){
   console.log('SOAP Server is listening on port 9000');
 });
 
+// SOAP Server listener
 var soapServer = soap.listen(server, '/Ocpp/CentralSystemService', centralService, xml);
 
 soapServer.log = function(type, data) {
     // type is 'received' or 'replied'
-    console.log('[SOAP Log] Type : ' + type);
-    console.log('[SOAP Log] Data : ' + JSON.stringify(data));
+    console.log(log = Utils.dateToString(d) + ' ['+ type +'] ' + JSON.stringify(data));
   };
