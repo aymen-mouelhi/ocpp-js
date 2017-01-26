@@ -15,7 +15,7 @@ var args = {
     meterSerialNumber: 'gir.vat.mx.000e48'
 };
 
-soap.createClient(url, { endpoint: 'http://127.0.0.1:9000/Ocpp/CentralSystemService'}, function(err, client) {
+soap.createClient(url, { endpoint: 'http://192.168.0.38:9220/Ocpp/CentralSystemService'}, function(err, client) {
   if(client){
     //console.log(client.describe());
     /*

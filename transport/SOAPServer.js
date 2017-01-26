@@ -56,9 +56,7 @@ var centralService = {
                  callback(data);
                });
              },
-             Heartbeat: function(args, callback, headers, req){
-               console.log('Connection: ' + req.connection);
-               console.log('SOAP `Heartbeat` request from ' + req.connection.remoteAddress.replace(/^.*:/, ''));
+             Heartbeat: function(args, callback){
                handlers.Heartbeat.cbHandle(function(data){
                  callback(data);
                });
@@ -100,7 +98,7 @@ var server = http.createServer(function(request,response) {
     response.end(log + " 404: Not Found: " + request.url);
 });
 
-server.listen(9220, function(){
+server.listen(9000, function(){
   console.log(log + ' SOAP Server is listening on port 9000');
 });
 
@@ -109,5 +107,5 @@ var soapServer = soap.listen(server, '/Ocpp/CentralSystemService', centralServic
 
 soapServer.log = function(type, data) {
     // type is 'received' or 'replied'
-    //console.log(log + ' ['+ type +'] ' + JSON.stringify(data));
+    console.log(log + ' ['+ type +'] ' + JSON.stringify(data));
   };
