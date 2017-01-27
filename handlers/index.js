@@ -8,6 +8,7 @@ const StatusNotification = require('./statusNotification');
 const FirmwareStatusNotification = require('./firmwareStatusNotification');
 const DiagnosticsStatusNotification = require('./diagnosticsStatusNotification');
 const DataTransfer = require('./dataTransfer');
+const Reset = require('./reset');
 
 
 module.exports = {
@@ -20,5 +21,6 @@ module.exports = {
     StatusNotification: StatusNotification,
     FirmwareStatusNotification: FirmwareStatusNotification,
     DiagnosticsStatusNotification: DiagnosticsStatusNotification,
-    DataTransfer: DataTransfer
+    DataTransfer: DataTransfer,
+    Reset: Reset
 }

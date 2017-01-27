@@ -10,5 +10,11 @@ module.exports = {
         status: 'Accepted'
       });
     });
+  },
+
+  cbHandle: function(data, callback){
+    callback({
+        status: 'Accepted',
+      })
   }
 }
