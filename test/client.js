@@ -1,10 +1,10 @@
 const ChargingPoint = require('../entities/ChargingPoint');
 
 var soapOptions = {
-    fromHeader: 'http://localhost:9000/Ocpp/ChargePointService/',
-    remoteActionPort: '9000'
+    fromHeader: 'http://localhost:9001',
+    remoteActionPort: '9001'
 }
-var point = new ChargingPoint('http://localhost:9220/Ocpp/CentralSystemService', "3lsonASjk1", "ocpp1.5", 'soap', soapOptions);
+var point = new ChargingPoint('http://localhost:9220', "3lsonASjk1", "ocpp1.5", 'soap', soapOptions);
 
 var boot = setInterval(function() {
 

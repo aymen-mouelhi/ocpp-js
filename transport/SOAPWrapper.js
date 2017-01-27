@@ -86,7 +86,7 @@ SOAPWrapper.prototype = {
           // otherwise, pick the default reponse
           var handler = require('../handlers/' + p.toLowerCase());
 
-          return handler.handle(requestBody).then(function(values){
+          return handler.cbHandle(requestBody,function(values){
             return values;
           });
         };
@@ -272,8 +272,7 @@ SOAPWrapper.prototype = {
         Utils.log("<<"+ options.to
           +" Error: cannot parse response, raw content: "+
           JSON.stringify(result.body), from);
-      }
-      else {
+      } else {
         Utils.log("<<"+ options.to +" /"+ procName +" "+ msg, from);
 
         // call plugins result handlers
@@ -302,7 +301,6 @@ SOAPWrapper.prototype = {
         };
 
     var msg = this.soapServ._envelope(this.wsdl.objectToXML(obj));
-
     Utils.log('>>'+ from +' \n'+ msg, from);
 
     this.res.write(msg);

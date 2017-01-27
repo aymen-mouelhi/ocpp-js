@@ -60,5 +60,12 @@ module.exports = {
                 }
             });
         });
+    },
+
+    cbHandle: function(data, callback){
+      // TODO: Dummy Content
+      callback({
+        status: 'Accepted'
+      })
     }
 }
