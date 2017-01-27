@@ -177,7 +177,7 @@ class SOAPWrapper {
     constructor(mode, log) {
         this.log = log;
         this.mode = mode;
-
+        /*
         if (mode === 'server') {
             this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
             this.services = CentralSystemService;
@@ -192,7 +192,39 @@ class SOAPWrapper {
             this.createClient();
             this.createServer();
         }
+        */
+
+        return this;
     }
+
+    createCentralServer(){
+      this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
+      this.services = CentralSystemService;
+      this.path = '/Ocpp/CentralSystemService';
+      this.port = 9220;
+      this.createServer();
+    }
+
+    createChargePointServer(){
+      this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_chargepointservice_1.5_final.wsdl', 'utf8');
+      this.services = ChargePointService;
+      this.path = '/Ocpp/ChargePointService';
+      this.port = 9221;
+      this.createServer();
+    }
+
+    createCentralClient(){
+      var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
+      var endpoint = 'http://192.168.0.38:9220/Ocpp/CentralSystemService';
+      this.createClient(url, endpoint);
+    }
+
+    createChargePointClient(){
+      var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
+      var endpoint = 'http://192.168.0.38:9220/Ocpp/ChargePointService'
+      this.createClient(url, endpoint);
+    }
+
 
     // TODO: must add SOAP headers
     createServer() {
@@ -221,13 +253,13 @@ class SOAPWrapper {
     }
 
     // TODO: must add SOAP headers
-    createClient() {
+    createClient(url, endpoint) {
         var self = this;
-        var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
-        //var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
+        // var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
+        // var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
 
         soap.createClient(url, {
-            endpoint: 'http://192.168.0.38:9220/Ocpp/CentralSystemService'
+            endpoint: endpoint
         }, function(err, client) {
             if (err) {
                 console.log(self._log() + ' ERROR ' + err);
@@ -254,7 +286,6 @@ class SOAPWrapper {
                         console.log(result);
                     }
                 });
-
             } else {
                 console.log(self._log() + 'soap client is not created ! ');
             }
@@ -267,7 +298,7 @@ class SOAPWrapper {
 
             this.soapServer.addSoapHeader({
                 'chargeBoxIdentity': chargeBoxIdentity
-            }, 'chargeBoxIdentity', 'urn://Ocpp/Cp/2012/06/', 'tns');
+            }, 'chargeBoxIdentity', 'tns', 'urn://Ocpp/Cp/2012/06/');
           }else{
             console.log(self._log() + ' ERROR: soapServer is not initialized !');
           }
