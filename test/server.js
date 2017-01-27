@@ -31,4 +31,4 @@ var remote = setInterval(function(){
     console.log('No stations connected yet !');
   }
   clearInterval(remote);
-}, 10000);
+}, 30000);
