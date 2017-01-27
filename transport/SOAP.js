@@ -182,7 +182,7 @@ class SOAPWrapper {
             this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
             this.services = CentralSystemService;
             this.path = '/Ocpp/CentralSystemService';
-            this.port = 9000;
+            this.port = 9220;
             this.createServer();
         } else {
             this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_chargepointservice_1.5_final.wsdl', 'utf8');
@@ -210,16 +210,10 @@ class SOAPWrapper {
         });
 
         // SOAP Server listener
-        var soapServer = soap.listen(server, this.path, this.services, this.xml);
-
-        /*
-        if (chargeBoxIdentity) {
-          soapServer.addSoapHeader({'chargeBoxIdentity': chargeBoxIdentity});
-        }
-        */
+        this.soapServer = soap.listen(server, this.path, this.services, this.xml);
 
         if (this.log) {
-            soapServer.log = function(type, data) {
+            this.soapServer.log = function(type, data) {
                 // type is 'received' or 'replied'
                 console.log(self._log() + ' [' + type + '] ' + JSON.stringify(data));
             };
@@ -235,10 +229,15 @@ class SOAPWrapper {
         soap.createClient(url, {
             endpoint: 'http://192.168.0.38:9220/Ocpp/CentralSystemService'
         }, function(err, client) {
+            if (err) {
+                console.log(self._log() + ' ERROR ' + err);
+            }
             if (client) {
                 console.log(client.describe());
 
-                client.addSoapHeader({'chargeBoxIdentity': "EVlink"});
+                client.addSoapHeader({
+                    'chargeBoxIdentity': "EVlink"
+                });
                 /*
                 client.BootNotification(args, function(err, result) {
                   if(err){
@@ -260,6 +259,36 @@ class SOAPWrapper {
                 console.log(self._log() + 'soap client is not created ! ');
             }
         });
+    }
+
+    remoteAction(action, chargeBoxIdentity) {
+        if (chargeBoxIdentity) {
+          if(this.soapServer){
+
+            this.soapServer.addSoapHeader({
+                'chargeBoxIdentity': chargeBoxIdentity
+            }, 'chargeBoxIdentity', 'urn://Ocpp/Cp/2012/06/', 'tns');
+          }else{
+            console.log(self._log() + ' ERROR: soapServer is not initialized !');
+          }
+        } else {
+            console.log(self._log() + ' ERROR: ChargeBoxIdentity was\'t specified !');
+        }
+
+        switch (action) {
+            case 'some action':
+
+                break;
+            default:
+                this.soapServer.Reset(function(err, result) {
+                    if (err) {
+                        console.log(self._log() + ' ERROR while resetting' + err);
+                    } else {
+                        console.log('Post Reset:' + result);
+                    }
+                });
+                break;
+        }
     }
 
     _log() {
