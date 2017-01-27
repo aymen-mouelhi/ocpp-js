@@ -3,7 +3,6 @@ var http = require('http');
 var portfinder = require('portfinder');
 const handlers = require('../handlers');
 const Utils = require('../utils/utils');
-var port = 9000;
 
 var CentralSystemService = {
     CentralSystemService: {
@@ -183,7 +182,7 @@ class SOAPWrapper {
             this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
             this.services = CentralSystemService;
             this.path = '/Ocpp/CentralSystemService';
-            this.port = 9220;
+            this.port = 9000;
             this.createServer();
         } else {
             this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_chargepointservice_1.5_final.wsdl', 'utf8');
@@ -199,6 +198,7 @@ class SOAPWrapper {
     createServer() {
         var self = this;
         var name = self.path.replace('/Ocpp/', '').replace('Service', '');
+
         // http server
         var server = http.createServer(function(request, response) {
             response.end(self._log() + " 404: Not Found: " + request.url);
@@ -211,6 +211,12 @@ class SOAPWrapper {
 
         // SOAP Server listener
         var soapServer = soap.listen(server, this.path, this.services, this.xml);
+
+        /*
+        if (chargeBoxIdentity) {
+          soapServer.addSoapHeader({'chargeBoxIdentity': chargeBoxIdentity});
+        }
+        */
 
         if (this.log) {
             soapServer.log = function(type, data) {
