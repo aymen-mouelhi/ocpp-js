@@ -173,6 +173,9 @@ var ChargePointService = {
     }
 }
 
+// TODO: singleton connections array to store list of connected clients
+let connections = null;
+
 class SOAPWrapper {
     constructor(mode, log) {
         this.log = log;
@@ -293,6 +296,7 @@ class SOAPWrapper {
     }
 
     remoteAction(action, chargeBoxIdentity) {
+
         if (chargeBoxIdentity) {
           if(this.soapServer){
             this.soapServer.addSoapHeader('<ns:chargeBoxIdentity>EVLink-3</ns:chargeBoxIdentity>');
@@ -301,7 +305,7 @@ class SOAPWrapper {
                 'chargeBoxIdentity': chargeBoxIdentity
             }, 'chargeBoxIdentity', 'tns', 'urn://Ocpp/Cp/2012/06/');
             */
-          }else{
+          } else {
             console.log(self._log() + ' ERROR: soapServer is not initialized !');
           }
         } else {
@@ -315,7 +319,8 @@ class SOAPWrapper {
 
                 break;
             default:
-                this.soapServer.Reset(function(err, result) {
+              // TODO: HTTP request
+              this.soapServer.Reset(function(err, result) {
                     if (err) {
                         console.log(self._log() + ' ERROR while resetting' + err);
                     } else {
