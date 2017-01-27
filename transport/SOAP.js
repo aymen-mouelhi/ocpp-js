@@ -197,7 +197,7 @@ class SOAPWrapper {
         return this;
     }
 
-    createCentralServer(){
+    createCentralSystemServer(){
       this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
       this.services = CentralSystemService;
       this.path = '/Ocpp/CentralSystemService';
