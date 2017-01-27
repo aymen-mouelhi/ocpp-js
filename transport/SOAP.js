@@ -1,5 +1,6 @@
 var soap = require('soap');
 var http = require('http');
+var portfinder = require('portfinder');
 const handlers = require('../handlers');
 const Utils = require('../utils/utils');
 var port = 9000;
@@ -56,7 +57,8 @@ var CentralSystemService = {
                     callback(data);
                 });
             },
-            Heartbeat: function(args, callback) {
+            Heartbeat: function(args, callback, headers) {
+                console.log('Headers: ' + JSON.stringify(headers));
                 handlers.Heartbeat.cbHandle(function(data) {
                     callback(data);
                 });
@@ -229,6 +231,8 @@ class SOAPWrapper {
         }, function(err, client) {
             if (client) {
                 console.log(client.describe());
+
+                client.addSoapHeader({'chargeBoxIdentity': "EVlink"});
                 /*
                 client.BootNotification(args, function(err, result) {
                   if(err){
@@ -237,7 +241,7 @@ class SOAPWrapper {
                     console.log(result);
                   }
                 });
-
+                */
                 client.Heartbeat(function(err, result) {
                     if (err) {
                         console.log(self._log() + ' ERROR ' + err);
@@ -245,7 +249,7 @@ class SOAPWrapper {
                         console.log(result);
                     }
                 });
-                */
+
             } else {
                 console.log(self._log() + 'soap client is not created ! ');
             }

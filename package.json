@@ -20,6 +20,7 @@
     "firebase": "^3.6.6",
     "moment": "^2.17.1",
     "node-expat": "^2.3.15",
+    "portfinder": "^1.0.12",
     "promise": "^7.1.1",
     "request": "^2.79.0",
     "soap": "^0.18.0",
