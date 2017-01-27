@@ -6,4 +6,6 @@ var server = new SOAPWrapper('server', true);
 
 server.createChargePointServer();
 
-server.remoteAction('reset', 'EVLink-2');
+
+
+//server.remoteAction('reset', 'EVLink-2');

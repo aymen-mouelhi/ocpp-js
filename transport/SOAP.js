@@ -282,6 +282,17 @@ class SOAPWrapper {
                   }
                 });
                 */
+
+                client.Reset({
+                  type: 'Hard'
+                },function(err, result){
+                  if (err) {
+                      console.log(self._log() + ' ERROR ' + err);
+                  } else {
+                      console.log(result);
+                  }
+                });
+                /*
                 client.Heartbeat(function(err, result) {
                     if (err) {
                         console.log(self._log() + ' ERROR ' + err);
@@ -289,6 +300,7 @@ class SOAPWrapper {
                         console.log(result);
                     }
                 });
+                */
             } else {
                 console.log(self._log() + 'soap client is not created ! ');
             }
@@ -312,14 +324,12 @@ class SOAPWrapper {
             console.log(self._log() + ' ERROR: ChargeBoxIdentity was\'t specified !');
         }
 
-        console.log('soapServer ' + this.soapServer);
-
         switch (action) {
-            case 'some action':
+            case 'getConguration':
 
                 break;
             default:
-              // TODO: HTTP request
+              /*
               this.soapServer.Reset(function(err, result) {
                     if (err) {
                         console.log(self._log() + ' ERROR while resetting' + err);
@@ -327,8 +337,40 @@ class SOAPWrapper {
                         console.log('Post Reset:' + result);
                     }
                 });
+                */
+                var ip = connections[chargeBoxIdentity].remoteAddress;
+
+                // TODO: http post request
+
+                /*
+                this.soapServer._executeMethod({
+                  serviceName: 'ChargePointService',
+                  portName: 'ChargePointServiceSoap12',
+                  methodName: 'Reset',
+                  outputName: 'ResetResponse',
+                  args: {
+                    type: 'Hard'
+                  },
+                  headers: {
+                    'chargeBoxIdentity': chargeBoxIdentity
+                  },
+                  style: 'rpc',
+                },
+                  null,
+                  function(err,data){
+                    console.log(err);
+                    console.log(data);
+                  });
+                  */
                 break;
         }
+    }
+
+
+    reset(){
+      var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
+      var endpoint = 'http://localhost:9221/Ocpp/ChargePointService';
+      this.createClient(url, endpoint);
     }
 
     _log() {
