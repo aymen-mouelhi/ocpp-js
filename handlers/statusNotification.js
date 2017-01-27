@@ -12,5 +12,11 @@ module.exports = {
         resolve({});
       });
     });
+  },
+
+  cbHandle: function(data, callback){
+    Storage.save('notifications',data).then(function(){
+      callback({})
+    });
   }
 }

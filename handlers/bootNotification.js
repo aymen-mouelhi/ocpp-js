@@ -19,10 +19,12 @@ module.exports = {
   },
 
   cbHandle: function(data, callback){
-    callback({
-        status: 'Accepted',
-        currentTime: new Date().toISOString(),
-        heartbeatInterval: 1200
-      })
+    Storage.save('stations', data).then(function(){
+      callback({
+          status: 'Accepted',
+          currentTime: new Date().toISOString(),
+          heartbeatInterval: 1200
+        });
+    });
   }
 }
