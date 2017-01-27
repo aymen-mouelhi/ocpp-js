@@ -295,16 +295,20 @@ class SOAPWrapper {
     remoteAction(action, chargeBoxIdentity) {
         if (chargeBoxIdentity) {
           if(this.soapServer){
-
+            this.soapServer.addSoapHeader('<ns:chargeBoxIdentity>EVLink-3</ns:chargeBoxIdentity>');
+            /*
             this.soapServer.addSoapHeader({
                 'chargeBoxIdentity': chargeBoxIdentity
             }, 'chargeBoxIdentity', 'tns', 'urn://Ocpp/Cp/2012/06/');
+            */
           }else{
             console.log(self._log() + ' ERROR: soapServer is not initialized !');
           }
         } else {
             console.log(self._log() + ' ERROR: ChargeBoxIdentity was\'t specified !');
         }
+
+        console.log('soapServer ' + this.soapServer);
 
         switch (action) {
             case 'some action':
