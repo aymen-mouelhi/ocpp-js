@@ -292,6 +292,8 @@ class SOAPWrapper {
                       console.log(result);
                   }
                 });
+
+                client.getConguration({}, function(err, result){})
                 /*
                 client.Heartbeat(function(err, result) {
                     if (err) {
