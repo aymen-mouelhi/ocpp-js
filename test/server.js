@@ -31,4 +31,4 @@ var remote = setInterval(function() {
     });
 
     clearInterval(remote);
-}, 30000);
+}, 10000);

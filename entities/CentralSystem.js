@@ -17,13 +17,19 @@ class CentralSystem{
                     return;
                 //Plugins.callClientConnectionEventHandlers('connected', cbId, this);
 
-                Utils.log('ChargePoint #' + cbId + ' connected.', 'cs');
+                Utils.log('[setRemoteAddress] ChargePoint #' + cbId + ' connected.', 'cs');
 
-                _this._connections[cbId] = {
-                    client: new Transport.TransportLayerClient(this,transport, 'cs', 'client', {
-                            fromHeader: address
-                        }).layer
-                };
+                var connection = {
+                  chargeBoxIdentity: cbId,
+                  client: new Transport.TransportLayerClient(this,transport, 'cs', 'client', {
+                          fromHeader: address
+                      }).layer
+                }
+
+                _this._connections.push(connection);
+
+
+                console.log('_this._connections: ' + JSON.stringify(_this._connections));
             };
 
             this.transportLayer.layer.soapServ.log = Utils.logSoap;
@@ -49,7 +55,7 @@ class CentralSystem{
 
         for(var i=0; i<this._connections.length; i++){
           var c = this._connections[i];
-          if(c.cpId === clientId){
+          if(c.chargeBoxIdentity === clientId){
               connection = c;
           }
         }
