@@ -173,30 +173,12 @@ var ChargePointService = {
     }
 }
 
-// TODO: singleton connections array to store list of connected clients
 let connections = null;
 
 class SOAPWrapper {
     constructor(mode, log) {
         this.log = log;
         this.mode = mode;
-        /*
-        if (mode === 'server') {
-            this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
-            this.services = CentralSystemService;
-            this.path = '/Ocpp/CentralSystemService';
-            this.port = 9220;
-            this.createServer();
-        } else {
-            this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_chargepointservice_1.5_final.wsdl', 'utf8');
-            this.services = ChargePointService;
-            this.path = '/Ocpp/ChargePointService';
-            this.port = 9221;
-            this.createClient();
-            this.createServer();
-        }
-        */
-
         return this;
     }
 
@@ -219,13 +201,23 @@ class SOAPWrapper {
     createCentralClient(){
       var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
       var endpoint = 'http://192.168.0.38:9220/Ocpp/CentralSystemService';
-      this.createClient(url, endpoint);
+
+      this.createClient(url, endpoint).then(function(client){
+        resolve(client);
+      }).catch(function(error){
+        reject(error);
+      });
     }
 
     createChargePointClient(){
       var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
       var endpoint = 'http://192.168.0.38:9220/Ocpp/ChargePointService'
-      this.createClient(url, endpoint);
+
+      this.createClient(url, endpoint).then(function(client){
+        resolve(client);
+      }).catch(function(error){
+        reject(error);
+      });
     }
 
 
@@ -253,126 +245,26 @@ class SOAPWrapper {
                 console.log(self._log() + ' [' + type + '] ' + JSON.stringify(data));
             };
         }
+
+        return this.soapServer;
     }
 
     // TODO: must add SOAP headers
     createClient(url, endpoint) {
         var self = this;
-        // var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
-        // var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
-
-        soap.createClient(url, {
-            endpoint: endpoint
-        }, function(err, client) {
-            if (err) {
-                console.log(self._log() + ' ERROR ' + err);
-            }
-            if (client) {
-                console.log(client.describe());
-
-                client.addSoapHeader({
-                    'chargeBoxIdentity': "EVlink"
-                });
-                /*
-                client.BootNotification(args, function(err, result) {
-                  if(err){
-                    console.log(err);
-                  }else{
-                    console.log(result);
-                  }
-                });
-                */
-
-                client.Reset({
-                  type: 'Hard'
-                },function(err, result){
-                  if (err) {
-                      console.log(self._log() + ' ERROR ' + err);
-                  } else {
-                      console.log(result);
-                  }
-                });
-
-                client.getConguration({}, function(err, result){})
-                /*
-                client.Heartbeat(function(err, result) {
-                    if (err) {
-                        console.log(self._log() + ' ERROR ' + err);
-                    } else {
-                        console.log(result);
-                    }
-                });
-                */
-            } else {
-                console.log(self._log() + 'soap client is not created ! ');
-            }
+        return new Promise(function(resolve, reject) {
+          soap.createClient(url, {
+              endpoint: endpoint
+          }, function(err, client) {
+              if (err) {
+                  console.log(self._log() + ' ERROR ' + err);
+                  reject(err);
+              }else{
+                resolve(client)
+              }
+          });
         });
-    }
 
-    remoteAction(action, chargeBoxIdentity) {
-
-        if (chargeBoxIdentity) {
-          if(this.soapServer){
-            this.soapServer.addSoapHeader('<ns:chargeBoxIdentity>EVLink-3</ns:chargeBoxIdentity>');
-            /*
-            this.soapServer.addSoapHeader({
-                'chargeBoxIdentity': chargeBoxIdentity
-            }, 'chargeBoxIdentity', 'tns', 'urn://Ocpp/Cp/2012/06/');
-            */
-          } else {
-            console.log(self._log() + ' ERROR: soapServer is not initialized !');
-          }
-        } else {
-            console.log(self._log() + ' ERROR: ChargeBoxIdentity was\'t specified !');
-        }
-
-        switch (action) {
-            case 'getConguration':
-
-                break;
-            default:
-              /*
-              this.soapServer.Reset(function(err, result) {
-                    if (err) {
-                        console.log(self._log() + ' ERROR while resetting' + err);
-                    } else {
-                        console.log('Post Reset:' + result);
-                    }
-                });
-                */
-                var ip = connections[chargeBoxIdentity].remoteAddress;
-
-                // TODO: http post request
-
-                /*
-                this.soapServer._executeMethod({
-                  serviceName: 'ChargePointService',
-                  portName: 'ChargePointServiceSoap12',
-                  methodName: 'Reset',
-                  outputName: 'ResetResponse',
-                  args: {
-                    type: 'Hard'
-                  },
-                  headers: {
-                    'chargeBoxIdentity': chargeBoxIdentity
-                  },
-                  style: 'rpc',
-                },
-                  null,
-                  function(err,data){
-                    console.log(err);
-                    console.log(data);
-                  });
-                  */
-                break;
-        }
-    }
-
-
-    reset(){
-      var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
-      var endpoint = 'http://localhost:9221/Ocpp/ChargePointService';
-      this.createClient(url, endpoint);
     }
 
     _log() {
