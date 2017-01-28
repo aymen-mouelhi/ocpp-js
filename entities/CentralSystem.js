@@ -74,7 +74,7 @@ class CentralSystem{
         type: 'Hard'
       });
 
-      this.unlockConnector(pointId)
+      this.unlockConnector(pointId);
     }
 
     clearCache(stationId){
@@ -105,7 +105,7 @@ class CentralSystem{
       this.remoteAction(stationId, 'RemoteStopTransaction', data);
     }
 
-    reset(stationId){
+    reset(stationId, data){
       this.remoteAction(stationId, 'Reset', data);
     }
 

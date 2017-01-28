@@ -3,32 +3,32 @@ const CentralSystem = require('../entities/CentralSystem');
 var server = new CentralSystem(9220, 'soap');
 
 
-var remote = setInterval(function(){
-  var connection;
+var remote = setInterval(function() {
+    var connection;
 
-  if (server.getConnections()) {
-      connection = server.getConnections()[0];
-      if(connection){
-        var id = connection.cpId;
+    if (server.getConnections()) {
+        connection = server.getConnections()[0];
+    } else {
+        console.log('No stations connected yet !');
+    }
 
-        // Execute some remote actions
-        server.clearCache(id);
+    if (connection) {
+        id = connection.cpId;
+    } else {
+        id = '3lsonASjk1';
+    }
 
-        server.reset({
-          type: 'Soft'
-        });
+    // Execute some remote actions
+    server.clearCache(id);
 
-        server.changeAvailability(id, {
-          connectorId: id,
-          type: 'Inoperative'
-        });
+    server.reset(id, {
+        type: 'Soft'
+    });
 
-        // TODO: method chaining
-      }else{
-          console.log('No stations connected yet !');
-      }
-  }else{
-    console.log('No stations connected yet !');
-  }
-  clearInterval(remote);
+    server.changeAvailability(id, {
+        connectorId: id,
+        type: 'Inoperative'
+    });
+
+    clearInterval(remote);
 }, 30000);
