@@ -89,16 +89,29 @@ class MongoDB {
             }else{
               resolve({});
             }
-          })
+          });
         });
     }
 
     saveWithId(collection, id, data) {
+      // Update
+        var Model = self._getModel(collection);
         var self = this;
         return new Promise(function(resolve, reject) {
-            self.firebase.database().ref('/' + collection + '/' + id).set(data).then(function() {
-                resolve({});
-            });
+          self.findById(collection, id).then(function(found){
+            if(found){
+              var update = new Model(data);
+              update.save(function(err){
+                if(err){
+                  reject(err)
+                }else{
+                  resolve({});
+                }
+              });
+            }else{
+              reject('Collection ' + collection +  'doesn\'t contain ' + id);
+            }
+          });
         });
     }
 }
