@@ -3,6 +3,7 @@ var http = require('http');
 var portfinder = require('portfinder');
 const handlers = require('../handlers');
 const Utils = require('../utils/utils');
+const Promise = require('promise');
 
 var CentralSystemService = {
     CentralSystemService: {
@@ -199,24 +200,31 @@ class SOAPWrapper {
     }
 
     createCentralClient(){
+      var self = this;
       var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
-      var endpoint = 'http://192.168.0.38:9220/Ocpp/CentralSystemService';
+      var endpoint = 'http://localhost:9220/Ocpp/CentralSystemService';
 
-      this.createClient(url, endpoint).then(function(client){
-        resolve(client);
-      }).catch(function(error){
-        reject(error);
+      return new Promise(function(resolve, reject) {
+        self.createClient(url, endpoint).then(function(client){
+          resolve(client);
+        }).catch(function(error){
+          reject(error);
+        });
       });
     }
 
     createChargePointClient(){
+      var self = this;
       var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
-      var endpoint = 'http://192.168.0.38:9220/Ocpp/ChargePointService'
+      //var endpoint = 'http://192.168.0.38:8080/Ocpp/ChargePointService'
+      var endpoint = 'http://localhost:9221/Ocpp/ChargePointService'
 
-      this.createClient(url, endpoint).then(function(client){
-        resolve(client);
-      }).catch(function(error){
-        reject(error);
+      return new Promise(function(resolve, reject) {
+        self.createClient(url, endpoint).then(function(client){
+          resolve(client);
+        }).catch(function(error){
+          reject(error);
+        });
       });
     }
 

@@ -6,6 +6,7 @@ const TransportLayerServer = require('./TransportLayerServer');
 const TransportLayerClient = require('./TransportLayerClient');
 const HTTPServerWrapper = require('./HTTPServerWrapper');
 const WebSocketServerWrapper = require('./WebSocketServerWrapper');
+const SOAPWrapper = require('./SOAP');
 
 var url = require("url");
 
@@ -24,6 +25,7 @@ module.exports = {
   TransportLayerClient: TransportLayerClient,
   HTTPServerWrapper: HTTPServerWrapper,
   WebSocketServerWrapper: WebSocketServerWrapper,
+  SOAPWrapper: SOAPWrapper,
 
   retrieveIPAddress: function() {
     // TODO SYNC

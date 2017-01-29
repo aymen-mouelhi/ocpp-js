@@ -1,14 +1,21 @@
 const Config = require('../config/config.js');
 const Utils = require('../utils/utils.js');
 const Transport = require('../transport');
+const SOAPWrapper = new Transport.SOAPWrapper();
 
 class CentralSystem{
     constructor(port, transport = Transport.TRANSPORT_LAYER) {
+        var self = this;
         this.port = port;
         this._wsServer = null;
         this._connections = [];
         this.transportLayer = new Transport.TransportLayerServer(this, transport, 'cs', 'server');
+        SOAPWrapper.createChargePointClient().then(function(client){
+            self.chargePointClient = client;
+        });
 
+
+        /*
         var _this = this;
         if (transport == 'soap') {
             this.transportLayer.layer.soapServ.setRemoteAddress = function(cbId, address, action) {
@@ -33,6 +40,7 @@ class CentralSystem{
 
             this.transportLayer.layer.soapServ.log = Utils.logSoap;
         }
+        */
 
         // TODO: create SOAP client for server actions
     }
@@ -69,6 +77,13 @@ class CentralSystem{
         var resultFunction = function() {};
 
         connection.client.rpcCall(procName, args || {}, Config.TIMEOUT, resultFunction, { to: "cp#" + clientId });
+
+        clientId = clientId || 'EVlink-2';
+        // Remove soap headers
+        this.chargePointClient.addSoapHeader({
+          chargeBoxIdentity: clientId
+        });
+
     }
 
     getConnections(){
@@ -84,66 +99,135 @@ class CentralSystem{
       this.unlockConnector(pointId);
     }
 
+    _updateSoapHeaders(clientId){
+      // Remove soap headers
+      this.chargePointClient.clearSoapHeaders();
+
+      this.chargePointClient.addSoapHeader({
+        chargeBoxIdentity: clientId
+      });
+    }
+
     clearCache(stationId){
-      this.remoteAction(stationId, 'ClearCache', {});
+      this._updateSoapHeaders(stationId);
+
+      this.chargePointClient.ClearCache(function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     changeAvailability(stationId, data){
-      this.remoteAction(stationId, 'ChangeAvailability', data);
+      this._updateSoapHeaders(stationId);
+
+      this.chargePointClient.ChangeAvailability(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     changeConguration(stationId, data){
-      this.remoteAction(stationId, 'ChangeConguration', data);
+      this._updateSoapHeaders(stationId);
+
+      this.chargePointClient.ChangeConguration(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     getConguration(stationId){
-      this.remoteAction(stationId, 'GetConguration', data);
+      this._updateSoapHeaders(stationId);
+
+      this.chargePointClient.GetConguration(function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     getDiagnostics(stationId){
-      this.remoteAction(stationId, 'GetDiagnostics', data);
+      this._updateSoapHeaders(stationId);
+
+      this.chargePointClient.GetDiagnostics(function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     remoteStartTransaction(stationId, data){
-      this.remoteAction(stationId, 'RemoteStartTransaction', data);
+      this._updateSoapHeaders(stationId);
+
+      this.chargePointClient.RemoteStartTransaction(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     remoteStopTransaction(stationId, data){
-      this.remoteAction(stationId, 'RemoteStopTransaction', data);
+      this._updateSoapHeaders(stationId);
+
+      this.chargePointClient.RemoteStopTransaction(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     reset(stationId, data){
-      this.remoteAction(stationId, 'Reset', data);
+      this._updateSoapHeaders(stationId);
+
+      this.chargePointClient.Reset(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     unlockConnector(stationId){
-      this.remoteAction(stationId, 'UnlockConnector', {
+      this._updateSoapHeaders(stationId);
+
+      this.chargePointClient.UnlockConnector({
         connectorId: stationId
+      }, function(result){
+        console.log(JSON.stringify(result));
       });
     }
 
     updateFirmware(stationId, data){
-      this.remoteAction(stationId, 'UpdateFirmware', data);
+      this._updateSoapHeaders(stationId);
+
+      this.chargePointClient.UpdateFirmware(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     reserveNow(stationId, data){
-      this.remoteAction(stationId, 'ReserveNow', data);
+      this._updateSoapHeaders(stationId);
+
+      this.chargePointClient.ReserveNow(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     cancelReservation(stationId, data){
-      this.remoteAction(stationId, 'CancelReservation', data);
+      this._updateSoapHeaders(stationId);
+
+      this.chargePointClient.CancelReservation(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     sendLocalList(stationId, data){
-      this.remoteAction(stationId, 'SendLocalList', data);
+      this._updateSoapHeaders(stationId);
+
+      this.chargePointClient.SendLocalList(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     getLocalListVersion(stationId){
-      this.remoteAction(stationId, 'GetLocalListVersion', {});
+      this._updateSoapHeaders(stationId);
+
+      this.chargePointClient.GetLocalListVersion(function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     dataTransfer(stationId, data){
-      this.remoteAction(stationId, 'DataTransfer', data);
+      this._updateSoapHeaders(stationId);
+
+      this.chargePointClient.DataTransfer(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
 }
