@@ -3,66 +3,102 @@ const mongoose = require('mongoose');
 
 // Define Models
 const stationSchema = new mongoose.Schema({
-  chargeBoxIdentity: {type: 'String', required: true },
-  chargePointVendor: 'String',
-  chargePointModel: 'String',
-  chargePointSerialNumber: 'String',
-  chargeBoxSerialNumber: 'String',
-  firmwareVersion: 'String',
-  iccid: 'String',
-  imsi: 'String',
-  meterType: 'String',
-  meterSerialNumber: 'String'
+    chargeBoxIdentity: {
+        type: 'String',
+        required: true
+    },
+    chargePointVendor: 'String',
+    chargePointModel: 'String',
+    chargePointSerialNumber: 'String',
+    chargeBoxSerialNumber: 'String',
+    firmwareVersion: 'String',
+    iccid: 'String',
+    imsi: 'String',
+    meterType: 'String',
+    meterSerialNumber: 'String'
 });
 
 const notificationSchema = new mongoose.Schema({
-  unread: { type: Boolean, required: true },
-}, { strict: false });
+    unread: {
+        type: Boolean,
+        required: true
+    },
+}, {
+    strict: false
+});
+
+const Station = mongoose.model('Station', stationSchema);
+const Notification = mongoose.model('Notification', notificationSchema);
 
 class MongoDB {
-  constructor() {
-    mongoose.connect('mongodb://localhost/myappdatabase');
-  }
+    constructor() {
+        this.url = process.env.mongoUrl || 'mongodb://localhost/myappdatabase';
+        mongoose.connect(this.url);
+    }
 
-  findAll(collection){
-    var self = this;
-    return new Promise(function(resolve, reject) {
-      return self.firebase.database().ref('/' + collection).once('value').then(function(snapshot){
-        var data = snapshot.val();
-        resolve(data);
-      }).catch(function(error){
-        reject(error);
+    _getModel(collection) {
+        var Collection = null;
+        switch (collection.toLowerCase()) {
+            case 'notification':
+                Collection = new Notification();
+                break;
+            case 'station':
+                Collection = new Station();
+                break
+            default:
+                console.log('[MongoDB] Collection ' + collection + ' is not known !');
+                break;
+        }
+        return Collection;
+    }
+
+    findAll(collection) {
+      var self = this;
+      return new Promise(function(resolve, reject) {
+        self._getModel(collection).find({}, function(err, data) {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(data);
+            }
+        });
       });
-    });
-  }
+    }
 
-  findById(collection, id){
-    var self = this;
-    return new Promise(function(resolve, reject) {
-      self.firebase.database().ref('/' + collection + '/' + id).once('value').then(function(snapshot){
-        var data = snapshot.val();
-        resolve(data);
-      }).catch(function(error){
-        reject(error);
+    findById(collection, id) {
+      var self = this;
+      return new Promise(function(resolve, reject) {
+        self._getModel(collection).findById(id, function(err, data) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(data);
+                });
+        });
       });
-    });
-  }
+    }
 
-  save(collection, data){
-    var self = this;
+    save(collection, data) {
+        var self = this;
+        var Model = self._getModel(collection);
+        return new Promise(function(resolve, reject) {
+          var entry = new Model(data);
+          entry.save(function(err){
+            if(err){
+              reject(err)
+            }else{
+              resolve({});
+            }
+          })
+        });
+    }
 
-    return new Promise(function(resolve, reject) {
-
-      resolve();
-    });
-  }
-
-  saveWithId(collection, id, data){
-    var self = this;
-    return new Promise(function(resolve, reject) {
-      self.firebase.database().ref('/' + collection + '/' + id).set(data).then(function(){
-        resolve({});
-      });
-    });
-  }
+    saveWithId(collection, id, data) {
+        var self = this;
+        return new Promise(function(resolve, reject) {
+            self.firebase.database().ref('/' + collection + '/' + id).set(data).then(function() {
+                resolve({});
+            });
+        });
+    }
 }
