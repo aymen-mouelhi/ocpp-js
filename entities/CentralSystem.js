@@ -1,29 +1,17 @@
 const Config = require('../config/config.js');
 const Utils = require('../utils/utils.js');
 const Transport = require('../transport');
-const SOAPWrapper = new Transport.SOAPWrapper();
 
 class CentralSystem{
-    constructor(port, transport = Transport.TRANSPORT_LAYER) {
+    constructor(port) {
+        const SOAPWrapper = new Transport.SOAPWrapper(port);
         var self = this;
         this.port = port;
-        this._wsServer = null;
-        this._connections = [];
-        //this.transportLayer = new Transport.TransportLayerServer(this, transport, 'cs', 'server');
-
         SOAPWrapper.createCentralSystemServer();
 
         SOAPWrapper.createChargePointClient().then(function(client){
             self.chargePointClient = client;
         });
-    }
-
-    stop() {
-        this._wsServer.closeAllConnections();
-        this._wsServer.shutDown();
-        this._wsServer = null;
-        this._httpServer.close();
-        this._httpServer = null;
     }
 
     getConnections(){
@@ -50,7 +38,7 @@ class CentralSystem{
     clearCache(stationId){
       this._updateSoapHeaders(stationId);
 
-      this.chargePointClient.ClearCache(function(result){
+      this.chargePointClient.ClearCache({}, function(result){
         console.log(JSON.stringify(result));
       });
     }
@@ -74,7 +62,7 @@ class CentralSystem{
     getConguration(stationId){
       this._updateSoapHeaders(stationId);
 
-      this.chargePointClient.GetConguration(function(result){
+      this.chargePointClient.GetConguration({}, function(result){
         console.log(JSON.stringify(result));
       });
     }
@@ -82,7 +70,7 @@ class CentralSystem{
     getDiagnostics(stationId){
       this._updateSoapHeaders(stationId);
 
-      this.chargePointClient.GetDiagnostics(function(result){
+      this.chargePointClient.GetDiagnostics({}, function(result){
         console.log(JSON.stringify(result));
       });
     }

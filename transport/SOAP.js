@@ -45,7 +45,9 @@ var CentralSystemService = {
             },
             BootNotification: function(args, callback, headers) {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
+                console.log('[SOAPWrapper] BootNotification ');
                 handlers.BootNotification.cbHandle(args, function(data) {
+                    console.log('[SOAPWrapper] BootNotification result: ' + JSON.stringify(data));
                     callback(data);
                 });
             },
@@ -111,6 +113,7 @@ var ChargePointService = {
             },
             Reset: function(args, callback) {
                 handlers.Reset.cbHandle(args, function(data) {
+                  console.log('[SOAPWrapper] reset result: ' + JSON.stringify(data));
                     callback(data);
                 });
             },

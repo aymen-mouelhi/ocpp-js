@@ -1,6 +1,7 @@
 const Promise = require('promise');
 const mongoose = require('mongoose');
-
+const BlueBird = require('bluebird');
+mongoose.Promise = Promise;
 // Define Models
 const stationSchema = new mongoose.Schema({
     chargeBoxIdentity: {
@@ -27,10 +28,10 @@ const notificationSchema = new mongoose.Schema({
     strict: false
 });
 
-const Station = mongoose.model('Station', stationSchema);
-const Notification = mongoose.model('Notification', notificationSchema);
 
 let instance =  null;
+const Station = mongoose.model('Station', stationSchema);
+const Notification = mongoose.model('Notification', notificationSchema);
 class MongoDB {
     constructor() {
         this.url = process.env.mongoUrl || 'mongodb://localhost/myappdatabase';
@@ -85,20 +86,22 @@ class MongoDB {
     }
 
     save(collection, data) {
-        var self = this;
-        var Model = self._getModel(collection);
-        return new Promise(function(resolve, reject) {
-          var entry = new Model(data);
-          console.log('[MongoDB] saving data into '+ collection);
-          entry.save(function(err){
-            if(err){
-              console.log('[MongoDB] ERROR: ' + err);
-              reject(err)
-            }else{
-              resolve({});
-            }
-          });
+      var self = this;
+      var Model = self._getModel(collection);
+      return new Promise(function(resolve, reject) {
+        // TODO: check if item exists
+        var entry = new Model(data);
+        console.log('[MongoDB] saving data into '+ collection);
+        entry.save(function(err){
+          if(err){
+            console.log('[MongoDB] ERROR: ' + err);
+            reject(err)
+          }else{
+            console.log('[MongoDB] No ERROR!');
+            resolve({});
+          }
         });
+      });
     }
 
     saveWithId(collection, id, data) {
