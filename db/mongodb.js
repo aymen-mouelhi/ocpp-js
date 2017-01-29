@@ -17,7 +17,7 @@ const stationSchema = new mongoose.Schema({
 
 const notificationSchema = new mongoose.Schema({
   unread: { type: Boolean, required: true },
-});
+}, { strict: false });
 
 class MongoDB {
   constructor() {
