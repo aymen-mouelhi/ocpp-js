@@ -7,7 +7,7 @@ class FireBase {
     if(!instance){
       this.firebase = require('firebase');
       // TODO: config has to be stored in config/firebase.json
-      
+
       var config = {
           apiKey: process.env.apiKey,
           authDomain: process.env.authDomain,

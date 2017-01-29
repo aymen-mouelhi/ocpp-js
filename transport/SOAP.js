@@ -37,53 +37,62 @@ var CentralSystemService = {
                 };
             },
 
-            Authorize: function(args, callback) {
+            Authorize: function(args, callback, headers) {
+                args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 handlers.Authorize.cbHandle(args, function(data) {
                     callback(data);
                 });
             },
-            BootNotification: function(args, callback) {
+            BootNotification: function(args, callback, headers) {
+                args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 handlers.BootNotification.cbHandle(args, function(data) {
                     callback(data);
                 });
             },
-            StartTransaction: function(args, callback) {
+            StartTransaction: function(args, callback, headers) {
+                args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 handlers.StartTransaction.cbHandle(args, function(data) {
                     callback(data);
                 });
             },
-            StopTransaction: function(args, callback) {
+            StopTransaction: function(args, callback, headers) {
+                args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 handlers.StopTransaction.cbHandle(args, function(data) {
                     callback(data);
                 });
             },
             Heartbeat: function(args, callback, headers) {
-                console.log('Headers: ' + JSON.stringify(headers));
+                args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 handlers.Heartbeat.cbHandle(function(data) {
                     callback(data);
                 });
             },
-            MeterValues: function(args, callback) {
+            MeterValues: function(args, callback, headers) {
+                args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 handlers.MeterValues.cbHandle(args, function(data) {
                     callback(data);
                 });
             },
-            StatusNotification: function(args, callback) {
+            StatusNotification: function(args, callback, headers) {
+                args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 handlers.StatusNotification.cbHandle(args, function(data) {
                     callback(data);
                 });
             },
-            FirmwareStatusNotification: function(args, callback) {
+            FirmwareStatusNotification: function(args, callback, headers) {
+                args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 handlers.FirmwareStatusNotification.cbHandle(args, function(data) {
                     callback(data);
                 });
             },
-            DiagnosticsStatusNotification: function(args, callback) {
+            DiagnosticsStatusNotification: function(args, callback, headers) {
+                args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 handlers.DiagnosticsStatusNotification.cbHandle(args, function(data) {
                     callback(data);
                 });
             },
-            DataTransfer: function(args, callback) {
+            DataTransfer: function(args, callback, headers) {
+                args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 handlers.DataTransfer.cbHandle(args, function(data) {
                     callback(data);
                 });
@@ -183,51 +192,50 @@ class SOAPWrapper {
         return this;
     }
 
-    createCentralSystemServer(){
-      this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
-      this.services = CentralSystemService;
-      this.path = '/Ocpp/CentralSystemService';
-      this.port = 9220;
-      this.createServer();
+    createCentralSystemServer() {
+        this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
+        this.services = CentralSystemService;
+        this.path = '/Ocpp/CentralSystemService';
+        this.port = 9220;
+        this.createServer();
     }
 
-    createChargePointServer(){
-      this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_chargepointservice_1.5_final.wsdl', 'utf8');
-      this.services = ChargePointService;
-      this.path = '/Ocpp/ChargePointService';
-      this.port = 9221;
-      this.createServer();
+    createChargePointServer() {
+        this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_chargepointservice_1.5_final.wsdl', 'utf8');
+        this.services = ChargePointService;
+        this.path = '/Ocpp/ChargePointService';
+        this.port = 9221;
+        this.createServer();
     }
 
-    createCentralClient(){
-      var self = this;
-      var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
-      var endpoint = 'http://localhost:9220/Ocpp/CentralSystemService';
+    createCentralClient() {
+        var self = this;
+        var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
+        var endpoint = 'http://localhost:9220/Ocpp/CentralSystemService';
 
-      return new Promise(function(resolve, reject) {
-        self.createClient(url, endpoint).then(function(client){
-          resolve(client);
-        }).catch(function(error){
-          reject(error);
+        return new Promise(function(resolve, reject) {
+            self.createClient(url, endpoint).then(function(client) {
+                resolve(client);
+            }).catch(function(error) {
+                reject(error);
+            });
         });
-      });
     }
 
-    createChargePointClient(){
-      var self = this;
-      var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
-      //var endpoint = 'http://192.168.0.38:8080/Ocpp/ChargePointService'
-      var endpoint = 'http://localhost:9221/Ocpp/ChargePointService'
+    createChargePointClient() {
+        var self = this;
+        var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
+        //var endpoint = 'http://192.168.0.38:8080/Ocpp/ChargePointService'
+        var endpoint = 'http://localhost:9221/Ocpp/ChargePointService'
 
-      return new Promise(function(resolve, reject) {
-        self.createClient(url, endpoint).then(function(client){
-          resolve(client);
-        }).catch(function(error){
-          reject(error);
+        return new Promise(function(resolve, reject) {
+            self.createClient(url, endpoint).then(function(client) {
+                resolve(client);
+            }).catch(function(error) {
+                reject(error);
+            });
         });
-      });
     }
-
 
     // TODO: must add SOAP headers
     createServer() {
@@ -261,18 +269,17 @@ class SOAPWrapper {
     createClient(url, endpoint) {
         var self = this;
         return new Promise(function(resolve, reject) {
-          soap.createClient(url, {
-              endpoint: endpoint
-          }, function(err, client) {
-              if (err) {
-                  console.log(self._log() + ' ERROR ' + err);
-                  reject(err);
-              }else{
-                resolve(client)
-              }
-          });
+            soap.createClient(url, {
+                endpoint: endpoint
+            }, function(err, client) {
+                if (err) {
+                    console.log(self._log() + ' ERROR ' + err);
+                    reject(err);
+                } else {
+                    resolve(client)
+                }
+            });
         });
-
     }
 
     _log() {

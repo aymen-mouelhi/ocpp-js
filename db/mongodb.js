@@ -22,7 +22,7 @@ const notificationSchema = new mongoose.Schema({
     unread: {
         type: Boolean,
         required: true
-    },
+    }
 }, {
     strict: false
 });
@@ -30,20 +30,26 @@ const notificationSchema = new mongoose.Schema({
 const Station = mongoose.model('Station', stationSchema);
 const Notification = mongoose.model('Notification', notificationSchema);
 
+let instance =  null;
 class MongoDB {
     constructor() {
         this.url = process.env.mongoUrl || 'mongodb://localhost/myappdatabase';
-        mongoose.connect(this.url);
+        if(!instance){
+          mongoose.connect(this.url);
+          instance = this;
+        }
+
+        return instance;
     }
 
     _getModel(collection) {
         var Collection = null;
         switch (collection.toLowerCase()) {
-            case 'notification':
-                Collection = new Notification();
+            case 'notifications':
+                Collection = Notification;
                 break;
-            case 'station':
-                Collection = new Station();
+            case 'stations':
+                Collection = Station;
                 break
             default:
                 console.log('[MongoDB] Collection ' + collection + ' is not known !');
@@ -69,11 +75,11 @@ class MongoDB {
       var self = this;
       return new Promise(function(resolve, reject) {
         self._getModel(collection).findById(id, function(err, data) {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(data);
-                });
+          if (err) {
+              reject(err);
+          } else {
+              resolve(data);
+          }
         });
       });
     }
@@ -83,8 +89,10 @@ class MongoDB {
         var Model = self._getModel(collection);
         return new Promise(function(resolve, reject) {
           var entry = new Model(data);
+          console.log('[MongoDB] saving data into '+ collection);
           entry.save(function(err){
             if(err){
+              console.log('[MongoDB] ERROR: ' + err);
               reject(err)
             }else{
               resolve({});
@@ -115,3 +123,5 @@ class MongoDB {
         });
     }
 }
+
+module.exports = MongoDB;

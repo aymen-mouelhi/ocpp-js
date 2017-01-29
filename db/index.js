@@ -1,13 +1,12 @@
 const Promise = require('promise');
 const fs = require('fs');
-
 let instance = null;
 
-//TODO: try catch for saves
 
 class Storage {
   constructor(method) {
     try{
+        console.log('Storage type: ' + method)
         this.method = method || 'firebase';
         const Method = require('./' + this.method);
         this.storage = new Method();
