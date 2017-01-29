@@ -28,8 +28,7 @@ class CentralSystem{
 
                 _this._connections.push(connection);
 
-
-                console.log('_this._connections: ' + JSON.stringify(_this._connections));
+                console.log('_this._connections: ' + _this._connections);
             };
 
             this.transportLayer.layer.soapServ.log = Utils.logSoap;

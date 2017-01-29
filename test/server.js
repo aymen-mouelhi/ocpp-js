@@ -13,7 +13,7 @@ var remote = setInterval(function() {
     }
 
     if (connection) {
-        id = connection.cpId;
+        id = connection.chargeBoxIdentity;
     } else {
         id = '3lsonASjk1';
     }
@@ -31,4 +31,4 @@ var remote = setInterval(function() {
     });
 
     clearInterval(remote);
-}, 10000);
+}, 20000);

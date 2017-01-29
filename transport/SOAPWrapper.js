@@ -32,13 +32,23 @@ var SOAPWrapper = function(transportLayer, from, mode, soapOptions) {
 
   this.uri = null;
 
-  if(this.from == 'cp'){
+
+
+  if(this.from === 'cp'){
       this.uri = this.transportLayer.simulator.uri;
   } else{
       this.uri = soapOptions && soapOptions.fromHeader;
   }
 
-  if(this.from == 'cs') {
+  if(!this.uri){
+    this.uri = 'http://localhost'
+  }
+
+  console.log('[SOAPWrapper] this.from: ' + this.from);
+  console.log('[SOAPWrapper] this.uri: ' + this.uri);
+  console.log('[SOAPWrapper] this.transportLayer: ' + JSON.stringify(this.transportLayer));
+
+  if(this.from === 'cs') {
     this.soapService.CentralSystemService = {
         CentralSystemServiceSoap12: {}
       };
@@ -107,7 +117,7 @@ SOAPWrapper.prototype = {
       return;
     }
 
-    this.port = server.address().port;
+    //this.port = server.address().port;
     Utils.log('SOAP Server listening on port '+ this.port, 'cs');
 
     this.soapServ = soap.listen(server, this.endpoint, this.soapService, xml);
@@ -230,6 +240,7 @@ SOAPWrapper.prototype = {
 
       this.fromHeader = 'http://'+ host +':'+ this.port +'/';
 
+      console.log('[fromHeader] : '+ this.fromHeader)
       this.client.addSoapHeader({
         From: {
           Address: this.fromHeader
@@ -258,8 +269,14 @@ SOAPWrapper.prototype = {
       Action: '/'+ procName
     }, '', 'wsa5');
 
+    console.log('[RPC] client: ' + JSON.stringify(this.client));
+
     // Call
     this.client[procName](args, function(err, result) {
+      if (err) {
+        console.log('[RPC] error: ' + err);
+      }
+
       if(result == null) {
         Utils.log("<<"+ options.to +" Error: can't reach "+ _this.uri, from);
         return;
