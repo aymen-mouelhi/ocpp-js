@@ -1,5 +1,6 @@
 const Config = require('../config/config.js');
 const Transport = require('../transport');
+const SOAPWrapper = new Transport.SOAPWrapper();
 const Utils = require('../utils/utils.js');
 
 class ChargingPoint {
@@ -9,12 +10,19 @@ class ChargingPoint {
         this.transport = transport;
         this.chargePointId = identifier;
         this.clientConnection = null;
-
+        var self = this;
+        /*
         this.transportLayer = new Transport.TransportLayerClient(this, transport, 'cp', 'client', soapOptions);
 
         if (this.transport == 'soap') {
             this.transportLayer.layer.soapServ.log = Utils.logSoap;
         }
+        */
+
+        SOAPWrapper.createCentralClient().then(function(client){
+            self.client = client;
+        });
+
     }
 
     /**
@@ -38,46 +46,102 @@ class ChargingPoint {
       return this.chargePointId;
     }
 
+
+    _updateSoapHeaders(){
+      // Remove soap headers
+      this.client.clearSoapHeaders();
+
+      this.client.addSoapHeader({
+        chargeBoxIdentity: this.getId()
+      });
+    }
+
     bootNotification(data){
-      this.clientAction('BootNotification', data);
+
+      this._updateSoapHeaders();
+
+      this.client.BootNotification(data, function(result){
+        console.log(JSON.stringify(result));
+      });
+
     }
 
     heartbeat(){
-      this.clientAction('Heartbeat', {});
+      this._updateSoapHeaders();
+
+      this.client.Heartbeat(function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     meterValues(data){
+      this._updateSoapHeaders();
+
       data.connectorId = this.getId();
-      this.clientAction('MeterValues', data);
+
+      this.client.MeterValues(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     sendStatusNotification(data){
+
+      this._updateSoapHeaders();
+
       data.connectorId= this.getId();
-      this.clientAction('StatusNotification', data);
+
+      this.client.StatusNotification(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     startTransaction(data){
+
+      this._updateSoapHeaders();
+
       data.connectorId= this.getId();
-      this.clientAction('StartTransaction', data);
+
+      this.client.StartTransaction(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     stopTransaction(data){
+      this._updateSoapHeaders();
+
       data.connectorId= this.getId();
-      this.clientAction('StopTransaction', data);
+
+      this.client.StopTransaction(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     authorize(data){
-      this.clientAction('Authorize', data);
+
+      this._updateSoapHeaders();
+
+      this.client.Authorize(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     diagnosticsStatusNotification(data){
-      this.clientAction('DiagnosticsStatusNotification', data);
+
+      this._updateSoapHeaders();
+
+      this.client.DiagnosticsStatusNotification(data, function(result){
+        console.log(JSON.stringify(result));
+      });
     }
 
     firmwareStatusNotification(data){
-      this.clientAction('FirmwareStatusNotification', data);
-    }
 
+      this._updateSoapHeaders();
+
+      this.client.FirmwareStatusNotification(data, function(result){
+        console.log(JSON.stringify(result));
+      });
+    }
 }
 
 module.exports = ChargingPoint;

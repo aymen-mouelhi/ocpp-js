@@ -9,7 +9,9 @@ class CentralSystem{
         this.port = port;
         this._wsServer = null;
         this._connections = [];
-        this.transportLayer = new Transport.TransportLayerServer(this, transport, 'cs', 'server');
+        //this.transportLayer = new Transport.TransportLayerServer(this, transport, 'cs', 'server');
+
+        SOAPWrapper.createCentralSystemServer();
 
         SOAPWrapper.createChargePointClient().then(function(client){
             self.chargePointClient = client;
