@@ -21,7 +21,7 @@ const notificationSchema = new mongoose.Schema({
 
 class MongoDB {
   constructor() {
-
+    mongoose.connect('mongodb://localhost/myappdatabase');
   }
 
   findAll(collection){
@@ -51,9 +51,8 @@ class MongoDB {
   save(collection, data){
     var self = this;
 
-    var file = path.join(__dirname, TMP_DIR, '/' + collection +'.json');
     return new Promise(function(resolve, reject) {
-      fs.writeFileSync(file, JSON.stringify(data, null, 4));
+
       resolve();
     });
   }
