@@ -10,7 +10,7 @@ class CentralSystem{
         this._wsServer = null;
         this._connections = [];
         this.transportLayer = new Transport.TransportLayerServer(this, transport, 'cs', 'server');
-        
+
         SOAPWrapper.createChargePointClient().then(function(client){
             self.chargePointClient = client;
         });
@@ -54,45 +54,11 @@ class CentralSystem{
         this._httpServer = null;
     }
 
-    /*
-     *  Calls a remote procedure
-     *  @param {Number} the client ID
-     *  @param {String} the procedure URI
-     *  @api public
-     */
-    remoteAction(clientId, procName, args) {
-        var connection = null;
-
-        for(var i=0; i<this._connections.length; i++){
-          var c = this._connections[i];
-          if(c.chargeBoxIdentity === clientId){
-              connection = c;
-          }
-        }
-
-        if (!connection) {
-            console.log("Error: charge point #" + clientId + " does not exist");
-            return;
-        }
-
-        var resultFunction = function() {};
-
-        connection.client.rpcCall(procName, args || {}, Config.TIMEOUT, resultFunction, { to: "cp#" + clientId });
-
-        clientId = clientId || 'EVlink-2';
-        // Remove soap headers
-        this.chargePointClient.addSoapHeader({
-          chargeBoxIdentity: clientId
-        });
-
-    }
-
     getConnections(){
       return this._connections;
     }
 
     restartChargingPoint(pointId){
-      // TODO: method chaining => remoteAction should return a promise
       this.reset(pointId, {
         type: 'Hard'
       });
