@@ -6,7 +6,6 @@ let instance = null;
 class Storage {
   constructor(method) {
     try{
-        console.log('Storage type: ' + method)
         this.method = method || 'firebase';
         const Method = require('./' + this.method);
         this.storage = new Method();
