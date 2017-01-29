@@ -1,8 +1,8 @@
 const Promise = require('promise');
 const moment = require('moment');
 const Utils = require('../utils/utils.js');
-const ORM = require('../orm');
-var Storage = new ORM(process.env.storage);
+const DB = require('../db/index.js');
+var Storage = new DB(process.env.storage);
 
 module.exports = {
     handle: function(data) {

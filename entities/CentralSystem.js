@@ -33,6 +33,8 @@ class CentralSystem{
 
             this.transportLayer.layer.soapServ.log = Utils.logSoap;
         }
+
+        // TODO: create SOAP client for server actions
     }
 
     stop() {

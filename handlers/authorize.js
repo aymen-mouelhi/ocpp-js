@@ -1,6 +1,6 @@
 const Promise = require('promise');
-const ORM = require('../orm/index.js');
-var Storage = new ORM(process.env.storage);
+const DB = require('../db/index.js');
+var Storage = new DB(process.env.storage);
 
 module.exports = {
     handle: function(data) {
