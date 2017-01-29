@@ -14,36 +14,6 @@ class CentralSystem{
         SOAPWrapper.createChargePointClient().then(function(client){
             self.chargePointClient = client;
         });
-
-
-        /*
-        var _this = this;
-        if (transport == 'soap') {
-            this.transportLayer.layer.soapServ.setRemoteAddress = function(cbId, address, action) {
-                // if not bootnotification, stop
-                if (action != 'BootNotification')
-                    return;
-                //Plugins.callClientConnectionEventHandlers('connected', cbId, this);
-
-                Utils.log('[setRemoteAddress] ChargePoint #' + cbId + ' connected.', 'cs');
-
-                var connection = {
-                  chargeBoxIdentity: cbId,
-                  client: new Transport.TransportLayerClient(this,transport, 'cs', 'client', {
-                          fromHeader: address
-                      }).layer
-                }
-
-                _this._connections.push(connection);
-
-                console.log('_this._connections: ' + _this._connections);
-            };
-
-            this.transportLayer.layer.soapServ.log = Utils.logSoap;
-        }
-        */
-
-        // TODO: create SOAP client for server actions
     }
 
     stop() {
