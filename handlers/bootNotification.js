@@ -6,6 +6,12 @@ module.exports = {
   handle: function(data){
     return new Promise(function(resolve, reject) {
       // TODO: check that station doesn't exist
+      resolve({
+          status: 'Accepted',
+          currentTime: new Date().toISOString(),
+          heartbeatInterval: 1200
+        })
+      /*
       Storage.save('stations', data).then(function(){
         // Return Reponse
         // status can be Rejected or Accepted
@@ -15,12 +21,13 @@ module.exports = {
             heartbeatInterval: 1200
           })
       });
+      */
     });
   },
 
   cbHandle: function(data, callback){
     console.log('[BootNotification] cbHandle');
-    Storage.save('stations', data).then(function(){
+    Storage.save('stations', data, function(){
       console.log('[BootNotification] data stored in stations !')
       callback({
           status: 'Accepted',

@@ -1,6 +1,5 @@
 const Promise = require('promise');
 const mongoose = require('mongoose');
-const BlueBird = require('bluebird');
 mongoose.Promise = Promise;
 // Define Models
 const stationSchema = new mongoose.Schema({
@@ -88,20 +87,24 @@ class MongoDB {
     save(collection, data) {
       var self = this;
       var Model = self._getModel(collection);
+      var entry = new Model(data);
+      console.log('[MongoDB] saving data into '+ collection);
+
       return new Promise(function(resolve, reject) {
         // TODO: check if item exists
-        var entry = new Model(data);
-        console.log('[MongoDB] saving data into '+ collection);
         entry.save(function(err){
           if(err){
             console.log('[MongoDB] ERROR: ' + err);
-            reject(err)
+            reject(err);
           }else{
             console.log('[MongoDB] No ERROR!');
             resolve({});
           }
         });
+
+
       });
+
     }
 
     saveWithId(collection, id, data) {
@@ -112,6 +115,7 @@ class MongoDB {
           self.findById(collection, id).then(function(found){
             if(found){
               var update = new Model(data);
+              console.log('calling save')
               update.save(function(err){
                 if(err){
                   reject(err)

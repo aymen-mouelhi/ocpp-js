@@ -46,7 +46,7 @@ var CentralSystemService = {
             BootNotification: function(args, callback, headers) {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 console.log('[SOAPWrapper] BootNotification ');
-                handlers.BootNotification.cbHandle(args, function(data) {
+                handlers.BootNotification.handle(args).then(function(data) {
                     console.log('[SOAPWrapper] BootNotification result: ' + JSON.stringify(data));
                     callback(data);
                 });
