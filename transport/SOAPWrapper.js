@@ -46,7 +46,7 @@ var SOAPWrapper = function(transportLayer, from, mode, soapOptions) {
 
   console.log('[SOAPWrapper] this.from: ' + this.from);
   console.log('[SOAPWrapper] this.uri: ' + this.uri);
-  console.log('[SOAPWrapper] this.transportLayer: ' + JSON.stringify(this.transportLayer));
+  //console.log('[SOAPWrapper] this.transportLayer: ' + JSON.stringify(this.transportLayer));
 
   if(this.from === 'cs') {
     this.soapService.CentralSystemService = {
@@ -238,6 +238,9 @@ SOAPWrapper.prototype = {
     if(this.fromHeader == null) {
       var host = this.uri.indexOf('localhost') > 0 ? 'localhost' : Transport.NETWORK_IP;
 
+      if(this.port == undefined){
+        this.port = 9220;
+      }
       this.fromHeader = 'http://'+ host +':'+ this.port +'/';
 
       console.log('[fromHeader] : '+ this.fromHeader)
@@ -269,7 +272,11 @@ SOAPWrapper.prototype = {
       Action: '/'+ procName
     }, '', 'wsa5');
 
-    console.log('[RPC] client: ' + JSON.stringify(this.client));
+    console.log('[RPC] client: ' + JSON.stringify(this.client[procName]));
+    const path = require('path');
+    var TMP_DIR = '../tmp';
+    var file = path.join(__dirname, TMP_DIR, '/client.json');
+    require('fs').writeFileSync(file, JSON.stringify(this.client));
 
     // Call
     this.client[procName](args, function(err, result) {

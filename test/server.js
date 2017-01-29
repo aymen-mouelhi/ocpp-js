@@ -25,10 +25,12 @@ var remote = setInterval(function() {
         type: 'Soft'
     });
 
+    /*
     server.changeAvailability(id, {
         connectorId: id,
         type: 'Inoperative'
     });
+    */
 
     clearInterval(remote);
 }, 20000);
