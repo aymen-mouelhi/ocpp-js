@@ -1,6 +1,10 @@
 const Promise = require('promise');
 const mongoose = require('mongoose');
+const config = require('config');
+
 mongoose.Promise = Promise;
+
+
 // Define Models
 const stationSchema = new mongoose.Schema({
     chargeBoxIdentity: {
@@ -33,7 +37,8 @@ const Station = mongoose.model('Station', stationSchema);
 const Notification = mongoose.model('Notification', notificationSchema);
 class MongoDB {
     constructor() {
-        this.url = process.env.mongoUrl || 'mongodb://localhost/myappdatabase';
+        var mongoConf = config.get('mongodb');
+        this.url = mongoConf.url;
         if(!instance){
           mongoose.connect(this.url);
           instance = this;
