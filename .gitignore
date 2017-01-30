@@ -39,3 +39,6 @@ config
 
 # Optional REPL history
 .node_repl_history
+
+# temporary file
+tmp
