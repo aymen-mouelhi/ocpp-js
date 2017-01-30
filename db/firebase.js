@@ -1,21 +1,13 @@
 const Promise = require('promise');
-const Storage = require('./index.js');
+const config = require('config');
 
 let instance =  null;
 class FireBase {
   constructor() {
     if(!instance){
       this.firebase = require('firebase');
-      // TODO: config has to be stored in config/firebase.json
-
-      var config = {
-          apiKey: process.env.apiKey,
-          authDomain: process.env.authDomain,
-          databaseURL: process.env.databaseURL,
-          storageBucket: process.env.storageBucket,
-          messagingSenderId: process.env.messagingSenderId
-      };
-      this.firebase.initializeApp(config);
+      var fireConf = config.get('firebase');
+      this.firebase.initializeApp(fireConf);
       instance = this;
     }
 
