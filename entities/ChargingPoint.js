@@ -1,45 +1,20 @@
 const Config = require('../config/config.js');
-const Transport = require('../transport');
-const SOAPWrapper = new Transport.SOAPWrapper();
+const SOAPWrapperModule = require('../transport/SOAP');
+const SOAPWrapper = new SOAPWrapperModule();
 const Utils = require('../utils/utils.js');
 
 class ChargingPoint {
     constructor(uri, identifier, protocol = "Config1.5", transport = Transport.TRANSPORT_LAYER, soapOptions) {
+        var self = this;
         this.uri = uri;
         this.protocol = protocol;
         this.transport = transport;
         this.chargePointId = identifier;
         this.clientConnection = null;
-        var self = this;
-        /*
-        this.transportLayer = new Transport.TransportLayerClient(this, transport, 'cp', 'client', soapOptions);
-
-        if (this.transport == 'soap') {
-            this.transportLayer.layer.soapServ.log = Utils.logSoap;
-        }
-        */
-
         SOAPWrapper.createCentralClient().then(function(client){
+            console.log('[ChargingPoint] Creating Client for Central System Service');
             self.client = client;
         });
-
-    }
-
-    /**
-     *  Calls a client procedure
-     *
-     *  @param {String} Procedure URI
-     *  @param {Array} Arguments
-     */
-    clientAction(procUri, args) {
-        var resultFunction = function(){};
-        if (this.clientConnection) {
-            this.clientConnection.rpcCall(procUri, args, Config.TIMEOUT, resultFunction, {
-                to: "cs"
-            });
-        } else {
-            console.log('Error: not connected to any central system.');
-        }
     }
 
     getId(){
@@ -48,16 +23,19 @@ class ChargingPoint {
 
 
     _updateSoapHeaders(){
-      // Remove soap headers
-      this.client.clearSoapHeaders();
+      if(this.client){
+        // Remove soap headers
+        this.client.clearSoapHeaders();
 
-      this.client.addSoapHeader({
-        chargeBoxIdentity: this.getId()
-      });
+        this.client.addSoapHeader({
+          chargeBoxIdentity: this.getId()
+        });
+      }else{
+        console.log('[ChargingPoint] Client for Central System Service is not ready !');
+      }
     }
 
     bootNotification(data){
-
       this._updateSoapHeaders();
 
       this.client.BootNotification(data, function(result){
