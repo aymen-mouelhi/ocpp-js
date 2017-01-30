@@ -1,4 +1,3 @@
-const Config = require('../config/config.js');
 const SOAPWrapper = require('../utils/SOAPWrapper');
 const wrapper = new SOAPWrapperModule();
 const Utils = require('../utils/utils.js');
@@ -17,7 +16,7 @@ class ChargingPoint {
     getId() {
         return this.chargePointId;
     }
-    
+
     _updateSoapHeaders() {
         if (this.client) {
             // Remove soap headers

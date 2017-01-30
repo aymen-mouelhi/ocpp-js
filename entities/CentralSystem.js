@@ -1,4 +1,3 @@
-const Config = require('../config/config.js');
 const Utils = require('../utils/utils.js');
 const SOAPWrapper = require('../utils/SOAPWrapper');
 
