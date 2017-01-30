@@ -1,5 +1,5 @@
 const SOAPWrapper = require('../utils/SOAPWrapper');
-const wrapper = new SOAPWrapperModule();
+const wrapper = new SOAPWrapper();
 const Utils = require('../utils/utils.js');
 
 class ChargingPoint {
