@@ -1,8 +1,6 @@
 const CentralSystem = require('./entities/CentralSystem');
 
-
-var system = new CentralSystem(9000, 'websocket');
-
+var system = new CentralSystem(9220);
 
 setInterval(function(){
   var connection;
