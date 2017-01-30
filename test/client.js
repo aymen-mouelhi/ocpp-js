@@ -21,7 +21,7 @@ var boot = setInterval(function() {
         meterSerialNumber: 'gir.vat.mx.000e48'
     });
 
-    /*
+
     // Send Meter Values
     point.meterValues({
         transactionId: 0,
@@ -107,6 +107,5 @@ var boot = setInterval(function() {
         }]
     });
 
-    */
     clearInterval(boot);
 }, 3000);

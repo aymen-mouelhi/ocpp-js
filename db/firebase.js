@@ -46,15 +46,13 @@ class FireBase {
     });
   }
 
-  save(collection, data){
+  save(collection, data, callback){
     var self = this;
-    return new Promise(function(resolve, reject) {
-      self.firebase.database().ref('/' + collection).push(data).then(function(){
-        resolve({});
-      }).catch(function(error){
-        console.log('Error while saving: ' + error);
-        reject(error);
-      });
+    self.firebase.database().ref('/' + collection).push(data).then(function(){
+      callback(null, {});
+    }).catch(function(error){
+      console.log('Error while saving: ' + error);
+      callback(error);
     });
   }
 

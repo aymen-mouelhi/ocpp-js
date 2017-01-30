@@ -8,15 +8,15 @@ module.exports = {
       // notification is not read yet
       data.unread = true;
 
-      Storage.save('notifications',data).then(function(){
+      Storage.save('notification', data, function(){
         resolve({});
       });
     });
   },
 
   cbHandle: function(data, callback){
-    Storage.save('notifications',data).then(function(){
-      callback({})
+    Storage.save('notification', data, function(){
+      callback(null, {})
     });
   }
 }

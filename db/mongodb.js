@@ -45,10 +45,10 @@ class MongoDB {
     _getModel(collection) {
         var Collection = null;
         switch (collection.toLowerCase()) {
-            case 'notifications':
+            case 'notification':
                 Collection = Notification;
                 break;
-            case 'stations':
+            case 'station':
                 Collection = Station;
                 break
             default:
@@ -84,27 +84,19 @@ class MongoDB {
       });
     }
 
-    save(collection, data) {
+    save(collection, data, callback) {
       var self = this;
       var Model = self._getModel(collection);
       var entry = new Model(data);
       console.log('[MongoDB] saving data into '+ collection);
 
-      return new Promise(function(resolve, reject) {
-        // TODO: check if item exists
-        entry.save(function(err){
-          if(err){
-            console.log('[MongoDB] ERROR: ' + err);
-            reject(err);
-          }else{
-            console.log('[MongoDB] No ERROR!');
-            resolve({});
-          }
-        });
-
-
+      entry.save(function(err){
+        if(err){
+          callback(err);
+        }else{
+          callback(null, {});
+        }
       });
-
     }
 
     saveWithId(collection, id, data) {

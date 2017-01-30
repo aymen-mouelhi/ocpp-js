@@ -77,7 +77,8 @@ var CentralSystemService = {
             },
             StatusNotification: function(args, callback, headers) {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
-                handlers.StatusNotification.cbHandle(args, function(data) {
+                handlers.StatusNotification.handle(args).then(function(data) {
+                    console.log('[SOAPWrapper] StatusNotification result: ' + JSON.stringify(data));
                     callback(data);
                 });
             },

@@ -47,11 +47,13 @@ class Storage {
     });
   }
 
-  save(collection, data){
+  save(collection, data, callback){
     var self = this;
     return new Promise(function(resolve, reject) {
       if(self.storage){
-        self.storage.save(collection, data);
+        self.storage.save(collection, data, function(err){
+          callback(err);
+        });
       }else{
         console.log(self.method + ' is not implemented !');
       }
