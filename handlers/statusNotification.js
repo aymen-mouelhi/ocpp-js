@@ -8,8 +8,12 @@ module.exports = {
       // notification is not read yet
       data.unread = true;
 
-      Storage.save('notification', data, function(){
-        resolve({});
+      Storage.save('notification', data, function(err){
+        if(err){
+          reject(err);
+        }else{
+          resolve({});
+        }
       });
     });
   },

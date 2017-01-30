@@ -37,7 +37,7 @@ class ChargingPoint {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
-                console.log(JSON.stringify(result));
+                console.log('[ChargingPoint] BootNotification Result ' + JSON.stringify(result));
             }
         });
 
@@ -50,7 +50,7 @@ class ChargingPoint {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
-                console.log(JSON.stringify(result));
+                console.log('[ChargingPoint] Heartbeat Result ' + JSON.stringify(result));
             }
         });
     }
@@ -64,7 +64,7 @@ class ChargingPoint {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
-                console.log(JSON.stringify(result));
+                console.log('[ChargingPoint] MeterValues Result ' + JSON.stringify(result));
             }
         });
     }
@@ -79,7 +79,7 @@ class ChargingPoint {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
-                console.log('[ChargingPoint] Central System Result ' + JSON.stringify(result));
+                console.log('[ChargingPoint] StatusNotification Result ' + JSON.stringify(result));
             }
         });
     }
@@ -94,7 +94,7 @@ class ChargingPoint {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
-                console.log(JSON.stringify(result));
+                console.log('[ChargingPoint] StartTransaction Result ' + JSON.stringify(result));
             }
         });
     }
@@ -108,7 +108,7 @@ class ChargingPoint {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
-                console.log(JSON.stringify(result));
+                console.log('[ChargingPoint] StopTransaction Result ' + JSON.stringify(result));
             }
         });
     }
@@ -121,7 +121,7 @@ class ChargingPoint {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
-                console.log(JSON.stringify(result));
+                console.log('[ChargingPoint] Authorize Result ' + JSON.stringify(result));
             }
         });
     }
@@ -134,7 +134,7 @@ class ChargingPoint {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
-                console.log(JSON.stringify(result));
+                console.log('[ChargingPoint] DiagnosticsStatusNotification Result ' + JSON.stringify(result));
             }
         });
     }
@@ -146,7 +146,7 @@ class ChargingPoint {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
-                console.log(JSON.stringify(result));
+                console.log('[ChargingPoint] FirmwareStatusNotification Result ' + JSON.stringify(result));
             }
         });
     }
