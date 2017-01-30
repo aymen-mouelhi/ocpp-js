@@ -6,6 +6,7 @@ module.exports = {
   handle: function(data){
     return new Promise(function(resolve, reject) {
       // TODO: check that station doesn't exist
+      // TODO: maybe save into notification collection when a boot occures
       Storage.save('station', data, function(err){
         if(err){
           resolve({

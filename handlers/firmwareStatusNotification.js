@@ -7,7 +7,7 @@ module.exports = {
     return new Promise(function(resolve, reject) {
       data.unread = true;
 
-      Storage.save('notifications', data).then(function(){
+      Storage.save('notification', data).then(function(){
         resolve({});
       });
     });
