@@ -4,13 +4,10 @@ const SOAPWrapper = new SOAPWrapperModule();
 const Utils = require('../utils/utils.js');
 
 class ChargingPoint {
-    constructor(uri, identifier, protocol = "Config1.5", transport = Transport.TRANSPORT_LAYER, soapOptions) {
+    constructor(uri, identifier) {
         var self = this;
         this.uri = uri;
-        this.protocol = protocol;
-        this.transport = transport;
         this.chargePointId = identifier;
-        this.clientConnection = null;
         SOAPWrapper.createCentralClient().then(function(client) {
             console.log('[ChargingPoint] Creating Client for Central System Service');
             self.client = client;

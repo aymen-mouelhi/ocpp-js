@@ -156,7 +156,6 @@ class CentralSystem{
         console.log(JSON.stringify(result));
       });
     }
-
 }
 
 module.exports = CentralSystem;
