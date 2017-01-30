@@ -1,31 +1,15 @@
 const Promise = require('promise');
 const fs = require('fs');
+const config = require('config');
 let instance = null;
 
 
 class Storage {
   constructor(method) {
     try{
-        this.method = method || 'firebase';
+        this.method = method ||  config.get('defaultDB');
         const Method = require('./' + this.method);
         this.storage = new Method();
-        /*
-        this.methods = fs.readdir(__dirname).then(function(files) {
-          var arr = [];
-          files.forEach(file => {
-            if(file != 'index.js'){
-                var Method = require('./' + file);
-                arr.push({
-                  title: file.replace('.js', ''),
-                  instance: new Method()
-                });
-            }
-          });
-
-          return arr;
-        });
-        */
-
     }catch(error){
       console.log('error while setting method ' + error);
       this.storage = null;
