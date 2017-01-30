@@ -1,6 +1,6 @@
 const Config = require('../config/config.js');
-const SOAPWrapperModule = require('../transport/SOAP');
-const SOAPWrapper = new SOAPWrapperModule();
+const SOAPWrapper = require('../utils/SOAPWrapper');
+const wrapper = new SOAPWrapperModule();
 const Utils = require('../utils/utils.js');
 
 class ChargingPoint {
@@ -8,7 +8,7 @@ class ChargingPoint {
         var self = this;
         this.uri = uri;
         this.chargePointId = identifier;
-        SOAPWrapper.createCentralClient().then(function(client) {
+        wrapper.createCentralClient().then(function(client) {
             console.log('[ChargingPoint] Creating Client for Central System Service');
             self.client = client;
         });
@@ -17,8 +17,7 @@ class ChargingPoint {
     getId() {
         return this.chargePointId;
     }
-
-
+    
     _updateSoapHeaders() {
         if (this.client) {
             // Remove soap headers

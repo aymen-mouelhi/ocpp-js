@@ -1,15 +1,15 @@
 const Config = require('../config/config.js');
 const Utils = require('../utils/utils.js');
-const Transport = require('../transport');
+const SOAPWrapper = require('../utils/SOAPWrapper');
 
 class CentralSystem{
     constructor(port) {
-        const SOAPWrapper = new Transport.SOAPWrapper(port);
+        const wrapper = new SOAPWrapper(port);
         var self = this;
         this.port = port;
-        SOAPWrapper.createCentralSystemServer();
+        wrapper.createCentralSystemServer();
 
-        SOAPWrapper.createChargePointClient().then(function(client){
+        wrapper.createChargePointClient().then(function(client){
             self.chargePointClient = client;
         });
     }
