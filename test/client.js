@@ -4,7 +4,9 @@ var soapOptions = {
     fromHeader: 'http://localhost:9001',
     remoteActionPort: '9001'
 }
-var point = new ChargingPoint('http://localhost:9220', "3lsonASjk1", "ocpp1.5", 'soap', soapOptions);
+//var point = new ChargingPoint('http://localhost:9220', "3lsonASjk1", "ocpp1.5", 'soap', soapOptions);
+
+var point = new ChargingPoint('http://localhost:9220', "3lsonASjk1");
 
 var boot = setInterval(function() {
 

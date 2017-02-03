@@ -102,7 +102,7 @@ class CentralSystem{
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.UnlockConnector({
-        connectorId: stationId
+        connectorId: '1'
       }, function(result){
         console.log(JSON.stringify(result));
       });

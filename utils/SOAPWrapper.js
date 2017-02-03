@@ -53,6 +53,7 @@ class SOAPWrapper {
         var url = '/Users/aymenmouelhi/Desktop/Projects/ocpp-js/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
         //var endpoint = 'http://192.168.0.38:8080/Ocpp/ChargePointService'
         var endpoint = 'http://localhost:9221/Ocpp/ChargePointService'
+        var endpoint = 'http://192.168.0.114:8080/Ocpp/ChargePointService'
 
         return new Promise(function(resolve, reject) {
             self.createClient(url, endpoint).then(function(client) {
