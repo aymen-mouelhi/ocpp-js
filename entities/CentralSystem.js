@@ -29,6 +29,8 @@ class CentralSystem{
       // Remove soap headers
       this.chargePointClient.clearSoapHeaders();
 
+      // TODO: Add From Header
+
       this.chargePointClient.addSoapHeader({
         chargeBoxIdentity: clientId
       });
