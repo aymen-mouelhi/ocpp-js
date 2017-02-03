@@ -3,7 +3,7 @@ const SOAPWrapper = require('../utils/SOAPWrapper');
 
 class CentralSystem{
     constructor(port) {
-        const wrapper = new SOAPWrapper(port);
+        const wrapper = new SOAPWrapper(port, true);
         var self = this;
         this.port = port;
         wrapper.createCentralSystemServer();

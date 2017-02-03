@@ -1,7 +1,6 @@
-var SOAPWrapper = require('../transport/SOAP.js');
+var CentralSystem = require('../entities/CentralSystem.js');
 
-var server = new SOAPWrapper('server', true);
+var server = new CentralSystem('9220');
 
-server.createCentralSystemServer();
 
 //server.remoteAction('reset', 'EVLink-2');
