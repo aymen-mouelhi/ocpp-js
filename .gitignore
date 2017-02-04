@@ -32,7 +32,7 @@ node_modules
 jspm_packages
 
 # conf files
-config
+config/default.json
 
 # Optional npm cache directory
 .npm
