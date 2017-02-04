@@ -12,6 +12,7 @@ module.exports = {
       var notification = {
         text: message,
         unread: true,
+        type: 'BootNotification',
         timestamp: moment().format()
       }
 
