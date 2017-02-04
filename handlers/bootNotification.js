@@ -12,13 +12,21 @@ module.exports = {
       var notification = {
         text: message,
         unread: true,
-        createdOn: moment().format()
+        timestamp: moment().format()
       }
 
-      Storage.findAll('station').then(function(stations){
+      console.log('[BootNotification] notification: ' + JSON.stringify(notification))
+
+      Storage.findAll('station', function(err, stations){
+        if(err){
+          reject(err);
+        }
+
         var station = stations.filter(function(item){
           return item.chargePointSerialNumber === data.chargePointSerialNumber;
         });
+
+        console.log('[BootNotification] Station: ' + JSON.stringify(station))
 
         if(station){
           // Station already exists
@@ -26,7 +34,11 @@ module.exports = {
             if(err){
               reject(err);
             }else{
-              resolve({});
+              resolve({
+                  status: 'Accepted',
+                  currentTime: new Date().toISOString(),
+                  heartbeatInterval: 1200
+                });
             }
           });
         }else{

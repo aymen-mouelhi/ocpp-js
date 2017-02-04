@@ -43,11 +43,11 @@ class Storage {
     });
   }
 
-  findAll(collection){
+  findAll(collection, callback){
     var self = this;
     return new Promise(function(resolve, reject) {
       if(self.storage){
-        self.storage.findAll(collection);
+        self.storage.findAll(collection, callback);
       }else{
         console.log(self.method + ' is not implemented !');
       }

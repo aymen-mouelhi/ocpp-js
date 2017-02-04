@@ -14,7 +14,7 @@ var CentralSystemService = {
                 console.log('[SOAPWrapper] BootNotification ');
                 handlers.BootNotification.handle(args).then(function(data) {
                     console.log('[SOAPWrapper] BootNotification result: ' + JSON.stringify(data));
-                    callback(data);
+                    callback(null, data);
                 });
             },
             StartTransaction: function(args, callback, headers) {

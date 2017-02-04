@@ -63,17 +63,20 @@ class MongoDB {
         return Collection;
     }
 
-    findAll(collection) {
+    findAll(collection, callback) {
       var self = this;
+      self._getModel(collection).find({},callback);
+      /*
       return new Promise(function(resolve, reject) {
         self._getModel(collection).find({}, function(err, data) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(data);
-            }
+          if (err) {
+              reject(err);
+          } else {
+              resolve(data);
+          }
         });
       });
+      */
     }
 
     findById(collection, id) {
