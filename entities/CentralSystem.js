@@ -13,10 +13,6 @@ class CentralSystem{
         });
     }
 
-    getConnections(){
-      return this._connections;
-    }
-
     restartChargingPoint(pointId){
       this.reset(pointId, {
         type: 'Hard'
@@ -30,6 +26,15 @@ class CentralSystem{
       this.chargePointClient.clearSoapHeaders();
 
       // TODO: Add From Header
+      // <wsa5:MessageID>urn:uuid:5894ba7f-8906-4b29-bfdc-c2331befd79f</wsa5:MessageID>
+      // <wsa5:From>
+      //    <wsa5:Address>http://localhost:8081/</wsa5:Address>
+      // </wsa5:From>
+      // <wsa5:ReplyTo>
+      //    <wsa5:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa5:Address>
+      // </wsa5:ReplyTo>
+      // <wsa5:To SOAP-ENV:mustUnderstand="true">http://192.168.0.118:9220/Ocpp/CentralSystemService</wsa5:To>
+      // <wsa5:Action SOAP-ENV:mustUnderstand="true">/StartTransaction</wsa5:Action>
 
       this.chargePointClient.addSoapHeader({
         chargeBoxIdentity: clientId
