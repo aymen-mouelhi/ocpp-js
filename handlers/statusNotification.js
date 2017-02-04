@@ -8,7 +8,15 @@ module.exports = {
       // notification is not read yet
       data.unread = true;
 
-      Storage.save('notification', data, function(err){
+      var notification = {
+        text: 'Status Notification Update',
+        unread: true,
+        type: 'StatusNotification',
+        timestamp: moment().format(),
+        data: data
+      }
+
+      Storage.save('notification', notification, function(err){
         if(err){
           reject(err);
         }else{
