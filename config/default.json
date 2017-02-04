@@ -1,0 +1,13 @@
+{
+    "defaultDB": "mongodb",
+    "mongodb": {
+        "url": "mongodb://localhost/mydb"
+    },
+    "firebase": {
+      "apiKey": "[apiKey]",
+      "authDomain": "[authDomain]",
+      "databaseURL": "[databaseURL]",
+      "storageBucket": "[storageBucket]",
+      "messagingSenderId": "[messagingSenderId]"
+  }
+}
