@@ -1,3 +1,5 @@
+const externalip = require('externalip');
+
 var Utils = {
     /**
      *  Log function
@@ -18,6 +20,10 @@ var Utils = {
         }
 
         console.log(log + msg);
+    },
+
+    getExternalIP: function(callback){
+      externalip(callback);
     },
 
     /**

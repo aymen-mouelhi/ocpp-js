@@ -12,7 +12,7 @@ class CentralSystem{
             self.chargePointClient = client;
         });
 
-        externalip(function (err, ip) {
+        Utils.getExternalIP(function (err, ip) {
           console.log(ip); // => 8.8.8.8
           self.ip = ip;
         });
