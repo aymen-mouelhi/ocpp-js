@@ -1,21 +1,27 @@
 const Utils = require('../utils/utils.js');
 const SOAPWrapper = require('../utils/SOAPWrapper');
+const ip = require('ip');
 
 class CentralSystem{
     constructor(port) {
         const wrapper = new SOAPWrapper(port, true);
         var self = this;
         this.port = port;
+        this.ip = ip.address();
+
         wrapper.createCentralSystemServer();
 
         wrapper.createChargePointClient().then(function(client){
             self.chargePointClient = client;
         });
 
+        console.log(self.ip);
+        /*
         Utils.getExternalIP(function (err, ip) {
           console.log(ip); // => 8.8.8.8
           self.ip = ip;
         });
+        */
     }
 
     restartChargingPoint(pointId){
