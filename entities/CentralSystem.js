@@ -11,6 +11,11 @@ class CentralSystem{
         wrapper.createChargePointClient().then(function(client){
             self.chargePointClient = client;
         });
+
+        externalip(function (err, ip) {
+          console.log(ip); // => 8.8.8.8
+          self.ip = ip;
+        });
     }
 
     restartChargingPoint(pointId){
@@ -36,12 +41,34 @@ class CentralSystem{
       // <wsa5:To SOAP-ENV:mustUnderstand="true">http://192.168.0.118:9220/Ocpp/CentralSystemService</wsa5:To>
       // <wsa5:Action SOAP-ENV:mustUnderstand="true">/StartTransaction</wsa5:Action>
 
+      // ChargeBoxIdentity
       this.chargePointClient.addSoapHeader({
         chargeBoxIdentity: clientId
+      });
+
+      // From Address
+      this.chargePointClient.addSoapHeader({
+        From: {
+          Address: this.ip
+        }
+      });
+
+      // ReplyTo
+      this.chargePointClient.addSoapHeader({
+        ReplyTo: {
+          Address: 'http://www.w3.org/2005/08/addressing/anonymous'
+        }
+      });
+
+      // Action
+      this.chargePointClient.addSoapHeader({
+        Action: this.action
       });
     }
 
     clearCache(stationId){
+      this.action = '/ClearCache';
+
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.ClearCache({}, function(result){
@@ -50,6 +77,8 @@ class CentralSystem{
     }
 
     changeAvailability(stationId, data){
+      this.action = '/ChangeAvailability';
+
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.ChangeAvailability(data, function(result){
@@ -58,6 +87,8 @@ class CentralSystem{
     }
 
     changeConguration(stationId, data){
+      this.action = '/ChangeConguration';
+
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.ChangeConguration(data, function(result){
@@ -66,6 +97,8 @@ class CentralSystem{
     }
 
     getConguration(stationId){
+      this.action = '/GetConguration';
+
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.GetConguration({}, function(result){
@@ -74,6 +107,8 @@ class CentralSystem{
     }
 
     getDiagnostics(stationId){
+      this.action = '/GetDiagnostics';
+
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.GetDiagnostics({}, function(result){
@@ -82,6 +117,8 @@ class CentralSystem{
     }
 
     remoteStartTransaction(stationId, data){
+      this.action = '/RemoteStartTransaction';
+
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.RemoteStartTransaction(data, function(result){
@@ -90,6 +127,8 @@ class CentralSystem{
     }
 
     remoteStopTransaction(stationId, data){
+      this.action = '/RemoteStopTransaction';
+
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.RemoteStopTransaction(data, function(result){
@@ -98,6 +137,8 @@ class CentralSystem{
     }
 
     reset(stationId, data){
+      this.action = '/Reset';
+
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.Reset(data, function(result){
@@ -106,6 +147,8 @@ class CentralSystem{
     }
 
     unlockConnector(stationId){
+      this.action = '/UnlockConnector';
+
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.UnlockConnector({
@@ -116,6 +159,8 @@ class CentralSystem{
     }
 
     updateFirmware(stationId, data){
+      this.action = '/UpdateFirmware';
+
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.UpdateFirmware(data, function(result){
@@ -124,6 +169,8 @@ class CentralSystem{
     }
 
     reserveNow(stationId, data){
+      this.action = '/ReserveNow';
+
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.ReserveNow(data, function(result){
@@ -132,6 +179,8 @@ class CentralSystem{
     }
 
     cancelReservation(stationId, data){
+      this.action = '/CancelReservation';
+
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.CancelReservation(data, function(result){
@@ -140,6 +189,8 @@ class CentralSystem{
     }
 
     sendLocalList(stationId, data){
+      this.action = '/SendLocalList';
+
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.SendLocalList(data, function(result){
@@ -148,6 +199,8 @@ class CentralSystem{
     }
 
     getLocalListVersion(stationId){
+      this.action = '/GetLocalListVersion';
+
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.GetLocalListVersion(function(result){
@@ -156,6 +209,8 @@ class CentralSystem{
     }
 
     dataTransfer(stationId, data){
+      this.action = '/DataTransfer';
+
       this._updateSoapHeaders(stationId);
 
       this.chargePointClient.DataTransfer(data, function(result){
