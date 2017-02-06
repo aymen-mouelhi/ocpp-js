@@ -48,45 +48,9 @@ class CentralSystem{
       // <wsa5:To SOAP-ENV:mustUnderstand="true">http://192.168.0.118:9220/Ocpp/CentralSystemService</wsa5:To>
       // <wsa5:Action SOAP-ENV:mustUnderstand="true">/StartTransaction</wsa5:Action>
 
-      /*
-      // ChargeBoxIdentity
-      this.chargePointClient.addSoapHeader({
-        chargeBoxIdentity: clientId
-      });
-
-      //this.ip = 'http://localhost:8081/'
-      // MessageID
-      this.chargePointClient.addSoapHeader({
-        MessageID: 'urn:uuid:5898a852-52b1-4b1d-9190-cde766ef438d'
-      });
-
-      // From Address
-      this.chargePointClient.addSoapHeader({
-        From: {
-          Address: this.ip
-        }
-      });
-
-      // ReplyTo
-      this.chargePointClient.addSoapHeader({
-        ReplyTo: {
-          Address: 'http://www.w3.org/2005/08/addressing/anonymous'
-        }
-      });
-
-      // To
-      this.chargePointClient.addSoapHeader({
-        To: 'http://192.168.0.114:8080'
-      });
-
-      // Action
-      this.chargePointClient.addSoapHeader({
-        Action: this.action
-      });
-      */
-
       clientId = clientId || 'Simulator';
 
+      // TODO: Get Client Address
       var to = 'http://192.168.0.114:8081';
       to = this.ip + ':9221/Ocpp/ChargePointService/';
 
@@ -136,7 +100,7 @@ class CentralSystem{
 
       console.log('Action: ' + this.action);
 
-      //  {"chargeBoxIdentity":"EVLink-3","MessageID":"urn:uuid:5898ac8f-c8cc-4714-ba95-f87408138641","From":{"Address":"http://localhost:8081/"},"ReplyTo":{"Address":"http://www.w3.org/2005/08/addressing/anonymous"},"To":{"attributes":{"SOAP-ENV:mustUnderstand":"true"},"$value":"http://192.168.0.118:9220/Ocpp/CentralSystemService"},"Action":{"attributes":{"SOAP-ENV:mustUnderstand":"true"},"$value":"/StartTransaction"}}
+      // {"chargeBoxIdentity":"EVLink-3","MessageID":"urn:uuid:5898ac8f-c8cc-4714-ba95-f87408138641","From":{"Address":"http://localhost:8081/"},"ReplyTo":{"Address":"http://www.w3.org/2005/08/addressing/anonymous"},"To":{"attributes":{"SOAP-ENV:mustUnderstand":"true"},"$value":"http://192.168.0.118:9220/Ocpp/CentralSystemService"},"Action":{"attributes":{"SOAP-ENV:mustUnderstand":"true"},"$value":"/StartTransaction"}}
 
       //this.chargePointClient.addSoapHeader('<cs:chargeBoxIdentity>'+ clientId + '</cs:chargeBoxIdentity>')
       /*
