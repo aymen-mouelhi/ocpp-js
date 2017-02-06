@@ -1,4 +1,6 @@
 const externalip = require('externalip');
+const ip = require('ip');
+const IPv6 = require('ip-address').Address6;
 
 var Utils = {
     /**
@@ -24,6 +26,16 @@ var Utils = {
 
     getExternalIP: function(callback){
       externalip(callback);
+    },
+
+    getRemoteAddress: function(address){
+      if(ip.isV6Format(address)){
+        var IPv6Address = new IPv6(address);
+        var teredo = IPv6Address.inspectTeredo();
+        return teredo.client4;
+      }else{
+        return address;
+      }
     },
 
     /**

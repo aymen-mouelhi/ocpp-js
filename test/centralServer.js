@@ -11,7 +11,7 @@ var remote = setInterval(function() {
     // Execute some remote actions
     //server.clearCache(id);
 
-    server.reset(1, {
+    server.reset(1, 'localhost:9221/Ocpp/ChargePointService/', {
         type: 'Soft'
     });
 

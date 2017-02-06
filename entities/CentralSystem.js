@@ -16,7 +16,7 @@ class CentralSystem{
             self.chargePointClient = client;
         });
 
-        console.log(self.ip);
+        console.log('[CentralSystem] Server IP: ' + self.ip);
         /*
         Utils.getExternalIP(function (err, ip) {
           console.log(ip); // => 8.8.8.8
@@ -33,7 +33,7 @@ class CentralSystem{
       this.unlockConnector(pointId);
     }
 
-    _updateSoapHeaders(clientId){
+    _updateSoapHeaders(clientId, remoteAddress){
       // Remove soap headers
       this.chargePointClient.clearSoapHeaders();
 
@@ -50,9 +50,9 @@ class CentralSystem{
 
       clientId = clientId || 'Simulator';
 
-      // TODO: Get Client Address (remoteAddress from collection station)
+      console.log('Remote Address: ' + remoteAddress);
+
       var to = remoteAddress || 'http://192.168.0.114:8081';
-      //to = this.ip + ':9221/Ocpp/ChargePointService/';
 
       // Generate a V4 UUID
       var uuid4 = UUID.create();

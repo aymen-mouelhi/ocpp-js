@@ -1,21 +1,24 @@
 const handlers = require('../handlers');
+const Utils = require('./utils');
 
 var CentralSystemService = {
     CentralSystemService: {
         CentralSystemServiceSoap12: {
             Authorize: function(args, callback, headers, req) {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
-                args.remoteAddress = req.connection.remoteAddress;
-                
+                args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
+
                 handlers.Authorize.cbHandle(args, function(data) {
                     callback(data);
                 });
             },
             BootNotification: function(args, callback, headers, req) {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
-                args.remoteAddress = req.connection.remoteAddress;
 
-                console.log('[SOAPWrapper] BootNotification ');
+                args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
+
+
+                console.log('[SOAPWrapper] BootNotification from: ' + args.remoteAddress);
                 handlers.BootNotification.handle(args).then(function(data) {
                     console.log('[SOAPWrapper] BootNotification result: ' + JSON.stringify(data));
                     callback(null, data);
@@ -24,7 +27,7 @@ var CentralSystemService = {
             StartTransaction: function(args, callback, headers, req) {
                 console.log('Headers: ' + JSON.stringify(headers));
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
-                args.remoteAddress = req.connection.remoteAddress;
+                args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
 
                 handlers.StartTransaction.cbHandle(args, function(data) {
                     callback(data);
@@ -32,7 +35,7 @@ var CentralSystemService = {
             },
             StopTransaction: function(args, callback, headers, req) {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
-                args.remoteAddress = req.connection.remoteAddress;
+                args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
 
                 handlers.StopTransaction.cbHandle(args, function(data) {
                     callback(data);
@@ -40,7 +43,7 @@ var CentralSystemService = {
             },
             Heartbeat: function(args, callback, headers, req) {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
-                args.remoteAddress = req.connection.remoteAddress;
+                args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
 
                 handlers.Heartbeat.cbHandle(function(data) {
                     callback(data);
@@ -48,7 +51,7 @@ var CentralSystemService = {
             },
             MeterValues: function(args, callback, headers, req) {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
-                args.remoteAddress = req.connection.remoteAddress;
+                args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
 
                 handlers.MeterValues.cbHandle(args, function(data) {
                     callback(data);
@@ -56,7 +59,7 @@ var CentralSystemService = {
             },
             StatusNotification: function(args, callback, headers, req) {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
-                args.remoteAddress = req.connection.remoteAddress;
+                args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
 
                 handlers.StatusNotification.cbHandle(args, function(data) {
                   data = data || {}
@@ -66,7 +69,7 @@ var CentralSystemService = {
             },
             FirmwareStatusNotification: function(args, callback, headers, req) {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
-                args.remoteAddress = req.connection.remoteAddress;
+                args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
 
                 handlers.FirmwareStatusNotification.cbHandle(args, function(data) {
                     callback(data);
@@ -74,7 +77,7 @@ var CentralSystemService = {
             },
             DiagnosticsStatusNotification: function(args, callback, headers, req) {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
-                args.remoteAddress = req.connection.remoteAddress;
+                args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
 
                 handlers.DiagnosticsStatusNotification.cbHandle(args, function(data) {
                     callback(data);
@@ -82,7 +85,7 @@ var CentralSystemService = {
             },
             DataTransfer: function(args, callback, headers, req) {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
-                args.remoteAddress = req.connection.remoteAddress;
+                args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
 
                 handlers.DataTransfer.cbHandle(args, function(data) {
                     callback(data);

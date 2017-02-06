@@ -23,6 +23,7 @@
     "externalip": "^1.0.2",
     "firebase": "^3.6.6",
     "ip": "^1.1.4",
+    "ip-address": "^5.8.6",
     "moment": "^2.17.1",
     "mongoose": "^4.8.0",
     "node-expat": "^2.3.15",

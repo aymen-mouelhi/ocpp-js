@@ -79,8 +79,10 @@ class MongoDB {
       */
     }
 
-    findById(collection, id) {
+    findById(collection, id, callback) {
       var self = this;
+      self._getModel(collection).findById(id, callback);
+      /*
       return new Promise(function(resolve, reject) {
         self._getModel(collection).findById(id, function(err, data) {
           if (err) {
@@ -90,6 +92,7 @@ class MongoDB {
           }
         });
       });
+      */
     }
 
     save(collection, data, callback) {
