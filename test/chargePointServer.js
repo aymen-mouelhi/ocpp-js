@@ -1,8 +1,8 @@
-var ChargePoint = require('../entities/ChargingPoint');
+var SOAPWrapper = require('../utils/SOAPWrapper');
 
-var client = new ChargePoint('server', true);
+var wrapper = new SOAPWrapper('server', true);
 
-server.createChargePointServer();
+wrapper.createChargePointServer();
 
 
 

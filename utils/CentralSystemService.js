@@ -18,6 +18,7 @@ var CentralSystemService = {
                 });
             },
             StartTransaction: function(args, callback, headers) {
+                console.log('Headers: ' + JSON.stringify(headers));
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 handlers.StartTransaction.cbHandle(args, function(data) {
                     callback(data);
