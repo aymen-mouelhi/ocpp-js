@@ -1,0 +1,21 @@
+{
+  "name": "ev-ocpp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "start.js",
+  "dependencies": {
+    "http": "^0.0.0",
+    "install": "^0.8.6",
+    "mongoose": "^4.8.1",
+    "node-pre-gyp": "^0.6.33",
+    "promise": "^7.1.1",
+    "soap": "^0.18.0",
+    "strong-soap": "^1.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
