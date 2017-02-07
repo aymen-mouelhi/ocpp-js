@@ -96,9 +96,27 @@ class SOAPWrapper {
 
     createClient(url, endpoint) {
         var self = this;
+
+        var wsdlOptions = {
+            "overrideRootElement": {
+                // "namespace": "xmlns:tns",
+                "xmlnsAttributes": [{
+                    "name": "xmlns:cs",
+                    "value": "urn://Ocpp/Cs/2012/06/"
+                }, {
+                    "name": "xmlns:wsa5",
+                    "value": "http://www.w3.org/2005/08/addressing"
+                }, {
+                    "name": "xmlns:cp",
+                    "value": "urn://Ocpp/Cp/2012/06/"
+                }]
+            }
+        };
+
         return new Promise(function(resolve, reject) {
             soap.createClient(url, {
-                endpoint: endpoint
+                endpoint: endpoint,
+                wsdl_options: wsdlOptions
             }, function(err, client) {
                 if (err) {
                     console.log(self._log() + ' ERROR ' + err);
