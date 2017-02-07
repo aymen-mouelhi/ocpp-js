@@ -7,7 +7,9 @@ module.exports = {
     // TODO: save new availability status for station
     return new Promise(function(resolve, reject) {
       resolve({
-        status: 'Accepted'
+          UpdateFirmware: {
+            status: 'Accepted'
+          }
       });
     });
   },
@@ -15,7 +17,9 @@ module.exports = {
   cbHandle: function(data, callback){
     // TODO: Dummy Content
     callback({
-      status: 'Accepted'
+        UpdateFirmware: {
+          status: 'Accepted'
+        }
     })
   }
 }

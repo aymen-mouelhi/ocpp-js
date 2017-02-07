@@ -14,21 +14,25 @@ module.exports = {
               if (user) {
                 // TODO: check if not expired
                   resolve({
-                      idTagInfo: {
-                          status: 'Accepted',
-                          expiryDate: moment().add(1, 'months').format(),
-                          parentIdTag: 'PARENT'
+                      AuthorizeResponse: {
+                        idTagInfo: {
+                            status: 'Accepted',
+                            expiryDate: moment().add(1, 'months').format(),
+                            parentIdTag: 'PARENT'
+                        }
                       }
-                  });
+                    });
               } else {
                   // User not authorized
                   resolve({
-                      idTagInfo: {
-                          status: 'Invalid',
-                          expiryDate: moment().subtract(1, 'months').format(),
-                          parentIdTag: 'PARENT'
+                      AuthorizeResponse:{
+                        idTagInfo: {
+                            status: 'Invalid',
+                            expiryDate: moment().subtract(1, 'months').format(),
+                            parentIdTag: 'PARENT'
+                        }
                       }
-                  });
+                    });
               }
             });
         });
@@ -37,7 +41,13 @@ module.exports = {
     cbHandle: function(data, callback){
       // TODO: Dummy Content
       callback({
-        status: 'Accepted'
-      })
+          AuthorizeResponse: {
+            idTagInfo: {
+                status: 'Accepted',
+                expiryDate: moment().add(1, 'months').format(),
+                parentIdTag: 'PARENT'
+            }
+          }
+        })
     }
 }

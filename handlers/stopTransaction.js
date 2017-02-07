@@ -16,31 +16,37 @@ module.exports = {
                     if (transaction) {
                         if (transaction.status === 'Accepted') {
                             response = {
-                                idTagInfo: {
-                                    status: 'Expired',
-                                    expiryDate: new Date().toISOString(),
-                                    parentIdTag: 'PARENT'
-                                }
+                              StopTransactionResponse: {
+                                  idTagInfo: {
+                                      status: 'Expired',
+                                      expiryDate: new Date().toISOString(),
+                                      parentIdTag: 'PARENT'
+                                  }
+                              }
                             }
                         } else {
                             // Already stopped
                             // TODO: Update Status
                             response = {
-                                idTagInfo: {
-                                    status: 'Expired',
-                                    expiryDate: new Date().toISOString(),
-                                    parentIdTag: 'PARENT'
-                                }
+                              StopTransactionResponse: {
+                                  idTagInfo: {
+                                      status: 'Expired',
+                                      expiryDate: new Date().toISOString(),
+                                      parentIdTag: 'PARENT'
+                                  }
+                              }
                             }
                         }
                     } else {
                         // TODO: Update Status
                         response = {
-                            idTagInfo: {
-                                status: 'Expired',
-                                expiryDate: new Date().toISOString(),
-                                parentIdTag: 'PARENT'
-                            }
+                          StopTransactionResponse: {
+                              idTagInfo: {
+                                  status: 'Expired',
+                                  expiryDate: new Date().toISOString(),
+                                  parentIdTag: 'PARENT'
+                              }
+                          }
                         }
                     }
                     // store transaction details
@@ -50,12 +56,14 @@ module.exports = {
 
                 } else {
                     // Transaction doesn't exist
-                    resolve({
-                        idTagInfo: {
-                            status: 'Expired',
-                            expiryDate: new Date().toISOString(),
-                            parentIdTag: 'PARENT'
-                        }
+                    resolve(  {
+                      StopTransactionResponse: {
+                          idTagInfo: {
+                              status: 'Expired',
+                              expiryDate: new Date().toISOString(),
+                              parentIdTag: 'PARENT'
+                          }
+                      }
                     });
                 }
             });

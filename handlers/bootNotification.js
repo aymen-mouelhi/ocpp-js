@@ -29,17 +29,19 @@ module.exports = {
 
         console.log('[BootNotification] Station: ' + JSON.stringify(station))
 
-        if(station){
+        if(station.hasOwnProperty('chargeBoxIdentity')){
           // Station already exists
           Storage.save('notification', notification, function(err){
             if(err){
               reject(err);
             }else{
               resolve({
-                  status: 'Accepted',
-                  currentTime: new Date().toISOString(),
-                  heartbeatInterval: 1200
-                });
+                bootNotificationResponse : {
+                    status: 'Accepted',
+                    currentTime: new Date().toISOString(),
+                    heartbeatInterval: 1200
+                  }
+              });
             }
           });
         }else{
@@ -50,18 +52,22 @@ module.exports = {
               Storage.save('station', data, function(err){
                 if(err){
                   resolve({
-                      status: 'Rejected',
-                      currentTime: new Date().toISOString(),
-                      heartbeatInterval: 1200
-                    });
+                    bootNotificationResponse : {
+                        status: 'Accepted',
+                        currentTime: new Date().toISOString(),
+                        heartbeatInterval: 1200
+                      }
+                  });
                 }else{
                   // Return Reponse
                   // status can be Rejected or Accepted
                   resolve({
-                      status: 'Accepted',
-                      currentTime: new Date().toISOString(),
-                      heartbeatInterval: 1200
-                    });
+                    bootNotificationResponse : {
+                        status: 'Accepted',
+                        currentTime: new Date().toISOString(),
+                        heartbeatInterval: 1200
+                      }
+                  });
                 }
               });
             }

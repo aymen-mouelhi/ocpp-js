@@ -20,7 +20,11 @@ module.exports = {
         if(err){
           reject(err);
         }else{
-          resolve({});
+          resolve({
+            StatusNotificationResponse: {
+
+            }
+          });
         }
       });
     });
@@ -28,7 +32,9 @@ module.exports = {
 
   cbHandle: function(data, callback){
     Storage.save('notification', data, function(){
-      callback(null, {})
+      callback(null, {
+        StatusNotificationResponse: {}
+      })
     });
   }
 }

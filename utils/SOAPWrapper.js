@@ -1,4 +1,4 @@
-var soap = require('soap');
+var soap = require('strong-soap').soap;
 var http = require('http');
 var portfinder = require('portfinder');
 const Utils = require('../utils/utils');
@@ -34,8 +34,9 @@ class SOAPWrapper {
 
     createCentralClient() {
         var self = this;
-        //var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
-        var url = '/Users/aymenmouelhi/Desktop/Projects/ocpp-js/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
+        // TODO: Get Local Path
+        var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
+        //var url = '/Users/aymenmouelhi/Desktop/Projects/ocpp-js/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
         var endpoint = 'http://localhost:9220/Ocpp/CentralSystemService';
 
         return new Promise(function(resolve, reject) {
@@ -49,8 +50,9 @@ class SOAPWrapper {
 
     createChargePointClient() {
         var self = this;
-        //var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
-        var url = '/Users/aymenmouelhi/Desktop/Projects/ocpp-js/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
+        // TODO: Get Local Path
+        var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
+        //var url = '/Users/aymenmouelhi/Desktop/Projects/ocpp-js/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
         //var endpoint = 'http://192.168.0.38:8080/Ocpp/ChargePointService'
         var endpoint = 'http://localhost:9221/Ocpp/ChargePointService'
         var endpoint = 'http://192.168.0.114:8080/Ocpp/ChargePointService'

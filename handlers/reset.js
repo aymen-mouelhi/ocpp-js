@@ -7,14 +7,18 @@ module.exports = {
     // TODO: save new availability status for station
     return new Promise(function(resolve, reject) {
       resolve({
-        status: 'Accepted'
+        ResetResponse: {
+            status: 'Accepted',
+          }
       });
     });
   },
 
   cbHandle: function(data, callback){
     callback({
-        status: 'Accepted',
-      })
+      ResetResponse: {
+          status: 'Accepted',
+        }
+    });
   }
 }

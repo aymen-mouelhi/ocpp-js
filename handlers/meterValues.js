@@ -10,14 +10,20 @@ module.exports = {
       return firebase.database().ref('/stations/' + data.iccid).set(data).then(function(){
       });
       */
-      resolve({});
+      resolve({
+          MeterValuesResponse: {
+            status: 'Accepted'
+          }
+        });
     });
   },
 
   cbHandle: function(data, callback){
     // TODO: Dummy Content
     callback({
-      status: 'Accepted'
-    })
+        MeterValuesResponse: {
+          status: 'Accepted'
+        }
+      })
   }
 }

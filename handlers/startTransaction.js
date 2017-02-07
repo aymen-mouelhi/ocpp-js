@@ -28,21 +28,25 @@ module.exports = {
                 // TODO: 0 should be replaced by transactionId
                 if (start) {
                     response = {
-                        transactionId: 0,
-                        idTagInfo: {
-                            status: 'Accepted',
-                            expiryDate: moment().add(7, 'days').format(),
-                            parentIdTag: 'PARENT'
-                        }
+                      StartTransactionResponse: {
+                          transactionId: 0,
+                          idTagInfo: {
+                              status: 'Accepted',
+                              expiryDate: moment().add(7, 'days').format(),
+                              parentIdTag: 'PARENT'
+                          }
+                      }
                     }
                 } else {
                     response = {
-                        transactionId: 0,
-                        idTagInfo: {
-                            status: 'Rejected',
-                            expiryDate: moment().add(7, 'days').format(),
-                            parentIdTag: 'PARENT'
-                        }
+                      StartTransactionResponse: {
+                          transactionId: 0,
+                          idTagInfo: {
+                              status: 'Rejected',
+                              expiryDate: moment().add(7, 'days').format(),
+                              parentIdTag: 'PARENT'
+                          }
+                      }
                     }
                 }
 
