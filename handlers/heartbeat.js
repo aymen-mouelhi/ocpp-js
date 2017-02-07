@@ -4,7 +4,7 @@ module.exports = {
   handle: function(){
     return new Promise(function(resolve, reject) {
       resolve({
-        HeartbeatResponse: {
+        heartbeatResponse: {
           currentTime: new Date().toISOString()
         }
       })
@@ -13,7 +13,7 @@ module.exports = {
 
   cbHandle: function(callback){
     callback({
-      HeartbeatResponse: {
+      heartbeatResponse: {
         currentTime: new Date().toISOString()
       }
     });

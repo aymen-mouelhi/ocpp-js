@@ -84,7 +84,7 @@ module.exports = {
       callback({
           status: 'Accepted',
           currentTime: new Date().toISOString(),
-          heartbeatInterval: 1200
+          heartbeatInterval: 60
         });
     });
   }

@@ -115,8 +115,7 @@ class SOAPWrapper {
 
         return new Promise(function(resolve, reject) {
             soap.createClient(url, {
-                endpoint: endpoint,
-                wsdl_options: wsdlOptions
+                endpoint: endpoint
             }, function(err, client) {
                 if (err) {
                     console.log(self._log() + ' ERROR ' + err);

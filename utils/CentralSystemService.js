@@ -42,8 +42,8 @@ var CentralSystemService = {
                 });
             },
             Heartbeat: function(args, callback, headers, req) {
-                args.chargeBoxIdentity = headers.chargeBoxIdentity;
-                args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
+                // args.chargeBoxIdentity = headers.chargeBoxIdentity;
+                //args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
 
                 handlers.Heartbeat.cbHandle(function(data) {
                     callback(data);
