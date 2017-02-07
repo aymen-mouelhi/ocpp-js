@@ -26,11 +26,11 @@ class CentralSystem{
     }
 
     restartChargingPoint(pointId, remoteAddress){
-      this.reset(pointId, {
+      this.reset(pointId, remoteAddress, {
         type: 'Hard'
       });
 
-      this.unlockConnector(pointId);
+      this.unlockConnector(pointId, remoteAddress);
     }
 
     _updateSoapHeaders(clientId, remoteAddress){
@@ -80,21 +80,11 @@ class CentralSystem{
       });
 
       this.chargePointClient.addSoapHeader({
-        "wsa:To":{
-          "attributes": {
-            "SOAP-ENV:mustUnderstand":"true"
-          },
-          "$value": to
-        }
+        "wsa:To": to
       });
 
       this.chargePointClient.addSoapHeader({
-        "wsa:Action":{
-          "attributes": {
-            "SOAP-ENV:mustUnderstand":"true"
-          },
-          "value": this.action
-        }
+        "wsa:Action": this.action
       });
 
 

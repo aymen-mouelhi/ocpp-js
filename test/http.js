@@ -21,13 +21,18 @@ app.use(bodyParser.json());
 app.get('/api/stations/:id/restart', function(req, res){
   //  Restart Station
   var pointId = req.params.id;
-  
-  Stoarge.findById('station', pointId, function(err, station){
+
+  Storage.findById('station', pointId, function(err, station){
     if(err){
       console.log('[http] Error: ' + err);
       //res.send(err);
     }else{
-      console.log('[OCPP Server] Restarting ' + station.chargeBoxIdentity + ' ...');
+      console.log('[http] station: ' + JSON.stringify(station));
+      console.log('[http] station remoteAddress: ' + station.remoteAddress);
+
+      station.remoteAddress = "192.168.0.114:8081"
+
+      console.log('[OCPP Server] Restarting ' + station.chargeBoxIdentity + ' on ' + station.remoteAddress + '...');
       CentralSystemServer.restartChargingPoint(station.chargeBoxIdentity, station.remoteAddress);
     }
   });
