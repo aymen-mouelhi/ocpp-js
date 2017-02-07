@@ -4,6 +4,7 @@ var Storage = new DB(process.env.storage);
 
 module.exports = {
     handle: function(data) {
+      // TODO: store in log collection
         return new Promise(function(resolve, reject) {
             Storage.findAll('users').then(function(users){
               // Get user with idTag

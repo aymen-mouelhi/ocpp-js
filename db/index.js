@@ -54,11 +54,11 @@ class Storage {
     });
   }
 
-  findById(collection, id){
+  findById(collection, id, callback){
     var self = this;
     return new Promise(function(resolve, reject) {
       if(self.storage){
-        self.storage.findById(collection, id);
+        self.storage.findById(collection, id, callback);
       }else{
         console.log(self.method + ' is not implemented !');
       }

@@ -1,6 +1,7 @@
 const Utils = require('../utils/utils.js');
 const SOAPWrapper = require('../utils/SOAPWrapper');
 const ip = require('ip');
+const UUID = require('uuid-js');
 
 class CentralSystem{
     constructor(port) {
@@ -15,7 +16,7 @@ class CentralSystem{
             self.chargePointClient = client;
         });
 
-        console.log(self.ip);
+        console.log('[CentralSystem] Server IP: ' + self.ip);
         /*
         Utils.getExternalIP(function (err, ip) {
           console.log(ip); // => 8.8.8.8
@@ -24,15 +25,15 @@ class CentralSystem{
         */
     }
 
-    restartChargingPoint(pointId){
-      this.reset(pointId, {
+    restartChargingPoint(pointId, remoteAddress){
+      this.reset(pointId, remoteAddress, {
         type: 'Hard'
       });
 
-      this.unlockConnector(pointId);
+      this.unlockConnector(pointId, remoteAddress);
     }
 
-    _updateSoapHeaders(clientId){
+    _updateSoapHeaders(clientId, remoteAddress){
       // Remove soap headers
       this.chargePointClient.clearSoapHeaders();
 
@@ -47,92 +48,122 @@ class CentralSystem{
       // <wsa5:To SOAP-ENV:mustUnderstand="true">http://192.168.0.118:9220/Ocpp/CentralSystemService</wsa5:To>
       // <wsa5:Action SOAP-ENV:mustUnderstand="true">/StartTransaction</wsa5:Action>
 
+      clientId = clientId || 'Simulator';
+
+      console.log('Remote Address: ' + remoteAddress);
+
+      var to = remoteAddress || 'http://192.168.0.114:8081';
+
+      // Generate a V4 UUID
+      var uuid4 = UUID.create();
+
       // ChargeBoxIdentity
       this.chargePointClient.addSoapHeader({
-        chargeBoxIdentity: clientId
+        "cs:chargeBoxIdentity": clientId
       });
 
-      // From Address
+      // MessageID
       this.chargePointClient.addSoapHeader({
-        From: {
-          Address: this.ip
+        "wsa:MessageID": 'urn:uuid:' + uuid4
+      });
+
+      this.chargePointClient.addSoapHeader({
+        "wsa:From":{
+          "wsa5:Address": "http://192.168.0.118:9220/Ocpp/CentralSystemService"
         }
       });
 
-      // ReplyTo
       this.chargePointClient.addSoapHeader({
-        ReplyTo: {
-          Address: 'http://www.w3.org/2005/08/addressing/anonymous'
+        "wsa:ReplyTo": {
+          "wsa5:Address" : "http://www.w3.org/2005/08/addressing/anonymous"
         }
       });
 
-      // Action
       this.chargePointClient.addSoapHeader({
-        Action: this.action
+        "wsa:To": to
       });
+
+      this.chargePointClient.addSoapHeader({
+        "wsa:Action": this.action
+      });
+
+
+      console.log('Action: ' + this.action);
+
+      // {"chargeBoxIdentity":"EVLink-3","MessageID":"urn:uuid:5898ac8f-c8cc-4714-ba95-f87408138641","From":{"Address":"http://localhost:8081/"},"ReplyTo":{"Address":"http://www.w3.org/2005/08/addressing/anonymous"},"To":{"attributes":{"SOAP-ENV:mustUnderstand":"true"},"$value":"http://192.168.0.118:9220/Ocpp/CentralSystemService"},"Action":{"attributes":{"SOAP-ENV:mustUnderstand":"true"},"$value":"/StartTransaction"}}
+
+      //this.chargePointClient.addSoapHeader('<cs:chargeBoxIdentity>'+ clientId + '</cs:chargeBoxIdentity>')
+      /*
+      this.chargePointClient.addSoapHeader('<wsa5:MessageID>urn:uuid:5898a8ca-8745-4562-909c-f92e0ded7263</wsa5:MessageID>')
+      this.chargePointClient.addSoapHeader('<wsa5:From><wsa5:Address>http://192.168.0.118:9220/</wsa5:Address></wsa5:From>')
+      this.chargePointClient.addSoapHeader('<wsa5:ReplyTo><wsa5:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa5:Address></wsa5:ReplyTo>')
+      this.chargePointClient.addSoapHeader('<wsa5:To>http://192.168.0.114:8080</wsa5:To>')
+      this.chargePointClient.addSoapHeader('<wsa5:Action>'+ this.action +'</wsa5:Action>')
+      */
+
     }
 
-    clearCache(stationId){
+    clearCache(stationId, remoteAddress){
       this.action = '/ClearCache';
 
-      this._updateSoapHeaders(stationId);
+      this._updateSoapHeaders(stationId, remoteAddress);
 
       this.chargePointClient.ClearCache({}, function(result){
         console.log(JSON.stringify(result));
       });
     }
 
-    changeAvailability(stationId, data){
+    changeAvailability(stationId, remoteAddress, data){
       this.action = '/ChangeAvailability';
 
-      this._updateSoapHeaders(stationId);
+      this._updateSoapHeaders(stationId, remoteAddress);
 
       this.chargePointClient.ChangeAvailability(data, function(result){
         console.log(JSON.stringify(result));
       });
     }
 
-    changeConguration(stationId, data){
+    changeConguration(stationId, remoteAddress, data){
       this.action = '/ChangeConguration';
 
-      this._updateSoapHeaders(stationId);
+      this._updateSoapHeaders(stationId, remoteAddress);
 
       this.chargePointClient.ChangeConguration(data, function(result){
         console.log(JSON.stringify(result));
       });
     }
 
-    getConguration(stationId){
+    getConguration(stationId, remoteAddress){
       this.action = '/GetConguration';
 
-      this._updateSoapHeaders(stationId);
+      this._updateSoapHeaders(stationId, remoteAddress);
 
       this.chargePointClient.GetConguration({}, function(result){
         console.log(JSON.stringify(result));
       });
     }
 
-    getDiagnostics(stationId){
+    getDiagnostics(stationId, remoteAddress){
       this.action = '/GetDiagnostics';
 
-      this._updateSoapHeaders(stationId);
+      this._updateSoapHeaders(stationId, remoteAddress);
 
       this.chargePointClient.GetDiagnostics({}, function(result){
         console.log(JSON.stringify(result));
       });
     }
 
-    remoteStartTransaction(stationId, data){
+    remoteStartTransaction(stationId, remoteAddress, data){
       this.action = '/RemoteStartTransaction';
 
-      this._updateSoapHeaders(stationId);
+      this._updateSoapHeaders(stationId, remoteAddress);
 
       this.chargePointClient.RemoteStartTransaction(data, function(result){
         console.log(JSON.stringify(result));
       });
     }
 
-    remoteStopTransaction(stationId, data){
+    remoteStopTransaction(stationId, remoteAddress, data){
       this.action = '/RemoteStopTransaction';
 
       this._updateSoapHeaders(stationId);
@@ -142,20 +173,20 @@ class CentralSystem{
       });
     }
 
-    reset(stationId, data){
+    reset(stationId, remoteAddress, data){
       this.action = '/Reset';
 
-      this._updateSoapHeaders(stationId);
+      this._updateSoapHeaders(stationId, remoteAddress);
 
       this.chargePointClient.Reset(data, function(result){
         console.log(JSON.stringify(result));
       });
     }
 
-    unlockConnector(stationId){
+    unlockConnector(stationId, remoteAddress){
       this.action = '/UnlockConnector';
 
-      this._updateSoapHeaders(stationId);
+      this._updateSoapHeaders(stationId, remoteAddress);
 
       this.chargePointClient.UnlockConnector({
         connectorId: '1'
@@ -164,60 +195,60 @@ class CentralSystem{
       });
     }
 
-    updateFirmware(stationId, data){
+    updateFirmware(stationId, remoteAddress, data){
       this.action = '/UpdateFirmware';
 
-      this._updateSoapHeaders(stationId);
+      this._updateSoapHeaders(stationId, remoteAddress);
 
       this.chargePointClient.UpdateFirmware(data, function(result){
         console.log(JSON.stringify(result));
       });
     }
 
-    reserveNow(stationId, data){
+    reserveNow(stationId, remoteAddress, data){
       this.action = '/ReserveNow';
 
-      this._updateSoapHeaders(stationId);
+      this._updateSoapHeaders(stationId, remoteAddress);
 
       this.chargePointClient.ReserveNow(data, function(result){
         console.log(JSON.stringify(result));
       });
     }
 
-    cancelReservation(stationId, data){
+    cancelReservation(stationId, remoteAddress, data){
       this.action = '/CancelReservation';
 
-      this._updateSoapHeaders(stationId);
+      this._updateSoapHeaders(stationId, remoteAddress);
 
       this.chargePointClient.CancelReservation(data, function(result){
         console.log(JSON.stringify(result));
       });
     }
 
-    sendLocalList(stationId, data){
+    sendLocalList(stationId, remoteAddress, data){
       this.action = '/SendLocalList';
 
-      this._updateSoapHeaders(stationId);
+      this._updateSoapHeaders(stationId, remoteAddress);
 
       this.chargePointClient.SendLocalList(data, function(result){
         console.log(JSON.stringify(result));
       });
     }
 
-    getLocalListVersion(stationId){
+    getLocalListVersion(stationId, remoteAddress){
       this.action = '/GetLocalListVersion';
 
-      this._updateSoapHeaders(stationId);
+      this._updateSoapHeaders(stationId, remoteAddress);
 
       this.chargePointClient.GetLocalListVersion(function(result){
         console.log(JSON.stringify(result));
       });
     }
 
-    dataTransfer(stationId, data){
+    dataTransfer(stationId, remoteAddress, data){
       this.action = '/DataTransfer';
 
-      this._updateSoapHeaders(stationId);
+      this._updateSoapHeaders(stationId, remoteAddress);
 
       this.chargePointClient.DataTransfer(data, function(result){
         console.log(JSON.stringify(result));

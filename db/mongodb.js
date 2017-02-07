@@ -79,8 +79,21 @@ class MongoDB {
       */
     }
 
-    findById(collection, id) {
+    findById(collection, id, callback) {
       var self = this;
+      self._getModel(collection).find({chargeBoxIdentity: id}, function(err, stations){
+        if(err){
+          callback(err)
+        }else{
+          if(stations.length > 0){
+              console.log('Found Station: ' + JSON.stringify(stations[0]));
+              callback(null, stations[0]);
+          }else{
+            callback(null, {});
+          }
+        }
+      });
+      /*
       return new Promise(function(resolve, reject) {
         self._getModel(collection).findById(id, function(err, data) {
           if (err) {
@@ -90,6 +103,7 @@ class MongoDB {
           }
         });
       });
+      */
     }
 
     save(collection, data, callback) {

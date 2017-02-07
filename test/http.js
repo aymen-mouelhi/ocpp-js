@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const request = require('request');
 const app = express();
+const DB = require('../db/index.js');
+var Storage = new DB(process.env.storage);
 
 var CentralSystem = require('../entities/CentralSystem.js');
 var CentralSystemServer = new CentralSystem('9220');
@@ -19,8 +21,21 @@ app.use(bodyParser.json());
 app.get('/api/stations/:id/restart', function(req, res){
   //  Restart Station
   var pointId = req.params.id;
-  console.log('[OCPP Server] Restarting ' + pointId + ' ...');
-  CentralSystemServer.restartChargingPoint(pointId);
+
+  Storage.findById('station', pointId, function(err, station){
+    if(err){
+      console.log('[http] Error: ' + err);
+      //res.send(err);
+    }else{
+      console.log('[http] station: ' + JSON.stringify(station));
+      console.log('[http] station remoteAddress: ' + station.remoteAddress);
+
+      station.remoteAddress = "192.168.0.114:8081"
+
+      console.log('[OCPP Server] Restarting ' + station.chargeBoxIdentity + ' on ' + station.remoteAddress + '...');
+      CentralSystemServer.restartChargingPoint(station.chargeBoxIdentity, station.remoteAddress);
+    }
+  });
 });
 
 var server = app.listen(app.get('port'), function(){
