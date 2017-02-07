@@ -52,11 +52,12 @@ class CentralSystem{
 
       console.log('Remote Address: ' + remoteAddress);
 
-      var to = remoteAddress || 'http://192.168.0.114:8081';
+      //var to = remoteAddress || 'http://192.168.0.114:8081';
+      var to = 'http://127.0.0.1:8081/ChargeBox/Ocpp';
 
       // Generate a V4 UUID
       var uuid4 = UUID.create();
-
+      /*
       // ChargeBoxIdentity
       this.chargePointClient.addSoapHeader({
         "cs:chargeBoxIdentity": clientId
@@ -69,7 +70,7 @@ class CentralSystem{
 
       this.chargePointClient.addSoapHeader({
         "wsa:From":{
-          "wsa5:Address": "http://192.168.0.118:9220/Ocpp/CentralSystemService"
+          "wsa5:Address": "http://localhost:9220/Ocpp/CentralSystemService"
         }
       });
 
@@ -87,19 +88,38 @@ class CentralSystem{
         "wsa:Action": this.action
       });
 
+*/
+      /*
+      this.chargePointClient.addSoapHeader({
+   "wsa:To":{
+     "attributes": {
+       "SOAP-ENV:mustUnderstand":"true"
+     },
+     "$value": to
+   }
+ });
+
+ this.chargePointClient.addSoapHeader({
+   "wsa:Action":{
+     "attributes": {
+       "SOAP-ENV:mustUnderstand":"true"
+     },
+     "value": this.action
+   }
+ });
+      */
 
       console.log('Action: ' + this.action);
 
       // {"chargeBoxIdentity":"EVLink-3","MessageID":"urn:uuid:5898ac8f-c8cc-4714-ba95-f87408138641","From":{"Address":"http://localhost:8081/"},"ReplyTo":{"Address":"http://www.w3.org/2005/08/addressing/anonymous"},"To":{"attributes":{"SOAP-ENV:mustUnderstand":"true"},"$value":"http://192.168.0.118:9220/Ocpp/CentralSystemService"},"Action":{"attributes":{"SOAP-ENV:mustUnderstand":"true"},"$value":"/StartTransaction"}}
 
-      //this.chargePointClient.addSoapHeader('<cs:chargeBoxIdentity>'+ clientId + '</cs:chargeBoxIdentity>')
-      /*
-      this.chargePointClient.addSoapHeader('<wsa5:MessageID>urn:uuid:5898a8ca-8745-4562-909c-f92e0ded7263</wsa5:MessageID>')
-      this.chargePointClient.addSoapHeader('<wsa5:From><wsa5:Address>http://192.168.0.118:9220/</wsa5:Address></wsa5:From>')
-      this.chargePointClient.addSoapHeader('<wsa5:ReplyTo><wsa5:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa5:Address></wsa5:ReplyTo>')
-      this.chargePointClient.addSoapHeader('<wsa5:To>http://192.168.0.114:8080</wsa5:To>')
-      this.chargePointClient.addSoapHeader('<wsa5:Action>'+ this.action +'</wsa5:Action>')
-      */
+      this.chargePointClient.addSoapHeader('<cs:chargeBoxIdentity xmlns:cs="urn://Ocpp/Cs/2012/06/">'+ clientId + '</cs:chargeBoxIdentity>')
+      this.chargePointClient.addSoapHeader('<wsa5:MessageID xmlns:wsa5="http://www.w3.org/2005/08/addressing">urn:uuid:' + uuid4 + '</wsa5:MessageID>')
+      this.chargePointClient.addSoapHeader('<wsa5:From xmlns:wsa5="http://www.w3.org/2005/08/addressing"><wsa5:Address xmlns:wsa5="http://www.w3.org/2005/08/addressing">http://localhost:9220/</wsa5:Address></wsa5:From>')
+      this.chargePointClient.addSoapHeader('<wsa5:ReplyTo xmlns:wsa5="http://www.w3.org/2005/08/addressing"><wsa5:Address xmlns:wsa5="http://www.w3.org/2005/08/addressing">http://www.w3.org/2005/08/addressing/anonymous</wsa5:Address></wsa5:ReplyTo>')
+      this.chargePointClient.addSoapHeader('<wsa5:To xmlns:wsa5="http://www.w3.org/2005/08/addressing">'+ to + '</wsa5:To>')
+      this.chargePointClient.addSoapHeader('<wsa5:Action xmlns:wsa5="http://www.w3.org/2005/08/addressing">'+ this.action +'</wsa5:Action>')
+
 
     }
 
