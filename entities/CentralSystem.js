@@ -9,6 +9,7 @@ class CentralSystem{
         var self = this;
         this.port = port;
         this.ip = ip.address();
+        this.clients = [];
 
         wrapper.createCentralSystemServer();
 
@@ -28,6 +29,21 @@ class CentralSystem{
         */
     }
 
+    createChargeBoxClient(endpoint){
+      wrapper.createChargePointClient(endpoint).then(function(client){
+          self.clients.push({
+            client: client,
+            endpoint: endpoint
+          });
+      });
+    }
+
+    getClientByEndpoint(endpoint){
+      return this.clients.filter(function(client){
+        return client.endpoint === endpoint;
+      })
+    }
+
     restartChargingPoint(pointId, remoteAddress){
       this.reset(pointId, remoteAddress, {
         type: 'Hard'
@@ -40,17 +56,6 @@ class CentralSystem{
       // Remove soap headers
       this.chargePointClient.clearSoapHeaders();
 
-      // TODO: Add From Header
-      // <wsa5:MessageID>urn:uuid:5894ba7f-8906-4b29-bfdc-c2331befd79f</wsa5:MessageID>
-      // <wsa5:From>
-      //    <wsa5:Address>http://localhost:8081/</wsa5:Address>
-      // </wsa5:From>
-      // <wsa5:ReplyTo>
-      //    <wsa5:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa5:Address>
-      // </wsa5:ReplyTo>
-      // <wsa5:To SOAP-ENV:mustUnderstand="true">http://192.168.0.118:9220/Ocpp/CentralSystemService</wsa5:To>
-      // <wsa5:Action SOAP-ENV:mustUnderstand="true">/StartTransaction</wsa5:Action>
-
       clientId = clientId || 'Simulator';
 
       console.log('Remote Address: ' + remoteAddress);
@@ -61,10 +66,6 @@ class CentralSystem{
       // Generate a V4 UUID
       var uuid4 = UUID.create();
 
-      console.log('Action: ' + this.action);
-
-      // {"chargeBoxIdentity":"EVLink-3","MessageID":"urn:uuid:5898ac8f-c8cc-4714-ba95-f87408138641","From":{"Address":"http://localhost:8081/"},"ReplyTo":{"Address":"http://www.w3.org/2005/08/addressing/anonymous"},"To":{"attributes":{"SOAP-ENV:mustUnderstand":"true"},"$value":"http://192.168.0.118:9220/Ocpp/CentralSystemService"},"Action":{"attributes":{"SOAP-ENV:mustUnderstand":"true"},"$value":"/StartTransaction"}}
-
       this.chargePointClient.addSoapHeader('<h:chargeBoxIdentity xmlns:h="urn://Ocpp/Cp/2012/06/" >'+ clientId + '</h:chargeBoxIdentity>')
       this.chargePointClient.addSoapHeader('<a:MessageID>urn:uuid:' + uuid4 + '</a:MessageID>')
       this.chargePointClient.addSoapHeader('<a:From><a:Address>http://localhost:9220/Ocpp/CentralSystemService</a:Address></a:From>')
@@ -72,47 +73,8 @@ class CentralSystem{
       this.chargePointClient.addSoapHeader('<a:To>'+ to + '</a:To>')
       this.chargePointClient.addSoapHeader('<a:Action soap:mustUnderstand="1">'+ this.action +'</a:Action>')
 
-      //this.chargePointClient.addSoapHeader('<cs:chargeBoxIdentity>'+ clientId + '</cs:chargeBoxIdentity><wsa5:MessageID>urn:uuid:' + uuid4 + '</wsa5:MessageID><wsa5:From><wsa5:Address>http://localhost:9220/Ocpp/CentralSystemService</wsa5:Address></wsa5:From><wsa5:ReplyTo><wsa5:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa5:Address></wsa5:ReplyTo><wsa5:To>'+ to + '</wsa5:To><wsa5:Action soap:mustUnderstand="1">'+ this.action +'</wsa5:Action>');
-
-      /*
-      this.chargePointClient.addSoapHeader({
-        xml: '<chargeBoxIdentity>'+ clientId + '</chargeBoxIdentity>',
-        xmlns: "urn://Ocpp/Cs/2012/06/",
-        namespace: "cs"
-      });
-
-      this.chargePointClient.addSoapHeader({
-        xml: '<MessageID>urn:uuid:' + uuid4 + '</MessageID>',
-        xmlns: "http://www.w3.org/2005/08/addressing",
-        namespace: "wsa5"
-      })
-
-      this.chargePointClient.addSoapHeader({
-        xml: '<From><Address>http://localhost:9220/Ocpp/CentralSystemService</Address></From>',
-        xmlns: "http://www.w3.org/2005/08/addressing",
-        namespace: "wsa5"
-      })
-
-      this.chargePointClient.addSoapHeader({
-        xml: '<ReplyTo><Address>http://www.w3.org/2005/08/addressing/anonymous</Address></ReplyTo>',
-        xmlns: "http://www.w3.org/2005/08/addressing",
-        namespace: "wsa5"
-      })
-
-      this.chargePointClient.addSoapHeader({
-        xml: '<To>http://127.0.0.1:8081/ChargeBox/Ocpp</To>',
-        xmlns: "http://www.w3.org/2005/08/addressing",
-        namespace: "wsa5"
-      })
-
-      this.chargePointClient.addSoapHeader({
-        xml: '<Action soap:mustUnderstand="1">'+ this.action +'</Action>',
-        xmlns: "http://www.w3.org/2005/08/addressing",
-        namespace: "wsa5"
-      })
-      */
+      console.log('Action: ' + this.action);
       console.log('Headers: ' + JSON.stringify(this.chargePointClient.getSoapHeaders()));
-
     }
 
     clearCache(stationId, remoteAddress){

@@ -17,7 +17,6 @@ var CentralSystemService = {
 
                 args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
 
-
                 console.log('[SOAPWrapper] BootNotification from: ' + args.remoteAddress);
                 handlers.BootNotification.handle(args).then(function(data) {
                     console.log('[SOAPWrapper] BootNotification result: ' + JSON.stringify(data));
