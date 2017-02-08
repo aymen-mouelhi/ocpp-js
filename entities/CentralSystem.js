@@ -48,30 +48,6 @@ class CentralSystem{
       this.unlockConnector(pointId, remoteAddress);
     }
 
-    _updateSoapHeaders(clientId, remoteAddress){
-      // Remove soap headers
-      this.chargePointClient.clearSoapHeaders();
-
-      clientId = clientId || 'Simulator';
-
-      console.log('Remote Address: ' + remoteAddress);
-
-      var to = remoteAddress || 'http://192.168.0.114:8081';
-      //var to = 'http://127.0.0.1:8081/ChargeBox/Ocpp';
-
-      // Generate a V4 UUID
-      var uuid4 = UUID.create();
-
-      this.chargePointClient.addSoapHeader('<h:chargeBoxIdentity xmlns:h="urn://Ocpp/Cp/2012/06/" >'+ clientId + '</h:chargeBoxIdentity>')
-      this.chargePointClient.addSoapHeader('<a:MessageID>urn:uuid:' + uuid4 + '</a:MessageID>')
-      this.chargePointClient.addSoapHeader('<a:From><a:Address>http://localhost:9220/Ocpp/CentralSystemService</a:Address></a:From>')
-      this.chargePointClient.addSoapHeader('<a:ReplyTo><a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address></a:ReplyTo>')
-      this.chargePointClient.addSoapHeader('<a:To>'+ to + '</a:To>')
-      this.chargePointClient.addSoapHeader('<a:Action soap:mustUnderstand="1">'+ this.action +'</a:Action>')
-
-      console.log('Action: ' + this.action);
-      console.log('Headers: ' + JSON.stringify(this.chargePointClient.getSoapHeaders()));
-    }
 
     clearCache(stationId, remoteAddress){
       this.action = '/ClearCache';
@@ -231,6 +207,31 @@ class CentralSystem{
       this.chargePointClient.DataTransfer(data, function(result){
         console.log(JSON.stringify(result));
       });
+    }
+
+    _updateSoapHeaders(clientId, remoteAddress){
+      // Remove soap headers
+      this.chargePointClient.clearSoapHeaders();
+
+      clientId = clientId || 'Simulator';
+
+      console.log('Remote Address: ' + remoteAddress);
+
+      var to = remoteAddress || 'http://192.168.0.114:8081';
+      //var to = 'http://127.0.0.1:8081/ChargeBox/Ocpp';
+
+      // Generate a V4 UUID
+      var uuid4 = UUID.create();
+
+      this.chargePointClient.addSoapHeader('<h:chargeBoxIdentity xmlns:h="urn://Ocpp/Cp/2012/06/" >'+ clientId + '</h:chargeBoxIdentity>')
+      this.chargePointClient.addSoapHeader('<a:MessageID>urn:uuid:' + uuid4 + '</a:MessageID>')
+      this.chargePointClient.addSoapHeader('<a:From><a:Address>http://localhost:9220/Ocpp/CentralSystemService</a:Address></a:From>')
+      this.chargePointClient.addSoapHeader('<a:ReplyTo><a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address></a:ReplyTo>')
+      this.chargePointClient.addSoapHeader('<a:To>'+ to + '</a:To>')
+      this.chargePointClient.addSoapHeader('<a:Action soap:mustUnderstand="1">'+ this.action +'</a:Action>')
+
+      console.log('Action: ' + this.action);
+      console.log('Headers: ' + JSON.stringify(this.chargePointClient.getSoapHeaders()));
     }
 }
 
