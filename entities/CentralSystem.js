@@ -12,7 +12,7 @@ class CentralSystem{
         this.clients = [];
 
         wrapper.createCentralSystemServer();
-        
+
         // TODO: remove and make client creation on request
         wrapper.createChargePointClient().then(function(client){
             self.chargePointClient = client;
@@ -49,6 +49,7 @@ class CentralSystem{
       this.unlockConnector(pointId, remoteAddress);
     }
 
+    // TODO: Add correct actionRequest in each of the following methods
 
     clearCache(stationId, remoteAddress){
       this.action = '/ClearCache';
