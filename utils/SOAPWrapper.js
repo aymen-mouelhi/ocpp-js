@@ -34,9 +34,7 @@ class SOAPWrapper {
 
     createCentralClient() {
         var self = this;
-        // TODO: Get Local Path
-        var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
-        var url = '/Users/aymenmouelhi/Desktop/Projects/ocpp-js/wsdl/ocpp_centralsystemservice_1.5_final.wsdl';
+        var url = require('path').resolve(__dirname, '../wsdl/ocpp_centralsystemservice_1.5_final.wsdl');
         var endpoint = 'http://localhost:9220/Ocpp/CentralSystemService';
 
         return new Promise(function(resolve, reject) {
@@ -48,14 +46,12 @@ class SOAPWrapper {
         });
     }
 
-    createChargePointClient() {
+    createChargePointClient(endpoint) {
         var self = this;
-        // TODO: Get Local Path
-        var url = 'https://raw.githubusercontent.com/aymen-mouelhi/ocpp-js/master/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
-        var url = '/Users/aymenmouelhi/Desktop/Projects/ocpp-js/wsdl/ocpp_chargepointservice_1.5_final.wsdl';
+        var url = require('path').resolve(__dirname, '../wsdl/ocpp_chargepointservice_1.5_final.wsdl');
         //var endpoint = 'http://192.168.0.38:8080/Ocpp/ChargePointService'
         //var endpoint = 'http://localhost:9221/Ocpp/ChargePointService'
-        var endpoint = 'http://192.168.0.114:8080/Ocpp/ChargePointService'
+        var endpoint = endpoint || 'http://192.168.0.114:8080/Ocpp/ChargePointService';
         //var endpoint = 'http://127.0.0.1:8081/ChargeBox/Ocpp';
 
         return new Promise(function(resolve, reject) {
