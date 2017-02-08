@@ -12,7 +12,8 @@ class CentralSystem{
         this.clients = [];
 
         wrapper.createCentralSystemServer();
-
+        
+        // TODO: remove and make client creation on request
         wrapper.createChargePointClient().then(function(client){
             self.chargePointClient = client;
             self.chargePointClient.on('request', function(req){
