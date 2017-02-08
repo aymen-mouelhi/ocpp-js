@@ -11,9 +11,10 @@ var remote = setInterval(function() {
     // Execute some remote actions
     //server.clearCache(id);
 
-    server.reset(1,
-        'http://127.0.0.1:8081/ChargeBox/Ocpp', {
-        type: 'Soft'
+    server.reset('Simulator', 'http://127.0.0.1:8081/ChargeBox/Ocpp', {
+      resetRequest: {
+          type: 'Soft'
+      }
     });
 
     /*
