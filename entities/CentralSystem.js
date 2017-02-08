@@ -20,7 +20,7 @@ class CentralSystem{
             })
         });
 
-        console.log('[CentralSystem] Server IP: ' + self.ip);
+        console.log(`[CentralSystem] Server IP: ${self.ip}`);
         /*
         Utils.getExternalIP(function (err, ip) {
           console.log(ip); // => 8.8.8.8
