@@ -55,8 +55,8 @@ class CentralSystem{
 
       console.log('Remote Address: ' + remoteAddress);
 
-      //var to = remoteAddress || 'http://192.168.0.114:8081';
-      var to = 'http://127.0.0.1:8081/ChargeBox/Ocpp';
+      var to = remoteAddress || 'http://192.168.0.114:8081';
+      //var to = 'http://127.0.0.1:8081/ChargeBox/Ocpp';
 
       // Generate a V4 UUID
       var uuid4 = UUID.create();
@@ -190,7 +190,11 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      this.chargePointClient.Reset(data, function(result){
+      var request = {
+        resetRequest: data
+      }
+
+      this.chargePointClient.Reset(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
@@ -200,9 +204,13 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      this.chargePointClient.UnlockConnector({
-        connectorId: '1'
-      }, function(result){
+      var request = {
+        unlockConnectorRequest: {
+          connectorId: '1'
+        }
+      }
+
+      this.chargePointClient.UnlockConnector(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
