@@ -29,11 +29,13 @@ class CentralSystem{
         */
     }
 
-    createChargeBoxClient(endpoint){
+    createChargeBoxClient(station){
       wrapper.createChargePointClient(endpoint).then(function(client){
           self.clients.push({
             client: client,
-            endpoint: endpoint
+            endpoint: station.endpoint,
+            chargeBoxIdentity: station.endpoint,
+            remoteAddress: station.remoteAddress
           });
       });
     }
