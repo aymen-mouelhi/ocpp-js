@@ -5,13 +5,13 @@ const UUID = require('uuid-js');
 
 class CentralSystem{
     constructor(port) {
-        const wrapper = new SOAPWrapper(port, true);
+        this.soapWrapper = new SOAPWrapper(port, true);
         var self = this;
         this.port = port;
         this.ip = ip.address();
         this.clients = [];
 
-        wrapper.createCentralSystemServer();
+        this.soapWrapper.createCentralSystemServer();
 
         // TODO: remove and make client creation on request
         /*
@@ -27,7 +27,9 @@ class CentralSystem{
     }
 
     createChargeBoxClient(station){
-      wrapper.createChargePointClient(endpoint).then(function(client){
+      var self = this;
+      console.log(`Creating SOAP Client for ${station.endpoint}`);
+      this.soapWrapper.createChargePointClient(station.endpoint).then(function(client){
           self.clients.push({
             client: client,
             endpoint: station.endpoint,
@@ -37,9 +39,15 @@ class CentralSystem{
     }
 
     getClientByEndpoint(endpoint){
-      return this.clients.filter(function(client){
+      var soapClient = this.clients.filter(function(client){
         return client.endpoint === endpoint;
-      })
+      });
+
+      if(soapClient.length > 0){
+        return soapClient[0];
+      }else{
+        return null;
+      }
     }
 
     restartChargingPoint(pointId, remoteAddress){
@@ -129,13 +137,19 @@ class CentralSystem{
 
       var client = this.getClientByEndpoint(remoteAddress);
 
-      var request = {
-        resetRequest: data
-      }
+      if(client){
+        var soapClient = client.client;
 
-      client.Reset(request, function(result){
-        console.log(JSON.stringify(result));
-      });
+        var request = {
+          resetRequest: data
+        }
+
+        soapClient.Reset(request, function(result){
+          console.log(JSON.stringify(result));
+        });
+      }else{
+        console.log(`[SOAP Request] Client for ${remoteAddress} is not found !`);
+      }
     }
 
     unlockConnector(stationId, remoteAddress){
@@ -215,28 +229,39 @@ class CentralSystem{
     }
 
     _updateSoapHeaders(clientId, remoteAddress){
-      // Remove soap headers
-      this.chargePointClient.clearSoapHeaders();
+      var client = this.getClientByEndpoint(remoteAddress);
+      var soapClient;
 
-      clientId = clientId || 'Simulator';
+      if(client){
+        soapClient = client.client;
 
-      console.log('Remote Address: ' + remoteAddress);
+        // Remove soap headers
+        soapClient.clearSoapHeaders();
 
-      var to = remoteAddress || 'http://192.168.0.114:8081';
-      //var to = 'http://127.0.0.1:8081/ChargeBox/Ocpp';
+        clientId = clientId || 'Simulator';
 
-      // Generate a V4 UUID
-      var uuid4 = UUID.create();
+        console.log('Remote Address: ' + remoteAddress);
 
-      this.chargePointClient.addSoapHeader('<h:chargeBoxIdentity xmlns:h="urn://Ocpp/Cp/2012/06/" >'+ clientId + '</h:chargeBoxIdentity>')
-      this.chargePointClient.addSoapHeader('<a:MessageID>urn:uuid:' + uuid4 + '</a:MessageID>')
-      this.chargePointClient.addSoapHeader('<a:From><a:Address>http://localhost:9220/Ocpp/CentralSystemService</a:Address></a:From>')
-      this.chargePointClient.addSoapHeader('<a:ReplyTo><a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address></a:ReplyTo>')
-      this.chargePointClient.addSoapHeader('<a:To>'+ to + '</a:To>')
-      this.chargePointClient.addSoapHeader('<a:Action soap:mustUnderstand="1">'+ this.action +'</a:Action>')
+        var to = remoteAddress || 'http://192.168.0.114:8081';
+        //var to = 'http://127.0.0.1:8081/ChargeBox/Ocpp';
 
-      console.log('Action: ' + this.action);
-      console.log('Headers: ' + JSON.stringify(this.chargePointClient.getSoapHeaders()));
+        // Generate a V4 UUID
+        var uuid4 = UUID.create();
+
+        soapClient.addSoapHeader('<h:chargeBoxIdentity xmlns:h="urn://Ocpp/Cp/2012/06/" >'+ clientId + '</h:chargeBoxIdentity>')
+        soapClient.addSoapHeader('<a:MessageID>urn:uuid:' + uuid4 + '</a:MessageID>')
+        soapClient.addSoapHeader('<a:From><a:Address>http://localhost:9220/Ocpp/CentralSystemService</a:Address></a:From>')
+        soapClient.addSoapHeader('<a:ReplyTo><a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address></a:ReplyTo>')
+        soapClient.addSoapHeader('<a:To>'+ to + '</a:To>')
+        soapClient.addSoapHeader('<a:Action soap:mustUnderstand="1">'+ this.action +'</a:Action>')
+
+        console.log('Action: ' + this.action);
+        console.log('Headers: ' + JSON.stringify(soapClient.getSoapHeaders()));
+
+      }else{
+        console.log(`[SOAP Headers] Client for ${remoteAddress} is not found !`);
+        return;
+      }
     }
 }
 
