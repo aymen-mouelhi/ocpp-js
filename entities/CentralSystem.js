@@ -14,12 +14,14 @@ class CentralSystem{
         wrapper.createCentralSystemServer();
 
         // TODO: remove and make client creation on request
+        /*
         wrapper.createChargePointClient().then(function(client){
             self.chargePointClient = client;
             self.chargePointClient.on('request', function(req){
               console.log('[Client Request] ' + req);
             })
         });
+        */
 
         console.log(`[CentralSystem] Server IP: ${self.ip}`);
     }
@@ -29,8 +31,7 @@ class CentralSystem{
           self.clients.push({
             client: client,
             endpoint: station.endpoint,
-            chargeBoxIdentity: station.endpoint,
-            remoteAddress: station.remoteAddress
+            chargeBoxIdentity: station.chargeBoxIdentity
           });
       });
     }
@@ -126,11 +127,13 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
+      var client = this.getClientByEndpoint(remoteAddress);
+
       var request = {
         resetRequest: data
       }
 
-      this.chargePointClient.Reset(request, function(result){
+      client.Reset(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
