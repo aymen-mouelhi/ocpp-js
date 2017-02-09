@@ -24,7 +24,7 @@ module.exports = {
         }
 
         var station = stations.filter(function(item){
-          return item.chargePointSerialNumber === data.chargePointSerialNumber;
+          return item.chargePointSerialNumber === stations.chargePointSerialNumber;
         });
 
         console.log('[BootNotification] Station: ' + JSON.stringify(station))
