@@ -13,16 +13,6 @@ class CentralSystem{
 
         this.soapWrapper.createCentralSystemServer();
 
-        // TODO: remove and make client creation on request
-        /*
-        wrapper.createChargePointClient().then(function(client){
-            self.chargePointClient = client;
-            self.chargePointClient.on('request', function(req){
-              console.log('[Client Request] ' + req);
-            })
-        });
-        */
-
         console.log(`[CentralSystem] Server IP: ${self.ip}`);
     }
 
@@ -38,7 +28,7 @@ class CentralSystem{
       });
     }
 
-    getClientByEndpoint(endpoint){
+    _getClientByEndpoint(endpoint){
       var soapClient = this.clients.filter(function(client){
         return client.endpoint === endpoint;
       });
@@ -58,14 +48,17 @@ class CentralSystem{
       this.unlockConnector(pointId, remoteAddress);
     }
 
-    // TODO: Add correct actionRequest in each of the following methods
 
     clearCache(stationId, remoteAddress){
       this.action = '/ClearCache';
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      this.chargePointClient.ClearCache({}, function(result){
+      var request = {
+        clearCacheRequest: {}
+      }
+
+      this.chargePointClient.ClearCache(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
@@ -75,7 +68,11 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      this.chargePointClient.ChangeAvailability(data, function(result){
+      var request = {
+        changeAvailabilityRequest: data
+      }
+
+      this.chargePointClient.ChangeAvailability(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
@@ -85,7 +82,11 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      this.chargePointClient.ChangeConguration(data, function(result){
+      var request = {
+        changeCongurationRequest: data
+      }
+
+      this.chargePointClient.ChangeConguration(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
@@ -95,7 +96,11 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      this.chargePointClient.GetConguration({}, function(result){
+      var request = {
+        getCongurationRequest: {}
+      }
+
+      this.chargePointClient.GetConguration(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
@@ -105,7 +110,11 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      this.chargePointClient.GetDiagnostics({}, function(result){
+      var request = {
+        getDiagnosticsRequest: {}
+      }
+
+      this.chargePointClient.GetDiagnostics(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
@@ -115,7 +124,11 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      this.chargePointClient.RemoteStartTransaction(data, function(result){
+      var request = {
+        remoteStartTransactionRequest: data
+      }
+
+      this.chargePointClient.RemoteStartTransaction(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
@@ -125,7 +138,11 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId);
 
-      this.chargePointClient.RemoteStopTransaction(data, function(result){
+      var request = {
+        remoteStopTransactionRequest: data
+      }
+
+      this.chargePointClient.RemoteStopTransaction(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
@@ -135,7 +152,7 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      var client = this.getClientByEndpoint(remoteAddress);
+      var client = this._getClientByEndpoint(remoteAddress);
 
       if(client){
         var soapClient = client.client;
@@ -173,7 +190,11 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      this.chargePointClient.UpdateFirmware(data, function(result){
+      var request = {
+        updateFirmwareRequest: data
+      }
+
+      this.chargePointClient.UpdateFirmware(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
@@ -183,7 +204,11 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      this.chargePointClient.ReserveNow(data, function(result){
+      var request = {
+        reserveNowRequest: data
+      }
+
+      this.chargePointClient.ReserveNow(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
@@ -193,7 +218,11 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      this.chargePointClient.CancelReservation(data, function(result){
+      var request = {
+        cancelReservationRequest: data
+      }
+
+      this.chargePointClient.CancelReservation(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
@@ -203,7 +232,11 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      this.chargePointClient.SendLocalList(data, function(result){
+      var request = {
+        sendLocalListRequest: data
+      }
+
+      this.chargePointClient.SendLocalList(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
@@ -213,7 +246,11 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      this.chargePointClient.GetLocalListVersion(function(result){
+      var request = {
+        getLocalListVersionRequest: {}
+      }
+
+      this.chargePointClient.GetLocalListVersion(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
@@ -223,13 +260,17 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      this.chargePointClient.DataTransfer(data, function(result){
+      var request = {
+        dataTransferRequest: data
+      }
+
+      this.chargePointClient.DataTransfer(request, function(result){
         console.log(JSON.stringify(result));
       });
     }
 
     _updateSoapHeaders(clientId, remoteAddress){
-      var client = this.getClientByEndpoint(remoteAddress);
+      var client = this._getClientByEndpoint(remoteAddress);
       var soapClient;
 
       if(client){
@@ -240,7 +281,8 @@ class CentralSystem{
 
         clientId = clientId || 'Simulator';
 
-        console.log('Remote Address: ' + remoteAddress);
+        console.log(`Remote Address: ${remoteAddress}`);
+        console.log(`Action: ${this.action}`);
 
         var to = remoteAddress || 'http://192.168.0.114:8081';
         //var to = 'http://127.0.0.1:8081/ChargeBox/Ocpp';
@@ -254,10 +296,6 @@ class CentralSystem{
         soapClient.addSoapHeader('<a:ReplyTo><a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address></a:ReplyTo>')
         soapClient.addSoapHeader('<a:To>'+ to + '</a:To>')
         soapClient.addSoapHeader('<a:Action soap:mustUnderstand="1">'+ this.action +'</a:Action>')
-
-        console.log('Action: ' + this.action);
-        console.log('Headers: ' + JSON.stringify(soapClient.getSoapHeaders()));
-
       }else{
         console.log(`[SOAP Headers] Client for ${remoteAddress} is not found !`);
         return;
