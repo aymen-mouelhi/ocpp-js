@@ -29,7 +29,7 @@ module.exports = {
 
         console.log('[BootNotification] Station: ' + JSON.stringify(station))
 
-        if(station.hasOwnProperty('chargeBoxIdentity')){
+        if(station.length > 0){
           // Station already exists
           Storage.save('notification', notification, function(err){
             if(err){
