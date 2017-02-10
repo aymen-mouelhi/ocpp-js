@@ -26,19 +26,20 @@ app.get('/api/stations/:id/restart', function(req, res){
   Storage.findById('station', pointId, function(err, station){
     if(err){
       console.log('[http] Error: ' + err);
-      //res.send(err);
+      res.send(err);
     }else{
       console.log('[http] station: ' + JSON.stringify(station));
       console.log('[http] station remoteAddress: ' + station.remoteAddress);
 
-      station.remoteAddress = station.remoteAddress || "192.168.0.114:8081"
-
+      var endpoint = station.remoteAddress || "192.168.0.114:8081";
+      console.log('[http] station endpoint: ' + station.endpoint);
       console.log('[OCPP Server] Restarting ' + station.chargeBoxIdentity + ' on ' + station.remoteAddress + '...');
 
       // TODO: Create Client
-      CentralSystemServer.createChargeBoxClient(station);
-      // TODO: Method chaingin
-      CentralSystemServer.restartChargingPoint(station.chargeBoxIdentity, station.remoteAddress);
+      CentralSystemServer.createChargeBoxClient(station, endpoint, function(){
+        console.log('[ChargeBox] Client Created: ' + JSON.stringify(station));
+        CentralSystemServer.restartChargingPoint(station.chargeBoxIdentity, endpoint);
+      });
     }
   });
 });

@@ -16,15 +16,16 @@ class CentralSystem{
         console.log(`[CentralSystem] Server IP: ${self.ip}`);
     }
 
-    createChargeBoxClient(station){
+    createChargeBoxClient(station, endpoint, callback){
       var self = this;
       console.log(`Creating SOAP Client for ${station.endpoint}`);
       this.soapWrapper.createChargePointClient(station.endpoint).then(function(client){
           self.clients.push({
             client: client,
-            endpoint: station.endpoint,
+            endpoint: endpoint,
             chargeBoxIdentity: station.chargeBoxIdentity
           });
+          callback();
       });
     }
 
@@ -174,15 +175,23 @@ class CentralSystem{
 
       this._updateSoapHeaders(stationId, remoteAddress);
 
-      var request = {
-        unlockConnectorRequest: {
-          connectorId: '1'
-        }
-      }
+      var client = this._getClientByEndpoint(remoteAddress);
 
-      this.chargePointClient.UnlockConnector(request, function(result){
-        console.log(JSON.stringify(result));
-      });
+      if(client){
+        var soapClient = client.client;
+
+        var request = {
+          unlockConnectorRequest: {
+            connectorId: '1'
+          }
+        }
+
+        this.chargePointClient.UnlockConnector(request, function(result){
+          console.log(JSON.stringify(result));
+        });
+      }else{
+        console.log(`[SOAP Request] Client for ${remoteAddress} is not found !`);
+      }
     }
 
     updateFirmware(stationId, remoteAddress, data){
