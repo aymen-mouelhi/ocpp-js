@@ -31,7 +31,7 @@ app.get('/api/stations/:id/restart', function(req, res){
       console.log('[http] station: ' + JSON.stringify(station));
       console.log('[http] station remoteAddress: ' + station.remoteAddress);
 
-      station.remoteAddress = "192.168.0.114:8081"
+      station.remoteAddress = station.remoteAddress || "192.168.0.114:8081"
 
       console.log('[OCPP Server] Restarting ' + station.chargeBoxIdentity + ' on ' + station.remoteAddress + '...');
 
