@@ -13,11 +13,14 @@ var CentralSystemService = {
                 });
             },
             BootNotification: function(args, callback, headers, req) {
+              // TODO: store the correct port
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
+                var port = Utils.getPort(headers.from.address);
+                var remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
+                console.log(`[BootNotification] port: ${port}, remoteAddress: ${remoteAddress}`)
+                args.endpoint =  remoteAddress + ':' + port;
 
-                args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
-
-                console.log('[SOAPWrapper] BootNotification from: ' + args.remoteAddress);
+                console.log('[SOAPWrapper] BootNotification endpoint: ' + args.endpoint);
                 handlers.BootNotification.handle(args).then(function(data) {
                     console.log('[SOAPWrapper] BootNotification result: ' + JSON.stringify(data));
                     callback(null, data);
@@ -33,17 +36,20 @@ var CentralSystemService = {
                 });
             },
             StopTransaction: function(args, callback, headers, req) {
+              // TODO: store the correct port
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
-                args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
+                var port = Utils.getPort(headers.from.address);
+
+
+                args.endpoint =  Utils.getRemoteAddress(req.connection.remoteAddress);
+
+
 
                 handlers.StopTransaction.cbHandle(args, function(data) {
                     callback(data);
                 });
             },
             Heartbeat: function(args, callback, headers, req) {
-                // args.chargeBoxIdentity = headers.chargeBoxIdentity;
-                //args.remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);
-
                 handlers.Heartbeat.cbHandle(function(data) {
                     callback(data);
                 });

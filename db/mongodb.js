@@ -20,6 +20,8 @@ const stationSchema = new mongoose.Schema({
     imsi: 'String',
     meterType: 'String',
     meterSerialNumber: 'String'
+}, {
+    strict: false
 });
 
 const notificationSchema = new mongoose.Schema({

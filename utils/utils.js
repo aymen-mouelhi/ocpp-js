@@ -324,7 +324,22 @@ var Utils = {
         tester.once('close', function() { fn(null, false) })
         .close();
       }).listen(port);
+    },
+
+    getPort: function(url) {
+      url = url.match(/^(([a-z]+:)?(\/\/)?[^\/]+).*$/)[1] || url;
+      var parts = url.split(':'),
+          port = parseInt(parts[parts.length - 1], 10);
+      if(parts[0] === 'http' && (isNaN(port) || parts.length < 3)) {
+          return 80;
+      }
+      if(parts[0] === 'https' && (isNaN(port) || parts.length < 3)) {
+          return 443;
+      }
+      if(parts.length === 1 || isNaN(port)) return 80;
+      return port;
     }
+
 
 
 };
