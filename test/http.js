@@ -27,17 +27,13 @@ app.get('/api/stations/:id/restart', function(req, res){
       console.log('[http] Error: ' + err);
       res.send(err);
     }else{
-      console.log('[http] station: ' + JSON.stringify(station));
-      console.log('[http] station endpoint: ' + station.endpoint);
+      //var endpoint = station.endpoint || "192.168.0.114:8081";
+      console.log(`[OCPP Server] Restarting ${station.chargeBoxIdentity} on ${station.endpoint} ...`);
 
-      var endpoint = station.endpoint || "192.168.0.114:8081";
-      console.log('[http] station endpoint: ' + station.endpoint);
-      console.log('[OCPP Server] Restarting ' + station.chargeBoxIdentity + ' on ' + station.remoteAddress + '...');
-
-      // TODO: Create Client
-      CentralSystemServer.createChargeBoxClient(station, endpoint, function(){
-        console.log('[ChargeBox] Client Created: ' + JSON.stringify(station));
-        CentralSystemServer.restartChargingPoint(station.chargeBoxIdentity, endpoint);
+      // create client
+      CentralSystemServer.createChargeBoxClient(station, function(){
+        console.log(`[ChargeBox] Client Created for ${station.chargeBoxIdentity}`);
+        CentralSystemServer.restartChargingPoint(station.chargeBoxIdentity, station.endpoint);
       });
     }
   });

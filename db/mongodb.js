@@ -11,6 +11,10 @@ const stationSchema = new mongoose.Schema({
         type: 'String',
         required: true
     },
+    endpoint: {
+        type: 'String',
+        required: true
+    },
     chargePointVendor: 'String',
     chargePointModel: 'String',
     chargePointSerialNumber: 'String',
@@ -19,7 +23,7 @@ const stationSchema = new mongoose.Schema({
     iccid: 'String',
     imsi: 'String',
     meterType: 'String',
-    meterSerialNumber: 'String'
+    meterSerialNumber: 'String',
 }, {
     strict: false
 });

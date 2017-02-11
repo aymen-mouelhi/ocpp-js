@@ -16,13 +16,13 @@ class CentralSystem{
         console.log(`[CentralSystem] Server IP: ${self.ip}`);
     }
 
-    createChargeBoxClient(station, endpoint, callback){
+    createChargeBoxClient(station, callback){
       var self = this;
       console.log(`Creating SOAP Client for ${station.endpoint}`);
       this.soapWrapper.createChargePointClient(station.endpoint).then(function(client){
           self.clients.push({
             client: client,
-            endpoint: endpoint,
+            endpoint: station.endpoint,
             chargeBoxIdentity: station.chargeBoxIdentity
           });
           callback();
@@ -41,12 +41,12 @@ class CentralSystem{
       }
     }
 
-    restartChargingPoint(pointId, remoteAddress){
-      this.reset(pointId, remoteAddress, {
+    restartChargingPoint(pointId, endpoint){
+      this.reset(pointId, endpoint, {
         type: 'Hard'
       });
 
-      this.unlockConnector(pointId, remoteAddress);
+      this.unlockConnector(pointId, endpoint);
     }
 
 
