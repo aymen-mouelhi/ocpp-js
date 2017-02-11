@@ -164,60 +164,6 @@ var Utils = {
         return copy;
     },
 
-    /*
-     * Functions related to WSDL parsing
-     */
-    JSON: {
-        complexTypes: {},
-        simpleTypes: {},
-        /*
-         *  Get the object from a given type
-         */
-        getPathFromType: function(types, type) {
-            for (var c in types) {
-                if (!Utils.isEmpty(types[c]['$']['name']) && !Utils.isEmpty(type)) {
-                    if (types[c]['$']['name'].toLowerCase() == type.toLowerCase()) {
-                        return types[c];
-                    }
-                }
-            }
-
-            return null;
-        },
-
-        /*
-         *  Get elements of a type
-         */
-        getSequenceOfType: function(types, type) {
-            var seq = [];
-
-            // get path
-            var path = Utils.JSON.getPathFromType(types, type);
-
-            // retrieve sequence
-            var elements = null;
-            if (path != null) {
-                if (path['s:sequence'] != undefined)
-                    elements = path['s:sequence'][0]['s:element'];
-            }
-
-            // get all the elements of the sequence
-            if (elements != null) {
-                for (var e in elements) {
-                    seq.push(elements[e]['$']);
-
-                    // specific case for the 'value', add complex type
-                    if (elements[e]['$']['name'] == 'value') {
-                        seq[seq.length - 1]['s:complexType'] = elements[e]['s:complexType'];
-                    }
-                }
-            }
-
-            return seq;
-        }
-
-    },
-
     // Get network interface IPs, from:
     // http://stackoverflow.com/questions/3653065/get-local-ip-address-in-node-js
     getNetworkIPs: function() {
@@ -340,12 +286,13 @@ var Utils = {
       return port;
     },
 
-    getEndpoint: function(uri, remoteAddress){
+    getEndpoint: function(uri, ip){
       var port = this.getPort(uri);
-      // TODO: getRemoteAddress returns IPv4 128.255.255.254 for IPv6 ::ffff:127.0.0.1
-      //remoteAddress =  this.getRemoteAddress(remoteAddress);
+      if (ip.substr(0, 7) == "::ffff:") {
+        ip = ip.substr(7)
+      }
       uri = uri.replace('http://', '');
-      return remoteAddress + ':' + port + uri.substring(uri.indexOf('/'), uri.length);
+      return ip + ':' + port + uri.substring(uri.indexOf('/'), uri.length);
     }
 };
 
