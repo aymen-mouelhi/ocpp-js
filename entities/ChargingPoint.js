@@ -1,6 +1,7 @@
 const SOAPWrapper = require('../utils/SOAPWrapper');
 const wrapper = new SOAPWrapper();
 const Utils = require('../utils/utils.js');
+const UUID = require('uuid-js');
 
 class ChargingPoint {
     constructor(uri, identifier) {
@@ -14,7 +15,7 @@ class ChargingPoint {
     }
 
     getId() {
-        return this.chargePointId;
+      return this.chargePointId;
     }
 
     _updateSoapHeaders() {
@@ -22,15 +23,24 @@ class ChargingPoint {
             // Remove soap headers
             this.client.clearSoapHeaders();
 
-            this.client.addSoapHeader({
-                chargeBoxIdentity: this.getId()
-            });
+            // Generate a V4 UUID
+            var uuid4 = UUID.create();
+
+            // Add addressing info
+            this.client.addSoapHeader('<h:chargeBoxIdentity xmlns:h="urn://Ocpp/Cp/2012/06/" >'+ this.getId() + '</h:chargeBoxIdentity>')
+            this.client.addSoapHeader('<a:MessageID>urn:uuid:' + uuid4 + '</a:MessageID>')
+            this.client.addSoapHeader('<a:From><a:Address>'+ this.uri +'</a:Address></a:From>')
+            this.client.addSoapHeader('<a:ReplyTo><a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address></a:ReplyTo>')
+            this.client.addSoapHeader('<a:To>http://localhost:9220/Ocpp/CentralSystemService</a:To>')
+            this.client.addSoapHeader('<a:Action soap:mustUnderstand="1">'+ this.action +'</a:Action>')
         } else {
             console.log('[ChargingPoint] Client for Central System Service is not ready !');
         }
     }
 
     bootNotification(data) {
+        this.action = '/BootNotification';
+
         this._updateSoapHeaders();
 
         var request = {
@@ -48,6 +58,8 @@ class ChargingPoint {
     }
 
     heartbeat() {
+        this.action = '/Heartbeat';
+
         this._updateSoapHeaders();
 
         var request = {
@@ -64,6 +76,8 @@ class ChargingPoint {
     }
 
     meterValues(data) {
+        this.action = '/MeterValues';
+
         this._updateSoapHeaders();
 
         // TODO: to be fixed
@@ -83,6 +97,7 @@ class ChargingPoint {
     }
 
     sendStatusNotification(data) {
+        this.action = '/StatusNotification';
 
         this._updateSoapHeaders();
 
@@ -102,6 +117,7 @@ class ChargingPoint {
     }
 
     startTransaction(data) {
+        this.action = '/StartTransaction';
 
         this._updateSoapHeaders();
 
@@ -121,6 +137,8 @@ class ChargingPoint {
     }
 
     stopTransaction(data) {
+        this.action = '/StopTransaction';
+
         this._updateSoapHeaders();
 
         data.connectorId = 1;
@@ -139,6 +157,7 @@ class ChargingPoint {
     }
 
     authorize(data) {
+        this.action = '/Authorize';
 
         this._updateSoapHeaders();
 
@@ -156,6 +175,7 @@ class ChargingPoint {
     }
 
     diagnosticsStatusNotification(data) {
+        this.action = '/DiagnosticsStatusNotification';
 
         this._updateSoapHeaders();
 
@@ -173,6 +193,8 @@ class ChargingPoint {
     }
 
     firmwareStatusNotification(data) {
+        this.action = '/FirmwareStatusNotification';
+
         this._updateSoapHeaders();
 
         var request = {
