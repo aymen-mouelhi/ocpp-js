@@ -83,7 +83,7 @@ class MongoDB {
 
     findById(collection, id, callback) {
       var self = this;
-      self._getModel(collection).find({chargeBoxIdentity: id}, function(err, stations){
+      self._getModel(collection).find({chargePointSerialNumber: id}, function(err, stations){
         if(err){
           callback(err)
         }else{

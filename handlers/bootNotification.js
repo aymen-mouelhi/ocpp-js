@@ -18,18 +18,14 @@ module.exports = {
 
       console.log('[BootNotification] notification: ' + JSON.stringify(notification))
 
-      Storage.findAll('station', function(err, stations){
+      Storage.findById('station', data.chargePointSerialNumber, function(err, station){
         if(err){
           reject(err);
         }
 
-        var station = stations.filter(function(item){
-          return item.chargePointSerialNumber === stations.chargePointSerialNumber;
-        });
-
         console.log('[BootNotification] Station: ' + JSON.stringify(station))
 
-        if(station.length > 0){
+        if(station){
           // Station already exists
           Storage.save('notification', notification, function(err){
             if(err){
@@ -39,7 +35,7 @@ module.exports = {
                 bootNotificationResponse : {
                     status: 'Accepted',
                     currentTime: new Date().toISOString(),
-                    heartbeatInterval: 1200
+                    heartbeatInterval: 60
                   }
               });
             }
