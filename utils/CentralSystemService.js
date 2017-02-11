@@ -13,7 +13,8 @@ var CentralSystemService = {
                 });
             },
             BootNotification: function(args, callback, headers, req) {
-              // TODO: store the correct port
+                console.log(`[BootNotification] Got a BootNotification request`);
+                // TODO: store the correct port
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 var port = Utils.getPort(headers.from.address);
                 var remoteAddress =  Utils.getRemoteAddress(req.connection.remoteAddress);

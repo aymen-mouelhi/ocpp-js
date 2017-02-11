@@ -52,9 +52,9 @@ class SOAPWrapper {
         var url = require('path').resolve(__dirname, '../wsdl/ocpp_chargepointservice_1.5_final.wsdl');
         //var endpoint = 'http://192.168.0.38:8080/Ocpp/ChargePointService'
         //var endpoint = 'http://localhost:9221/Ocpp/ChargePointService'
-        console.log(`[SOAPWrapper-createChargePointClient] endpoint: ${endpoint} `);
         var endpoint = endpoint || 'http://192.168.0.114:8080/Ocpp/ChargePointService'
         //var endpoint = endpoint || 'http://127.0.0.1:8081/ChargeBox/Ocpp';
+        console.log(`[SOAPWrapper-createChargePointClient] endpoint: ${endpoint} `);
 
         return new Promise(function(resolve, reject) {
             self.createClient(url, endpoint).then(function(client) {

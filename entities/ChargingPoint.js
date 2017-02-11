@@ -33,7 +33,11 @@ class ChargingPoint {
     bootNotification(data) {
         this._updateSoapHeaders();
 
-        this.client.BootNotification(data, function(err, result) {
+        var request = {
+          bootNotificationRequest: data
+        }
+
+        this.client.BootNotification(request, function(err, result) {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
@@ -46,7 +50,11 @@ class ChargingPoint {
     heartbeat() {
         this._updateSoapHeaders();
 
-        this.client.Heartbeat(function(err, result) {
+        var request = {
+          heartbeatRequest: {}
+        }
+
+        this.client.Heartbeat(request, function(err, result) {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
@@ -58,9 +66,14 @@ class ChargingPoint {
     meterValues(data) {
         this._updateSoapHeaders();
 
-        data.connectorId = this.getId();
+        // TODO: to be fixed
+        data.connectorId = 1;
 
-        this.client.MeterValues(data, function(err, result) {
+        var request = {
+          meterValuesRequest: data
+        }
+
+        this.client.MeterValues(request, function(err, result) {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
@@ -73,9 +86,13 @@ class ChargingPoint {
 
         this._updateSoapHeaders();
 
-        data.connectorId = this.getId();
+        data.connectorId = 1;
 
-        this.client.StatusNotification(data, function(err, result) {
+        var request = {
+          statusNotificationRequest: data
+        }
+
+        this.client.StatusNotification(request, function(err, result) {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
@@ -88,9 +105,13 @@ class ChargingPoint {
 
         this._updateSoapHeaders();
 
-        data.connectorId = this.getId();
+        data.connectorId = 1;
 
-        this.client.StartTransaction(data, function(err, result) {
+        var request = {
+          startTransactionRequest: data
+        }
+
+        this.client.StartTransaction(request, function(err, result) {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
@@ -102,9 +123,13 @@ class ChargingPoint {
     stopTransaction(data) {
         this._updateSoapHeaders();
 
-        data.connectorId = this.getId();
+        data.connectorId = 1;
 
-        this.client.StopTransaction(data, function(err, result) {
+        var request = {
+          stopTransactionRequest: data
+        }
+
+        this.client.StopTransaction(request, function(err, result) {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
@@ -117,7 +142,11 @@ class ChargingPoint {
 
         this._updateSoapHeaders();
 
-        this.client.Authorize(data, function(err, result) {
+        var request = {
+          authorizeRequest: data
+        }
+
+        this.client.Authorize(request, function(err, result) {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
@@ -130,7 +159,11 @@ class ChargingPoint {
 
         this._updateSoapHeaders();
 
-        this.client.DiagnosticsStatusNotification(data, function(err, result) {
+        var request = {
+          diagnosticsStatusNotificationRequest: data
+        }
+
+        this.client.DiagnosticsStatusNotification(request, function(err, result) {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
@@ -142,7 +175,11 @@ class ChargingPoint {
     firmwareStatusNotification(data) {
         this._updateSoapHeaders();
 
-        this.client.FirmwareStatusNotification(data, function(err, result) {
+        var request = {
+          firmwareStatusNotificationRequest: data
+        }
+
+        this.client.FirmwareStatusNotification(request, function(err, result) {
             if (err) {
                 console.log('[ChargingPoint] ERROR Central System ' + err);
             } else {
