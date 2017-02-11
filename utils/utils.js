@@ -338,10 +338,15 @@ var Utils = {
       }
       if(parts.length === 1 || isNaN(port)) return 80;
       return port;
+    },
+
+    getEndpoint: function(uri, remoteAddress){
+      var port = this.getPort(uri);
+      // TODO: getRemoteAddress returns IPv4 128.255.255.254 for IPv6 ::ffff:127.0.0.1
+      //remoteAddress =  this.getRemoteAddress(remoteAddress);
+      uri = uri.replace('http://', '');
+      return remoteAddress + ':' + port + uri.substring(uri.indexOf('/'), uri.length);
     }
-
-
-
 };
 
 module.exports = Utils;
