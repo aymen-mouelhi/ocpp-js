@@ -21,7 +21,6 @@ app.use(bodyParser.json());
 app.get('/api/stations/:id/restart', function(req, res){
   //  Restart Station
   var pointId = req.params.id;
-  // TODO: ID should be serial number
 
   Storage.findById('station', pointId, function(err, station){
     if(err){
@@ -29,9 +28,9 @@ app.get('/api/stations/:id/restart', function(req, res){
       res.send(err);
     }else{
       console.log('[http] station: ' + JSON.stringify(station));
-      console.log('[http] station remoteAddress: ' + station.remoteAddress);
+      console.log('[http] station endpoint: ' + station.endpoint);
 
-      var endpoint = station.remoteAddress || "192.168.0.114:8081";
+      var endpoint = station.endpoint || "192.168.0.114:8081";
       console.log('[http] station endpoint: ' + station.endpoint);
       console.log('[OCPP Server] Restarting ' + station.chargeBoxIdentity + ' on ' + station.remoteAddress + '...');
 
