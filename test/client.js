@@ -1,21 +1,30 @@
 const ChargingPoint = require('../entities/ChargingPoint');
 
-var soapOptions = {
-    fromHeader: 'http://localhost:9001',
-    remoteActionPort: '9001'
-}
-
-var point = new ChargingPoint('http://127.0.0.1:8081/ChargeBox/Ocpp', "Simulator");
+var euriscoPoint = new ChargingPoint('http://127.0.0.1:8081/ChargeBox/Ocpp', "EURISCO-Simulator");
+var nodePoint = new ChargingPoint('http://localhost:9221/Ocpp/ChargePointService', "NODE-Simulator");
 
 var boot = setInterval(function() {
 
     // Station is ready
-    point.bootNotification({
+    euriscoPoint.bootNotification({
         chargePointVendor: 'Shneider Electric',
         chargePointModel: 'NQC-ACDC',
         chargePointSerialNumber: 'gir.vat.mx.000e48',
         chargeBoxSerialNumber: 'gir.vat.mx.000e48',
         firmwareVersion: '1.0.49',
+        iccid: '1',
+        imsi: '',
+        meterType: 'DBT NQC-ACDC',
+        meterSerialNumber: 'gir.vat.mx.000e48'
+    });
+
+
+    nodePoint.bootNotification({
+        chargePointVendor: 'Shneider Electric',
+        chargePointModel: 'NQC-ACDC',
+        chargePointSerialNumber: '5894babc-c6a3-4b8d-81a70e48',
+        chargeBoxSerialNumber: '5894babc-c6a3-4b8d-81a7',
+        firmwareVersion: '2.0.49',
         iccid: '1',
         imsi: '',
         meterType: 'DBT NQC-ACDC',
