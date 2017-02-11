@@ -25,7 +25,7 @@ module.exports = {
 
         console.log('[BootNotification] Station: ' + JSON.stringify(station))
 
-        if(station){
+        if(station.chargePointSerialNumber){
           // Station already exists
           Storage.save('notification', notification, function(err){
             if(err){
