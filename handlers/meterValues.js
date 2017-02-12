@@ -11,8 +11,7 @@ module.exports = {
           reject(err);
         }else{
           resolve({
-            MeterValuesResponse: {
-            }
+            MeterValuesResponse: {}
           });
         }
       });
@@ -22,8 +21,7 @@ module.exports = {
   cbHandle: function(data, callback){
     // TODO: Dummy Content
     callback({
-        MeterValuesResponse: {
-        }
+        MeterValuesResponse: {}
       })
   }
 }
