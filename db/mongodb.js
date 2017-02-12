@@ -68,6 +68,8 @@ const meterValuesSchema = new mongoose.Schema({
 let instance =  null;
 const Station = mongoose.model('Station', stationSchema);
 const Notification = mongoose.model('Notification', notificationSchema);
+const MeterValues = mongoose.model('MeterValues', meterValuesSchema);
+
 class MongoDB {
     constructor() {
         var mongoConf = config.get('mongodb');
@@ -88,7 +90,10 @@ class MongoDB {
                 break;
             case 'station':
                 Collection = Station;
-                break
+                break;
+            case 'meterValues':
+                Collection = MeterValues;
+                break;
             default:
                 console.log('[MongoDB] Collection ' + collection + ' is not known !');
                 break;
