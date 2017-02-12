@@ -8,6 +8,7 @@ module.exports = {
       // Store in Collection MeterValues
       Storage.save('meterValues', data, function(err){
         if (err) {
+          console.log('error: ' + err);
           reject(err);
         }else{
           resolve({

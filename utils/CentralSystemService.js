@@ -53,7 +53,7 @@ var CentralSystemService = {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 args.endpoint = Utils.getEndpoint(headers.From.Address, req.connection.remoteAddress);
 
-                handlers.MeterValues.cbHandle(args, function(data) {
+                handlers.MeterValues.handle(args).then(function(data) {
                     callback(data);
                 });
             },

@@ -91,7 +91,7 @@ class MongoDB {
             case 'station':
                 Collection = Station;
                 break;
-            case 'meterValues':
+            case 'metervalues':
                 Collection = MeterValues;
                 break;
             default:
@@ -152,6 +152,7 @@ class MongoDB {
 
       entry.save(function(err){
         if(err){
+          console.log('[MongoDB] error: ' + err);
           callback(err);
         }else{
           callback(null, {});

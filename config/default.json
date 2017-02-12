@@ -1,7 +1,7 @@
 {
     "defaultDB": "mongodb",
     "mongodb": {
-        "url": "mongodb://localhost/mydb"
+        "url": "mongodb://localhost/evlink"
     },
     "firebase": {
       "apiKey": "[apiKey]",
