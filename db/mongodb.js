@@ -32,6 +32,10 @@ const notificationSchema = new mongoose.Schema({
     unread: {
         type: Boolean,
         required: true
+    },
+    type: {
+        type: Boolean,
+        required: true
     }
 }, {
     strict: false
