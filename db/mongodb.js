@@ -47,10 +47,16 @@ const usersSchema = new mongoose.Schema({
 });
 
 const meterValuesSchema = new mongoose.Schema({
-    unread: {
-        type: Boolean,
+    chargeBoxIdentity: {
+        type: String,
         required: true
-    }
+    },
+    connectorId: {
+        type: String,
+        required: true
+    },
+    value: Number,
+    timestamp: String
 }, {
     strict: false
 });
