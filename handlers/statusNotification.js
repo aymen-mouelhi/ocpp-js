@@ -7,7 +7,7 @@ module.exports = {
     return new Promise(function(resolve, reject) {
       // notification is not read yet
       data.unread = true;
-
+      /*
       Storage.findAll('notification', function(err, notifications){
 
         var statusNotifications = notifications.filter(function(item){
@@ -32,6 +32,7 @@ module.exports = {
         }
 
       });
+      */
 
       var notification = {
         text: 'Status Notification Update',
