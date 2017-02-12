@@ -37,6 +37,23 @@ const notificationSchema = new mongoose.Schema({
     strict: false
 });
 
+const usersSchema = new mongoose.Schema({
+    idTag: {
+        type: String,
+        required: true
+    }
+}, {
+    strict: false
+});
+
+const meterValuesSchema = new mongoose.Schema({
+    unread: {
+        type: Boolean,
+        required: true
+    }
+}, {
+    strict: false
+});
 
 let instance =  null;
 const Station = mongoose.model('Station', stationSchema);

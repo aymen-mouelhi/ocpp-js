@@ -13,6 +13,7 @@ module.exports = {
               });
 
               if (user) {
+                // TODO: Store Notification
                 // TODO: check if not expired
                   resolve({
                       AuthorizeResponse: {
