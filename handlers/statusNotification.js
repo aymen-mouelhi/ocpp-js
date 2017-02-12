@@ -8,6 +8,31 @@ module.exports = {
       // notification is not read yet
       data.unread = true;
 
+      Storage.findAll('notification', function(err, notifications){
+
+        var statusNotifications = notifications.filter(function(item){
+          return item.type === 'StatusNotification';
+        });
+
+        // TODO: order by timestamp
+        var statusNotif = statusNotifications[0];
+        // TODO: Check status
+        if (statusNotif.status != data.status) {
+          if ((statusNotif.connectorId === data.connectorId)) {
+            // Status has changed, store notification !
+          }else{
+            // Store notification
+          }
+        }else{
+          if ((statusNotif.connectorId === data.connectorId)) {
+            // Status has changed, store notification !
+          }else{
+            // same status, nothing to do
+          }
+        }
+
+      });
+
       var notification = {
         text: 'Status Notification Update',
         unread: true,
@@ -21,9 +46,7 @@ module.exports = {
           reject(err);
         }else{
           resolve({
-            StatusNotificationResponse: {
-
-            }
+            StatusNotificationResponse: {}
           });
         }
       });
