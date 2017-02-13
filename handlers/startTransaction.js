@@ -24,23 +24,20 @@ module.exports = {
                       start = false;
                   }
                 }
-
                 // TODO: 0 should be replaced by transactionId
                 if (start) {
                     response = {
                       StartTransactionResponse: {
-                          transactionId: 0,
+                          transactionId: 1,
                           idTagInfo: {
-                              status: 'Accepted',
-                              expiryDate: moment().add(7, 'days').format(),
-                              parentIdTag: 'PARENT'
+                              status: 'Accepted'
                           }
                       }
                     }
                 } else {
                     response = {
                       StartTransactionResponse: {
-                          transactionId: 0,
+                          transactionId: 1,
                           idTagInfo: {
                               status: 'Rejected',
                               expiryDate: moment().add(7, 'days').format(),
@@ -62,7 +59,12 @@ module.exports = {
     cbHandle: function(data, callback){
       // TODO: Dummy Content
       callback({
-        status: 'Accepted'
+        StartTransactionResponse: {
+            transactionId: 1,
+            idTagInfo: {
+                status: 'Accepted'
+            }
+        }
       })
     }
 }

@@ -16,6 +16,7 @@
   "author": "Aymen Mouelhi <aymen.mouelhi@gmail.com> (https://github.com/aymen-mouelhi)",
   "license": "ISC",
   "dependencies": {
+    "async": "^2.1.4",
     "bindings": "^1.2.1",
     "body-parser": "^1.16.0",
     "config": "^1.24.0",

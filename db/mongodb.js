@@ -149,7 +149,7 @@ class MongoDB {
       var Model = self._getModel(collection);
       var entry = new Model(data);
       console.log('[MongoDB] saving data into '+ collection);
-
+      console.log('[MongoDB] data '+ JSON.stringify(data));
       entry.save(function(err){
         if(err){
           console.log('[MongoDB] error: ' + err);

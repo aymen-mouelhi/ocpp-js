@@ -1,4 +1,5 @@
 const Promise = require('promise');
+const async = require('async');
 const DB = require('../db/index.js');
 var Storage = new DB(process.env.storage);
 
@@ -8,6 +9,7 @@ module.exports = {
       if(data.values.length > 0){
         // TODO: Store data.values.length times?
       }
+
       // Store in Collection MeterValues
       Storage.save('meterValues', data, function(err){
         if (err) {
