@@ -13,17 +13,32 @@ module.exports = {
               });
 
               if (user) {
+                // TODO: which box, which connector?
+                var message = user.firstName + ' ' + user.lastName + ' is not authenticated';
+
+                var notification = {
+                  text: message,
+                  unread: true,
+                  type: 'Authorize',
+                  timestamp: moment().format()
+                }
                 // TODO: Store Notification
-                // TODO: check if not expired
-                  resolve({
-                      AuthorizeResponse: {
-                        idTagInfo: {
-                            status: 'Accepted',
-                            expiryDate: moment().add(1, 'months').format(),
-                            parentIdTag: 'PARENT'
+                Storage.save('notification', notification, function(err){
+                  if(err){
+                    reject(err);
+                  }else{
+                    // TODO: check if not expired
+                    resolve({
+                        AuthorizeResponse: {
+                          idTagInfo: {
+                              status: 'Accepted',
+                              expiryDate: moment().add(1, 'months').format(),
+                              parentIdTag: 'PARENT'
+                          }
                         }
-                      }
-                    });
+                      });
+                  }
+                });
               } else {
                   // User not authorized
                   resolve({
