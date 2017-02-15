@@ -52,13 +52,5 @@ module.exports = {
         }
       });
     });
-  },
-
-  cbHandle: function(data, callback){
-    Storage.save('notification', data, function(){
-      callback(null, {
-        StatusNotificationResponse: {}
-      })
-    });
   }
 }

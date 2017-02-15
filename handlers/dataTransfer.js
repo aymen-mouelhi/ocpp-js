@@ -7,11 +7,5 @@ module.exports = {
           currentTime: new Date().toISOString()
         })
     });
-  },
-
-  cbHandle: function(data, callback){
-    callback({
-        currentTime: new Date().toISOString()
-      })
   }
 }

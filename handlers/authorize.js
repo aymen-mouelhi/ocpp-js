@@ -4,7 +4,6 @@ var Storage = new DB(process.env.storage);
 
 module.exports = {
     handle: function(data) {
-      // TODO: store in log collection
         return new Promise(function(resolve, reject) {
             Storage.findAll('users').then(function(users){
               // Get user with idTag
@@ -13,8 +12,7 @@ module.exports = {
               });
 
               if (user) {
-                // TODO: which box, which connector?
-                var message = user.firstName + ' ' + user.lastName + ' is not authenticated';
+                var message = `${user.firstName} ${user.lastName} is not authenticated on station ${data.chargeBoxIdentity}`;
 
                 var notification = {
                   text: message,
@@ -22,7 +20,7 @@ module.exports = {
                   type: 'Authorize',
                   timestamp: moment().format()
                 }
-                // TODO: Store Notification
+
                 Storage.save('notification', notification, function(err){
                   if(err){
                     reject(err);
@@ -53,18 +51,5 @@ module.exports = {
               }
             });
         });
-    },
-
-    cbHandle: function(data, callback){
-      // TODO: Dummy Content
-      callback({
-          AuthorizeResponse: {
-            idTagInfo: {
-                status: 'Accepted',
-                expiryDate: moment().add(1, 'months').format(),
-                parentIdTag: 'PARENT'
-            }
-          }
-        })
     }
 }

@@ -7,7 +7,7 @@ var CentralSystemService = {
             Authorize: function(args, callback, headers, req) {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 args.endpoint = Utils.getEndpoint(headers.From.Address, req.connection.remoteAddress);
-                handlers.Authorize.cbHandle(args, function(data) {
+                handlers.Authorize.handle(args).then(function(data) {
                     callback(data);
                 });
             },
@@ -26,26 +26,21 @@ var CentralSystemService = {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 args.endpoint = Utils.getEndpoint(headers.From.Address, req.connection.remoteAddress);
 
-                handlers.StartTransaction.cbHandle(args, function(data) {
+                handlers.StartTransaction.handle(args).then(function(data) {
                     callback(data);
                 });
             },
             StopTransaction: function(args, callback, headers, req) {
               // TODO: store the correct port
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
-                var port = Utils.getPort(headers.from.address);
-
-
                 args.endpoint =  Utils.getRemoteAddress(req.connection.remoteAddress);
 
-
-
-                handlers.StopTransaction.cbHandle(args, function(data) {
+                handlers.StopTransaction.handle(args).then(function(data) {
                     callback(data);
                 });
             },
             Heartbeat: function(args, callback, headers, req) {
-                handlers.Heartbeat.cbHandle(function(data) {
+                handlers.Heartbeat.handle(function(data) {
                     callback(data);
                 });
             },
@@ -61,7 +56,7 @@ var CentralSystemService = {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 args.endpoint = Utils.getEndpoint(headers.From.Address, req.connection.remoteAddress);
 
-                handlers.StatusNotification.cbHandle(args, function(data) {
+                handlers.StatusNotification.handle(args).then(function(data) {
                   data = data || {}
                   console.log('[SOAPWrapper] StatusNotification result: ' + JSON.stringify(data));
                   callback(data);
@@ -71,7 +66,7 @@ var CentralSystemService = {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 args.endpoint = Utils.getEndpoint(headers.From.Address, req.connection.remoteAddress);
 
-                handlers.FirmwareStatusNotification.cbHandle(args, function(data) {
+                handlers.FirmwareStatusNotification.handle(args).then(function(data) {
                     callback(data);
                 });
             },
@@ -79,7 +74,7 @@ var CentralSystemService = {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 args.endpoint = Utils.getEndpoint(headers.From.Address, req.connection.remoteAddress);
 
-                handlers.DiagnosticsStatusNotification.cbHandle(args, function(data) {
+                handlers.DiagnosticsStatusNotification.handle(args).then(function(data) {
                     callback(data);
                 });
             },
@@ -87,7 +82,7 @@ var CentralSystemService = {
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 args.endpoint = Utils.getEndpoint(headers.From.Address, req.connection.remoteAddress);
 
-                handlers.DataTransfer.cbHandle(args, function(data) {
+                handlers.DataTransfer.handle(args).then(function(data) {
                     callback(data);
                 });
             }

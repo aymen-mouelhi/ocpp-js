@@ -54,17 +54,5 @@ module.exports = {
                 });
             });
         });
-    },
-
-    cbHandle: function(data, callback){
-      // TODO: Dummy Content
-      callback({
-        StartTransactionResponse: {
-            transactionId: 1,
-            idTagInfo: {
-                status: 'Accepted'
-            }
-        }
-      })
     }
 }

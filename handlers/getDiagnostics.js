@@ -12,14 +12,5 @@ module.exports = {
         }
       });
     });
-  },
-
-  cbHandle: function(data, callback){
-    // TODO: Dummy Content
-    callback({
-      GetDiagnosticsResponse: {
-        status: 'Accepted'
-      }
-    })
   }
 }

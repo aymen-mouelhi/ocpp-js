@@ -12,13 +12,5 @@ module.exports = {
           }
       });
     });
-  },
-
-  cbHandle: function(data, callback){
-    callback({
-      resetResponse: {
-          status: 'Accepted',
-        }
-    });
   }
 }
