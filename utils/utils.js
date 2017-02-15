@@ -80,26 +80,6 @@ var Utils = {
     },
 
     /**
-     *  Return the id of the element on an object if there's only one element.
-     *  Purpose: get the id of the unique CP for shortened UI commands
-     *  @param {Object} Object
-     *  @return {Number} Number = id, -1 = error
-     */
-    getId: function(obj) {
-        var nb = 0,
-            id = -1;
-
-        for (var o in obj) {
-            id = o;
-            // more than 1 element = return error
-            if (++nb > 1)
-                return -1;
-        }
-
-        return id;
-    },
-
-    /**
      * Retrieve OCPP version from string
      */
     retrieveVersion: function(str) {
@@ -116,13 +96,6 @@ var Utils = {
         }
 
         return v.join('.');
-    },
-
-    /*
-     *  Delete the namespace of a xml node
-     */
-    deleteNamespace: function(str) {
-        return str.split(':')[1];
     },
 
     isEmpty: function(obj) {
@@ -257,9 +230,6 @@ var Utils = {
       return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
     },
 
-    capitalizeFirstLetter: function(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
-    },
 
     isPortUsed: function(port, fn) {
       var net = require('net')
