@@ -9,13 +9,5 @@ module.exports = {
         }
       })
     });
-  },
-
-  cbHandle: function(callback){
-    callback({
-      heartbeatResponse: {
-        currentTime: new Date().toISOString()
-      }
-    });
   }
 }

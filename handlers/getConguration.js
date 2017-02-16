@@ -13,14 +13,5 @@ module.exports = {
           }
         });
     });
-  },
-
-  cbHandle: function(data, callback){
-    // TODO: Dummy Content
-    callback({
-      GetConfigurationResponse: {
-        status: 'Accepted'
-      }
-    })
   }
 }

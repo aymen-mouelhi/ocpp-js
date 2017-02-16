@@ -4,7 +4,6 @@ const config = require('config');
 
 mongoose.Promise = Promise;
 
-
 // Define Models
 const stationSchema = new mongoose.Schema({
     chargeBoxIdentity: {
@@ -101,11 +100,36 @@ const meterValuesSchema = new mongoose.Schema({
     strict: false
 });
 
+const transactionsSchema = new mongoose.Schema({
+    idTag: {
+        type: String,
+        required: true
+    },
+    transactionId: {
+        type: Number,
+        required: true
+    },
+    chargeBoxIdentity: {
+        type: String,
+        required: true
+    },
+    connectorId: {
+        type: Number,
+        required: true
+    },
+    meterStart: String,
+    reservationId: Number,
+    timestamp: String
+}, {
+    strict: false
+});
+
 let instance =  null;
 const Station = mongoose.model('Station', stationSchema);
 const Notification = mongoose.model('Notification', notificationSchema);
 const MeterValues = mongoose.model('MeterValues', meterValuesSchema);
 const User = mongoose.model('User', userSchema);
+const Transaction = mongoose.model('Transaction', transactionsSchema);
 
 class MongoDB {
     constructor() {
@@ -131,6 +155,9 @@ class MongoDB {
             case 'metervalues':
                 Collection = MeterValues;
                 break;
+            case 'transaction':
+                Collection = Transaction;
+                break;
             default:
                 console.log('[MongoDB] Collection ' + collection + ' is not known !');
                 break;
@@ -141,17 +168,6 @@ class MongoDB {
     findAll(collection, callback) {
       var self = this;
       self._getModel(collection).find({},callback);
-      /*
-      return new Promise(function(resolve, reject) {
-        self._getModel(collection).find({}, function(err, data) {
-          if (err) {
-              reject(err);
-          } else {
-              resolve(data);
-          }
-        });
-      });
-      */
     }
 
     findById(collection, id, callback) {
@@ -168,17 +184,6 @@ class MongoDB {
           }
         }
       });
-      /*
-      return new Promise(function(resolve, reject) {
-        self._getModel(collection).findById(id, function(err, data) {
-          if (err) {
-              reject(err);
-          } else {
-              resolve(data);
-          }
-        });
-      });
-      */
     }
 
     save(collection, data, callback) {

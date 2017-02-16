@@ -71,17 +71,5 @@ module.exports = {
         }
       });
     });
-  },
-
-  cbHandle: function(data, callback){
-    console.log('[BootNotification] cbHandle');
-    Storage.save('station', data, function(){
-      console.log('[BootNotification] data stored in stations !')
-      callback({
-          status: 'Accepted',
-          currentTime: new Date().toISOString(),
-          heartbeatInterval: 60
-        });
-    });
   }
 }

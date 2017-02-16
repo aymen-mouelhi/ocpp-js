@@ -12,14 +12,5 @@ module.exports = {
         }
       });
     });
-  },
-
-  cbHandle: function(data, callback){
-    // TODO: Dummy Content
-    callback({
-      UnlockConnector: {
-        status: 'Accepted'
-      }
-    })
   }
 }

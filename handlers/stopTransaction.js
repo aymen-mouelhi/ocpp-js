@@ -7,9 +7,11 @@ var Storage = new DB(process.env.storage);
 module.exports = {
     handle: function(data) {
         return new Promise(function(resolve, reject) {
-            Storage.findById('transactions', data.transactionId).then(function(transactions) {
+            Storage.findById('transaction', data.transactionId, function(err, transactions) {
                 if (transactions) {
                     var transaction = transactions[0];
+
+                    // TODO: Get Last Transaction !
 
                     var response = {}
 
@@ -68,12 +70,5 @@ module.exports = {
                 }
             });
         });
-    },
-
-    cbHandle: function(data, callback){
-      // TODO: Dummy Content
-      callback({
-        status: 'Accepted'
-      })
     }
 }
