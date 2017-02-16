@@ -41,14 +41,50 @@ const notificationSchema = new mongoose.Schema({
     strict: false
 });
 
-const usersSchema = new mongoose.Schema({
+var userSchema = new mongoose.Schema({
     idTag: {
         type: String,
         required: true
-    }
+    },
+    badgeNumber: {
+        type: String,
+        required: true
+    },
+    iNumber: {
+        type: String,
+        required: true
+    },
+    brand: {
+        type: String,
+        required: true
+    },
+    name: {
+      type: String,
+    },
+    plate: {
+      type: String,
+    },
+    email: String,
+    phone: String,
+    mobile: String,
+    contract:  {
+        type: String,
+        enum: ['Company Car', 'Private', 'Pool Car']
+    },
+    location: String,
+    carStatus:  {
+        type: String,
+        enum: ['Ordered', 'Delivered', 'Prospection']
+    },
+    kiwhiPass: String,
+    sodotrelPass: String,
+    autolib: String,
+    blib: String,
+    autobleu: String
 }, {
     strict: false
 });
+
 
 const meterValuesSchema = new mongoose.Schema({
     chargeBoxIdentity: {
@@ -69,6 +105,7 @@ let instance =  null;
 const Station = mongoose.model('Station', stationSchema);
 const Notification = mongoose.model('Notification', notificationSchema);
 const MeterValues = mongoose.model('MeterValues', meterValuesSchema);
+const User = mongoose.model('User', userSchema);
 
 class MongoDB {
     constructor() {
