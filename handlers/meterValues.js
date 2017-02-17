@@ -5,11 +5,8 @@ var Storage = new DB(process.env.storage);
 
 module.exports = {
     handle: function(data) {
-        return new Promise(function(resolve, reject) {
-            if (data.values.length > 0) {
-                // TODO: Store data.values.length times?
-            }
 
+        return new Promise(function(resolve, reject) {
             var parsed = JSON.parse(JSON.stringify(data), function(k, v) {
                 if (k === "$value") {
                     this.value = v;
@@ -17,6 +14,10 @@ module.exports = {
                     return v;
                 }
             });
+
+              // TODO: should filter by measurenad type
+              // TODO: Get Unit
+
             // Store in Collection MeterValues
             Storage.save('meterValues', parsed, function(err) {
                 if (err) {
