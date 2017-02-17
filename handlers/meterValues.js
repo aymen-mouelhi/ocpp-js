@@ -15,8 +15,9 @@ module.exports = {
                 }
             });
 
-              // TODO: should filter by measurenad type
-              // TODO: Get Unit
+            // TODO: should filter by measurenad type
+            // TODO: find how to calculate station measurment
+            // TODO: Get Unit
 
             // Store in Collection MeterValues
             Storage.save('meterValues', parsed, function(err) {
