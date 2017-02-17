@@ -158,6 +158,9 @@ class MongoDB {
             case 'transaction':
                 Collection = Transaction;
                 break;
+            case 'users':
+                Collection = User;
+                break;
             default:
                 console.log('[MongoDB] Collection ' + collection + ' is not known !');
                 break;

@@ -1,18 +1,26 @@
 const Promise = require('promise');
+const moment = require('moment');
 const DB = require('../db/index.js');
 var Storage = new DB(process.env.storage);
 
 module.exports = {
     handle: function(data) {
         return new Promise(function(resolve, reject) {
-            Storage.findAll('users').then(function(users){
+            Storage.findAll('users', function(err, users){
               // Get user with idTag
               var user = users.filter(function(u) {
                   return u.idTag === data.idTag;
-              });
+              })[0];
+
+              console.log(`User: ${JSON.stringify(user)} for idTag ${data.idTag}`);
 
               if (user) {
-                var message = `${user.firstName} ${user.lastName} is not authenticated on station ${data.chargeBoxIdentity}`;
+
+                var name = user.name.split(' ');
+                var firstName = name[0];
+                var lastName = name[1];
+
+                var message = `${firstName} ${lastName} is now authenticated on station ${data.chargeBoxIdentity}`;
 
                 var notification = {
                   text: message,
