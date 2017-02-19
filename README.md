@@ -25,6 +25,26 @@ Both existing versions use SOAP over HTTP as the RPC/transport protocol:
 
 ## Usage
 
+The project can be used to create simulators.
+
+### Create Central System Server
+```
+var CentralSystem = require('../entities/CentralSystem.js');
+
+// 9220 is the default port
+var server = new CentralSystem('9220');
+```
+
+### Create Charging Point Client
+```
+const ChargingPoint = require('../entities/ChargingPoint');
+
+var chargingPoint1 = new ChargingPoint('http://127.0.0.1:8081/ChargeBox/Ocpp', "chargingPoint1-Simulator");
+var chargingPoint2 = new ChargingPoint('http://localhost:9221/Ocpp/ChargePointService', "chargingPoint2-Simulator");
+```
+
+### Create Charging Point Server
+
 
 ## API
 ### Central System
