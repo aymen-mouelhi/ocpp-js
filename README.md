@@ -46,14 +46,14 @@ var ocppJS = new OCPP(options);
 var centralSystem = ocppJS.createCentralSystem();
 
 // Create Charging Point Client
-var chargingPoint1 = ocppJS.createChargePointClient('http://127.0.0.1:8081/ChargeBox/Ocpp', "chargingPoint1-Simulator");
-var chargingPoint2 = ocppJS.createChargePointClient('http://localhost:9221/Ocpp/ChargePointService', "chargingPoint2-Simulator");
+var chargingPoint1 = ocppJS.createChargingPoint('http://127.0.0.1:8081/ChargeBox/Ocpp', "chargingPoint1-Simulator");
+var chargingPoint2 = ocppJS.createChargingPoint('http://localhost:9221/Ocpp/ChargePointService', "chargingPoint2-Simulator");
 
 // Charging Point Params can be also taken from options
-var chargingPoint1 = ocppJS.createChargePointClient();
+var chargingPoint1 = ocppJS.createChargingPoint();
 
 // Create Charging Point Server
-var chargingPointServer = ocppJS.createChargePointServer(9221);
+var chargingPointServer = ocppJS.createChargingPointServer(9221);
 
 ```
 

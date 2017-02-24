@@ -1,4 +1,4 @@
- de bvar soap = require('strong-soap').soap;
+var soap = require('strong-soap').soap;
 var http = require('http');
 var path = require('path');
 var portfinder = require('portfinder');

@@ -1,3 +1,4 @@
+const ip = require('ip');
 const SOAPWrapper = require('../utils/SOAPWrapper');
 const Utils = require('../utils/utils.js');
 
@@ -13,4 +14,4 @@ class ChargingPointServer {
     }
 }
 
-module.exports = ChargingPoint;
+module.exports = ChargingPointServer;

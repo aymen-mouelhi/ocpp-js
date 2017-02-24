@@ -14,8 +14,8 @@ class OCPP {
   }
 
   createChargingPoint(uri, name){
-    var serverURI = this.options.ChargingPoint.serverURI || uri;
-    var pointName = this.options.ChargingPoint.name || name || 'Simulator';
+    var serverURI = this.options.chargingPoint.serverURI || uri;
+    var pointName = this.options.chargingPoint.name || name || 'Simulator';
 
     if(!serverURI){
       throw 'Charging Point Server URI is required';
@@ -26,7 +26,7 @@ class OCPP {
 
   createChargingPointServer(){
     // ChargingPointServer Default URI is /Ocpp/ChargePointService
-    var port = this.options.ChargingPointServer.port || port || 9221;
+    var port = this.options.chargingPointServer.port || port || 9221;
     return new ChargingPointServer(port);
   }
 }
