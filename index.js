@@ -1,11 +1,34 @@
-const CentralSystem = require('./entities/CentralSystem');
+const CentralSystem = require('./entities/CentralSystem.js');
+const ChargingPoint = require('./entities/ChargingPoint');
+const ChargingPointServer = require('./entities/ChargingPointServer');
 
-var system = new CentralSystem(9220);
-
-setInterval(function(){
-  var connection;
-  if (system.getConnections()) {
-      connection = system.getConnections()[0]
+class OCPP {
+  constructor(options){
+    this.options = options || {};
   }
-  console.log(connection);
-}, 3000);
+
+  createCentralSystem(port){
+    // CentralSystem Default URI is /Ocpp/CentralSystemService
+    var port = this.options.centralSystem.port || port || 9220;
+    return new CentralSystem(port);
+  }
+
+  createChargingPoint(uri, name){
+    var serverURI = this.options.ChargingPoint.serverURI || uri;
+    var pointName = this.options.ChargingPoint.name || name || 'Simulator';
+
+    if(!serverURI){
+      throw 'Charging Point Server URI is required';
+    }
+
+    return new ChargingPoint(serverURI, pointName);
+  }
+
+  createChargingPointServer(){
+    // ChargingPointServer Default URI is /Ocpp/ChargePointService
+    var port = this.options.ChargingPointServer.port || port || 9221;
+    return new ChargingPointServer(port);
+  }
+}
+
+module.exports = OCPP;

@@ -1,4 +1,4 @@
-var soap = require('strong-soap').soap;
+ de bvar soap = require('strong-soap').soap;
 var http = require('http');
 var path = require('path');
 var portfinder = require('portfinder');
@@ -17,19 +17,19 @@ class SOAPWrapper {
         return this;
     }
 
-    createCentralSystemServer() {
+    createCentralSystemServer(port=9220) {
         this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_centralsystemservice_1.5_final.wsdl', 'utf8');
         this.services = CentralSystemService;
         this.path = '/Ocpp/CentralSystemService';
-        this.port = 9220;
+        this.port = port;
         this.createServer();
     }
 
-    createChargePointServer() {
+    createChargePointServer(port=9221) {
         this.xml = require('fs').readFileSync(__dirname + '/../wsdl/ocpp_chargepointservice_1.5_final.wsdl', 'utf8');
         this.services = ChargePointService;
         this.path = '/Ocpp/ChargePointService';
-        this.port = 9221;
+        this.port = port;
         this.createServer();
     }
 

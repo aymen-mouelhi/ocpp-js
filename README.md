@@ -24,27 +24,38 @@ Both existing versions use SOAP over HTTP as the RPC/transport protocol:
 
 
 ## Usage
-
-The project can be used to create simulators.
-
-### Create Central System Server
 ```
-var CentralSystem = require('../entities/CentralSystem.js');
+var OCPP =  require('ocpp-js');
 
-// 9220 is the default port
-var server = new CentralSystem('9220');
+var options = {
+  centralSystem: {
+    port: 9220
+  },
+  chargingPoint: {
+    serverURI: 'http://localhost:9221/Ocpp/ChargePointService',
+    name: 'Simulator 1'
+  },
+  chargingPointServer: {
+    port: 9221
+  }
+}
+
+var ocppJS = new OCPP(options);
+
+// Create Central System
+var centralSystem = ocppJS.createCentralSystem();
+
+// Create Charging Point Client
+var chargingPoint1 = ocppJS.createChargePointClient('http://127.0.0.1:8081/ChargeBox/Ocpp', "chargingPoint1-Simulator");
+var chargingPoint2 = ocppJS.createChargePointClient('http://localhost:9221/Ocpp/ChargePointService', "chargingPoint2-Simulator");
+
+// Charging Point Params can be also taken from options
+var chargingPoint1 = ocppJS.createChargePointClient();
+
+// Create Charging Point Server
+var chargingPointServer = ocppJS.createChargePointServer(9221);
+
 ```
-
-### Create Charging Point Client
-```
-const ChargingPoint = require('../entities/ChargingPoint');
-
-var chargingPoint1 = new ChargingPoint('http://127.0.0.1:8081/ChargeBox/Ocpp', "chargingPoint1-Simulator");
-var chargingPoint2 = new ChargingPoint('http://localhost:9221/Ocpp/ChargePointService', "chargingPoint2-Simulator");
-```
-
-### Create Charging Point Server
-
 
 ## API
 ### Central System
@@ -53,5 +64,3 @@ var chargingPoint2 = new ChargingPoint('http://localhost:9221/Ocpp/ChargePointSe
 ## Storage
 The project contains an interface to handle the storage in different data bases.
 For instance, Firebase can be used to store the data.
-
-## Handlers
