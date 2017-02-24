@@ -24,6 +24,29 @@ Both existing versions use SOAP over HTTP as the RPC/transport protocol:
 
 
 ## Usage
+OCPP JS uses a MongoDB DB to store all the actions received from charge points example: BootNotification, MeterValues, StartTransaction ...
+Currently, the project supports MongoDB, firebase and file storage.
+In order to specify which DB to use, create a folder config, and then create a file default.json and insert your preferred storage method:
+
+```
+{
+    "defaultDB": "mongodb",
+    "mongodb": {
+        "url": "mongodb://localhost/mydb"
+    },
+    "firebase": {
+      "apiKey": "[apiKey]",
+      "authDomain": "[authDomain]",
+      "databaseURL": "[databaseURL]",
+      "storageBucket": "[storageBucket]",
+      "messagingSenderId": "[messagingSenderId]"
+  }
+}
+```
+You can use Firebase by setting defaultDB : firebase.
+
+To be able to create a Central System, some charging points and a charging point server, you can use this code snippet:
+
 ```
 var OCPP =  require('ocpp-js');
 
@@ -56,11 +79,3 @@ var chargingPoint1 = ocppJS.createChargingPoint();
 var chargingPointServer = ocppJS.createChargingPointServer(9221);
 
 ```
-
-## API
-### Central System
-### Charging Point
-
-## Storage
-The project contains an interface to handle the storage in different data bases.
-For instance, Firebase can be used to store the data.

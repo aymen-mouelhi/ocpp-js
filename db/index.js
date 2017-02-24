@@ -6,7 +6,7 @@ let instance = null;
 class Storage {
   constructor(method) {
     try{
-        this.method = method || config.get('defaultDB');
+        this.method = method || config.get('defaultDB') || 'mongodb';
         const Method = require('./' + this.method);
         this.storage = new Method();
     }catch(error){
