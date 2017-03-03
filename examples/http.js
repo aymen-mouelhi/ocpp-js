@@ -34,6 +34,9 @@ app.get('/api/stations/:id/restart', function(req, res){
       CentralSystemServer.createChargeBoxClient(station, function(){
         console.log(`[ChargeBox] Client Created for ${station.chargeBoxIdentity}`);
         CentralSystemServer.restartChargingPoint(station.chargeBoxIdentity, station.endpoint);
+        res.send({
+          message: 'Restart station ' + pointId
+        });
       });
     }
   });
@@ -58,6 +61,9 @@ app.get('/api/stations/:id/clearCache', function(req, res){
         CentralSystemServer.createChargeBoxClient(station, function(){
           console.log(`[ChargeBox] Client Created for ${station.chargeBoxIdentity}`);
           CentralSystemServer.clearCache(station.chargeBoxIdentity, station.endpoint);
+          res.send({
+            message: 'Clear Cache for station ' + pointId
+          });
         });
       }else{
         res.send({
