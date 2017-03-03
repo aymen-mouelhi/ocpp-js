@@ -92,7 +92,7 @@ class SOAPWrapper {
             this.soapServer.log = function(type, data) {
                 // type is 'received' or 'replied'
                 var output;
-                if(data[0] === '<?'){
+                if(data[0] === '<'){
                   // xml
                   output = prettyData.xml(data);
                 }else{
