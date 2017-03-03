@@ -87,8 +87,6 @@ class SOAPWrapper {
         this.soapServer = soap.listen(server, this.path, this.services, this.xml);
 
         if (this.log) {
-          var os = ;
-
             this.soapServer.log = function(type, data) {
                 // type is 'received' or 'replied'
                 var message = self._log() + ' [' + type + '] ' + JSON.stringify(data) + require("os").EOL;
