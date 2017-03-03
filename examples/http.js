@@ -39,6 +39,36 @@ app.get('/api/stations/:id/restart', function(req, res){
   });
 });
 
+
+app.get('/api/stations/:id/clearCache', function(req, res){
+  //  Restart Station
+  var pointId = req.params.id;
+
+  Storage.findById('station', pointId, function(err, station){
+    if(err){
+      console.log('[http] Error: ' + err);
+      res.send(err);
+    }else{
+      if(station){
+        console.log('station: ' + JSON.stringify(station));
+        //var endpoint = station.endpoint || "192.168.0.114:8081";
+        console.log(`[OCPP Server] Clear Cache ${station.chargeBoxIdentity} on ${station.endpoint} ...`);
+
+        // create client
+        CentralSystemServer.createChargeBoxClient(station, function(){
+          console.log(`[ChargeBox] Client Created for ${station.chargeBoxIdentity}`);
+          CentralSystemServer.clearCache(station.chargeBoxIdentity, station.endpoint);
+        });
+      }else{
+        res.send({
+          error: 'station ' + pointId + ' is not found !'
+        })
+      }
+    }
+  });
+});
+
+
 var server = app.listen(app.get('port'), function(){
   console.log('Server is running on port ' + app.get('port'));
 });

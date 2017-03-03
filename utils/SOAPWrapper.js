@@ -77,15 +77,25 @@ class SOAPWrapper {
         //TODO Check if port is used
         server.listen(this.port, function() {
             console.log(self._log() + ' ' + name + ' Server is listening on port ' + self.port);
+            var message = '/***********************************************************************/' + require("os").EOL;
+            require('fs').appendFile(require('path').resolve(__dirname, '../logs/soap.log'), message, function (err) {
+              if (err) throw err;
+            });
         });
 
         // SOAP Server listener
         this.soapServer = soap.listen(server, this.path, this.services, this.xml);
 
         if (this.log) {
+          var os = ;
+
             this.soapServer.log = function(type, data) {
                 // type is 'received' or 'replied'
-                console.log(self._log() + ' [' + type + '] ' + JSON.stringify(data));
+                var message = self._log() + ' [' + type + '] ' + JSON.stringify(data) + require("os").EOL;
+                console.log(message);
+                require('fs').appendFile(require('path').resolve(__dirname, '../logs/soap.log'), message, function (err) {
+                  if (err) throw err;
+                });
             };
         }
 

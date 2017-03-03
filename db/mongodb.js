@@ -32,6 +32,10 @@ const notificationSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
+    connectorId: String,
+    status: String,
+    data: mongoose.Schema.Types.Mixed,
+    timestamp: String,
     type: {
         type: Boolean,
         required: true
