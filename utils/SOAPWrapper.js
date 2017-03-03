@@ -87,9 +87,18 @@ class SOAPWrapper {
         this.soapServer = soap.listen(server, this.path, this.services, this.xml);
 
         if (this.log) {
+            var prettyData = require('pretty-data').pd;
+
             this.soapServer.log = function(type, data) {
                 // type is 'received' or 'replied'
-                var message = self._log() + ' [' + type + '] ' + JSON.stringify(data) + require("os").EOL;
+                var output;
+                if(data[0] === '<?'){
+                  // xml
+                  output = prettyData.xml(data);
+                }else{
+                  output = JSON.stringify(data);
+                }
+                var message = self._log() + ' [' + type + '] ' + output + require("os").EOL;
                 console.log(message);
                 require('fs').appendFile(require('path').resolve(__dirname, '../logs/soap.log'), message, function (err) {
                   if (err) throw err;
