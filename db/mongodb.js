@@ -194,7 +194,9 @@ class MongoDB {
     }
 
     save(collection, data, callback) {
+
       var self = this;
+
       var Model = self._getModel(collection);
       var entry = new Model(data);
       console.log('[MongoDB] saving data into '+ collection);
@@ -204,7 +206,54 @@ class MongoDB {
           console.log('[MongoDB] error: ' + err);
           callback(err);
         }else{
-          callback(null, {});
+          if (collection.lowerCase() === 'metervalues') {
+            // When saving to metervalues, update station
+            Station.find({chargeBoxIdentity: data.chargeBoxIdentity}, function(err, station){
+              if(err){
+                callback(err);
+              }else{
+                if(station){
+                  station.status = 'Charging';
+
+                  // TODO: Update Formulae to calculate consumtion
+                  station.consumption = 11;
+
+                  if(station.connectors){
+                    connectors = station.connectors;
+                  }else{
+                    connectors = [{
+                        id: 1,
+                        status: 'Unkown',
+                        consumption: '0 kW'
+                    }, {
+                        id: 2,
+                        status: 'Unkown',
+                        consumption: '0 kW'
+                    }]
+                  }
+
+                  for(var i = 0; i< connectors.length; i++){
+                    if(connectors[i].id == data.connectorId){
+                      connectors[i].status = 'Charging';
+                      connectors[i].consumption = '11 kW';
+                    }
+                  }
+
+                  station.connectors = connectors;
+
+                  station.save(function(err){
+                    if(err){
+                      callback(err);
+                    }else{
+                      callback(null, {});
+                    }
+                  })
+                }
+              }
+            })
+          }else{
+              callback(null, {});
+          }
         }
       });
     }
