@@ -241,6 +241,7 @@ class MongoDB {
                     }]
                   }
 
+                  // TODO; Calculate Consumption for connector
                   for(var i = 0; i< connectors.length; i++){
                     if(connectors[i].id == data.connectorId){
                       connectors[i].status = 'Charging';
