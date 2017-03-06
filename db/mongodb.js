@@ -34,7 +34,7 @@ const notificationSchema = new mongoose.Schema({
     },
     connectorId: String,
     status: String,
-    data: mongoose.Schema.Types.Mixed,
+    errorCode: String,
     timestamp: String,
     type: {
         type: Boolean,
@@ -206,15 +206,17 @@ class MongoDB {
           console.log('[MongoDB] error: ' + err);
           callback(err);
         }else{
-          if (collection.lowerCase() === 'metervalues') {
+          if (collection.toLowerCase() === 'metervalues') {
             // When saving to metervalues, update station
             Station.find({chargeBoxIdentity: data.chargeBoxIdentity}, function(err, station){
               if(err){
                 callback(err);
               }else{
                 if(station){
-                  station.status = 'Charging';
+                  station = station[0];
 
+                  station.status = 'Charging';
+                  var connectors;
                   // TODO: Update Formulae to calculate consumtion
                   station.consumption = 11;
 

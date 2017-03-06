@@ -53,6 +53,7 @@ var CentralSystemService = {
                 });
             },
             StatusNotification: function(args, callback, headers, req) {
+              console.log(`Recieved StatusNotification ${JSON.stringify(args)}`);
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 args.endpoint = Utils.getEndpoint(headers.From.Address, req.connection.remoteAddress);
 

@@ -38,8 +38,10 @@ module.exports = {
         text: 'Status Notification Update',
         unread: true,
         type: 'StatusNotification',
-        timestamp: moment().format(),
-        data: data
+        timestamp: data.timestamp,
+        status: data.status,
+        connectorId: data.connectorId,
+        errorCode: data.errorCode
       }
 
       Storage.save('notification', notification, function(err){
