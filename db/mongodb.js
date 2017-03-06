@@ -23,6 +23,13 @@ const stationSchema = new mongoose.Schema({
     imsi: 'String',
     meterType: 'String',
     meterSerialNumber: 'String',
+    status: String,
+    consumption: Number,
+    connectors: [{
+        id: Number,
+        status: String,
+        consumption: Number
+    }]
 }, {
     strict: false
 });
