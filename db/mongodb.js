@@ -233,11 +233,11 @@ class MongoDB {
                     connectors = [{
                         id: 1,
                         status: 'Unkown',
-                        consumption: '0 kW'
+                        consumption: 0
                     }, {
                         id: 2,
                         status: 'Unkown',
-                        consumption: '0 kW'
+                        consumption: 0
                     }]
                   }
 
@@ -245,7 +245,7 @@ class MongoDB {
                   for(var i = 0; i< connectors.length; i++){
                     if(connectors[i].id == data.connectorId){
                       connectors[i].status = 'Charging';
-                      connectors[i].consumption = '11 kW';
+                      connectors[i].consumption = 11;
                     }
                   }
 
