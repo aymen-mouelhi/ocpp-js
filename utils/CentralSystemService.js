@@ -40,7 +40,7 @@ var CentralSystemService = {
                 });
             },
             Heartbeat: function(args, callback, headers, req) {
-                handlers.Heartbeat.handle(function(data) {
+                handlers.Heartbeat.handle().then(function(data) {
                     callback(data);
                 });
             },
