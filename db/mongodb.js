@@ -46,6 +46,10 @@ const notificationSchema = new mongoose.Schema({
     type: {
         type: Boolean,
         required: true
+    },
+    station: {
+      endpoint: String,
+      chargeBoxIdentity: String
     }
 }, {
     strict: false
