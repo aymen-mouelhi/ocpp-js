@@ -227,7 +227,7 @@ class MongoDB {
                   // TODO: Update Formulae to calculate consumtion
                   station.consumption = 11;
 
-                  if(station.connectors){
+                  if(station.connectors.length > 0){
                     connectors = station.connectors;
                   }else{
                     connectors = [{
