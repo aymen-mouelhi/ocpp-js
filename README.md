@@ -2,7 +2,9 @@
 Open Charge Point Protocol Implementation in JS
 
 ## Installation
-`npm install --save ocpp-js`
+```
+npm install --save ocpp-js
+```
 
 ## Overview
 
