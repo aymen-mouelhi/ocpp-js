@@ -38,7 +38,7 @@ module.exports = {
         station: {
           endpoint: data.endpoint,
           chargeBoxIdentity: data.chargeBoxIdentity
-        }
+        },
         text: 'Status Notification Update',
         unread: true,
         type: 'StatusNotification',
