@@ -31,7 +31,7 @@ var CentralSystemService = {
                 });
             },
             StopTransaction: function(args, callback, headers, req) {
-              // TODO: store the correct port
+              // TODO: store the correct port [Issue #29]
                 args.chargeBoxIdentity = headers.chargeBoxIdentity;
                 args.endpoint =  Utils.getRemoteAddress(req.connection.remoteAddress);
 

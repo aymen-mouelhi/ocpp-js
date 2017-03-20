@@ -33,7 +33,7 @@ module.exports = {
                   if(err){
                     reject(err);
                   }else{
-                    // TODO: check if not expired
+                    // TODO: check if not expired [Issue #6]
                     resolve({
                         AuthorizeResponse: {
                           idTagInfo: {

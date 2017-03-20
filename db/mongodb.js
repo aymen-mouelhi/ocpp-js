@@ -228,7 +228,7 @@ class MongoDB {
 
                   station.status = 'Charging';
                   var connectors;
-                  // TODO: Update Formulae to calculate consumtion
+                  // TODO: Update Formulae to calculate consumtion [Issue #27]
                   station.consumption = 11;
 
                   if(station.connectors.length > 0){
@@ -245,7 +245,7 @@ class MongoDB {
                     }]
                   }
 
-                  // TODO; Calculate Consumption for connector
+                  // TODO; Calculate Consumption for connector [Issue #16]
                   for(var i = 0; i< connectors.length; i++){
                     if(connectors[i].id == data.connectorId){
                       connectors[i].status = 'Charging';

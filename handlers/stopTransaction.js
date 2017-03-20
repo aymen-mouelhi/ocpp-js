@@ -11,7 +11,7 @@ module.exports = {
                 if (transactions) {
                     var transaction = transactions[0];
 
-                    // TODO: Get Last Transaction !
+                    // TODO: Get Last Transaction ! [Issue #26]
 
                     var response = {}
 
@@ -28,7 +28,7 @@ module.exports = {
                             }
                         } else {
                             // Already stopped
-                            // TODO: Update Status
+                            // TODO: Update Status [Issue #20] [Issue #8]
                             response = {
                               StopTransactionResponse: {
                                   idTagInfo: {

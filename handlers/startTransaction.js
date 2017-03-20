@@ -16,7 +16,7 @@ module.exports = {
                     reject(err);
                 }
 
-                // TODO: TransactionId = last transactionId + 1
+                // TODO: TransactionId = last transactionId + 1 [Issue #11]
                 // Maybe it should be linked to the chargeBoxIdentity
 
                 if (transactions.length > 0) {
@@ -29,7 +29,7 @@ module.exports = {
                     return transaction.idTag === data.idTag;
                 });
 
-                // TODO: to bec checked, start transaction are often sent?
+                // TODO: to bec checked, start transaction are often sent? [Issue #23]
                 for (transaction in userTransaction) {
                     if (transaction.status === 'Accepted') {
                         // Still Charging
@@ -65,7 +65,7 @@ module.exports = {
                     if (err) {
                         reject(err);
                     }
-                    // TODO: should we store a rejected transaction?
+                    // TODO: should we store a rejected transaction? [Issue #18]
                     resolve(response);
                 });
             });

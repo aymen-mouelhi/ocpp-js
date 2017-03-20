@@ -80,7 +80,7 @@ class ChargingPoint {
 
         this._updateSoapHeaders();
 
-        // TODO: to be fixed
+        // TODO: to be fixed [Issue #10]
         data.connectorId = 1;
 
         var request = {

@@ -14,9 +14,9 @@ module.exports = {
           return item.type === 'StatusNotification';
         });
 
-        // TODO: order by timestamp
+        // TODO: order by timestamp [Issue #24]
         var statusNotif = statusNotifications[0];
-        // TODO: Check status
+        // TODO: Check status [Issue #19]
         if (statusNotif.status != data.status) {
           if ((statusNotif.connectorId === data.connectorId)) {
             // Status has changed, store notification !

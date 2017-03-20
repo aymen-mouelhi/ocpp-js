@@ -74,7 +74,7 @@ class SOAPWrapper {
             response.end(self._log() + " 404: Not Found: " + request.url);
         });
 
-        //TODO Check if port is used
+        //TODO Check if port is used [Issue #28]
         server.listen(this.port, function() {
             console.log(self._log() + ' ' + name + ' Server is listening on port ' + self.port);
             var message = '/***********************************************************************/' + require("os").EOL;

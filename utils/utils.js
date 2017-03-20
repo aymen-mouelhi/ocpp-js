@@ -120,7 +120,7 @@ var Utils = {
     validURL: function(str) {
         var re = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;-]*)/ig;
 
-        return re.test(str);
+        return re.test [Issue #25](str);
     },
 
     clone: function(obj) {

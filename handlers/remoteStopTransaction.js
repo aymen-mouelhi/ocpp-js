@@ -4,7 +4,7 @@ var Storage = new DB(process.env.storage);
 
 module.exports = {
   handle: function(data){
-    // TODO: save new availability status for station
+    // TODO: save new availability status for station [Issue #17]
     return new Promise(function(resolve, reject) {
       resolve({
         status: 'Accepted'
