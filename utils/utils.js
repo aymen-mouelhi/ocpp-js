@@ -188,40 +188,6 @@ var Utils = {
         };
     },
 
-    logSoap: function(xml, direction) {
-        // @scope: soap server
-        var direction = direction || 'in',
-            prefix = direction == 'in' ? '<<' : '>>',
-            rawContent = xml,
-            content = this.wsdl.xmlToObject(xml),
-            from = null,
-            action = null;
-
-        // if no content then do nothing
-        if (!content) {
-            if (direction == 'in')
-                Utils.log('<<cp#? Error, message not well-formed:\n' +
-                    xml, "cs");
-            return;
-        }
-
-        if (content.Header && content.Header.chargeBoxIdentity) {
-            from = content.Header.chargeBoxIdentity;
-            action = content.Header.Action;
-        }
-
-        // get message content
-        for (var c in content.Body) {
-            content = content.Body[c];
-            break;
-        };
-        const Transport = require('../transport');
-        content = Transport.PRINT_XML ? rawContent : JSON.stringify(content);
-        Utils.log(prefix + 'cp#' + from + ' ' + action + ' ' + content,
-            "cs");
-    },
-
-
     generateTransactionId: function(){
       return Math.floor(Math.random() * 10);
     },
