@@ -8,7 +8,7 @@ class ChargingPoint {
         var self = this;
         this.uri = uri;
         this.chargePointId = identifier;
-        wrapper.createCentralClient().then(function(client) {
+        wrapper.createCentralClient(uri).then(function(client) {
             console.log('[ChargingPoint] Creating Client for Central System Service');
             self.client = client;
         });
