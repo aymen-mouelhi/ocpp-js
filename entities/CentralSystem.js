@@ -29,6 +29,10 @@ class CentralSystem{
       });
     }
 
+    getOnlineChargePoints(){
+      return this.clients;
+    }
+
     _getClientByEndpoint(endpoint){
       var soapClient = this.clients.filter(function(client){
         return client.endpoint === endpoint;
