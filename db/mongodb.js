@@ -150,8 +150,18 @@ class MongoDB {
     constructor() {
         var mongoConf = config.get('mongodb');
         this.url = mongoConf.url;
-        if(!instance){
-          mongoose.connect(this.url);
+        if(!instance) {
+            mongoose.connect(this.url).then(
+               () => {
+                    // Ready to use
+                    console.log('[MongoDB] Connected successfully.');
+                },
+                (err) => {
+                    // Error occured
+                    console.log('[MongoDB] Error occured when trying to connect:');
+                    console.log(err);
+                }
+            );
           instance = this;
         }
 
