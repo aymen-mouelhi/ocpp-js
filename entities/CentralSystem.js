@@ -11,7 +11,7 @@ class CentralSystem{
         this.ip = ip.address();
         this.clients = [];
 
-        this.soapWrapper.createCentralSystemServer();
+        this.soapWrapper.createCentralSystemServer(port);
 
         console.log(`[CentralSystem] Server IP: ${self.ip}`);
     }
